@@ -1,0 +1,86 @@
+:root{
+    --site-scale-width: max(300px, min(96vw, 700px));
+    --pss: calc(0.01 * var(--site-scale-width));
+}
+
+body{
+    background-color: var(--theme-softbg-0);
+}
+
+
+.green{
+    color: var(--theme-green-0);
+}
+.red{
+    color: var(--theme-red-0);
+}
+
+.toMemorize{
+    width: min(800px, 98%);
+    height: min(400px, max(100px, 30vh));
+}
+
+.results{
+    margin-bottom: calc(var(--pss)*30);
+}
+
+.gameArea{
+    margin: calc(var(--pss)*15) 0;
+    text-align: center;
+}
+
+.currentWord{
+    font-size: calc(var(--pss)*15);
+}
+
+.keyboard{
+    width: calc(var(--pss)*100);
+
+    bottom: 2vw;
+    margin: 0 auto;
+}
+
+.keyboard div{
+    text-align: center;
+}
+.gameBoxes{
+    text-align: center;
+    width: 40%;
+    height:400px;
+}
+
+.results{
+    font-size: calc(var(--pss)*3.5);
+    margin: calc(var(--pss)*5) 0;
+}
+
+
+.key{
+    display: inline-block;
+    font-size: 100%;
+    width: calc(var(--pss)*9);
+    height: calc(var(--pss)*9);
+    font-size: calc(var(--pss)*7);
+    border: 1px solid black;
+    border-radius: calc(var(--pss)*1);
+    background-color: rgb(54, 54, 54);
+    text-align: center;
+    line-height: calc(var(--pss)*9);
+    color: white;
+}
+
+.modeButtons{
+    font-size: 100%;
+    text-decoration: underline;
+    background-color: #87aeb7;
+    margin-bottom: 1%;
+    margin-top: 0.5%;
+    border-radius: 6px;
+    padding: 0.5% 1% ;
+    transition-duration: 0.4s;
+    
+
+}
+.modeButtons:hover{
+    background-color: #b7ced4;
+}

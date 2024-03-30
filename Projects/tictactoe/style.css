@@ -1,0 +1,75 @@
+
+body{
+    background-color: #719DB1;
+}
+
+
+#winner{
+    margin-top: 7%;
+    text-align: center;
+    font-size: 1.5rem;
+    color: #587586;
+    -webkit-user-select: none; /* Safari */        
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+/Edge */
+    user-select: none; /* Standard */
+    
+
+}
+
+
+
+.gamecontainer{
+    display: grid;
+    grid-template-columns:auto auto auto;
+    grid-template-rows: auto auto 10px 10px;
+    justify-content: center;
+
+}
+.board{
+    background-color: #628395;
+    display:grid;
+    grid-template-columns:auto auto auto;
+    grid-template-rows:auto auto auto;
+    gap: 0.8rem;
+    border-radius: 1rem 1rem 1rem 1rem;
+    
+
+}
+.box{
+    width: 6rem;
+    height: 6rem;
+    background-color: #719DB1;
+    font-size: 4rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #2F2D2E;
+    -webkit-user-select: none; /* Safari */        
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+/Edge */
+    user-select: none; /* Standard */
+
+    
+}
+#title{
+    
+    color: #587586;
+    text-align: center;
+    font-size: 30px;
+    -webkit-user-select: none; /* Safari */        
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+/Edge */
+    user-select: none; /* Standard */
+
+
+}
+
+.scoreboard{
+    display: flex;
+    flex-direction: row;
+    text-decoration-line: underline;
+    justify-content: space-between;
+    font-size: 3rem;
+    color: #628395;
+}

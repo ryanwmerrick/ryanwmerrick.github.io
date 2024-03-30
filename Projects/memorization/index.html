@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory Game</title>
+    <script src="main.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <!-- header -->
+    <script type="text/javascript" src="/assets/header/header.js"></script>
+    <link rel="stylesheet" href="/assets/header/header.css">
+    <!-- header -->
+</head>
+<body onload="drawKeyboard()">
+    <!-- header -->
+    <div w3-include-html="/assets/header/header.html"></div>
+    <script>includeHTML()</script>
+    <!-- header -->
+
+    <!-- Different Modes-->
+    <div class="modes">
+        <div>
+            
+            <button class="modeButtons" onclick="showElement('fullText')" >Full Text</button>
+
+        </div>
+    </div>
+
+    <!-- Different Modes-->
+
+    
+    <!-- Full Text Mode -->
+    <div class="fullText" id="fullText" hidden>
+        <div class="startScreen" id="startScreen">
+
+            <!-- Pre-Made Texts-->
+            <span>Load Content:</span>
+            <button onclick="replaceText('CTPrologue.txt')">CT Prologue</button>
+            <button onclick="replaceText('OCOCE1-2.txt')">OCOCE 1-2</button>
+            <button onclick="replaceText('James1ESV.txt')">James 1</button>
+            <!-- Pre-Made Texts-->
+
+            <div>
+                <textarea class="toMemorize" id="toMemorize" placeholder="Enter your text here!"></textarea>
+            </div>
+            <div>
+                <button onclick="genGame()" >Save</button>
+            </div>
+        </div>
+        <div class="gameArea" id="gameArea" hidden>
+            <div>
+                <textarea class="gameBoxes" id="guessBox" placeholder="Input Attempt Here!" ></textarea>
+                <textarea class="gameBoxes" id="solutionBox" readonly hidden ></textarea>
+            </div>
+            <div>
+                <button id="checkButton" onclick="showSolution()">Check</button>
+                <button id="retry" onclick="retry();" hidden >Retry</button>
+                <button id="goBack" onclick="restart()" hidden >Go Back</button>
+                
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

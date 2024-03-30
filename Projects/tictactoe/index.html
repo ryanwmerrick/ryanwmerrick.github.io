@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic-Tac-Toe</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- header -->
+    <script src="/assets/header/header.js"></script>
+    <link rel="stylesheet" href="/assets/header/header.css">
+    <!-- header -->
+</head>
+<body>
+    <!-- header -->
+    <div w3-include-html="/assets/header/header.html"></div>
+    <script>includeHTML()</script>
+    <!-- header -->
+    <div class="gamecontainer">
+        <div></div> 
+        <div onclick="restart()" unselectable="on">
+            <h3 id="title">TicTacToe</h3>
+        </div>
+        <div></div>
+        <div></div>
+        
+        <div class="board">
+            
+            <div class="box" onclick="turn(0)"id="box0"></div>
+            <div class="box" onclick="turn(1)"id="box1"></div>
+            <div class="box" onclick="turn(2)"id="box2"></div>
+            <div class="box" onclick="turn(3)"id="box3"></div>
+            <div class="box" onclick="turn(4)"id="box4"></div>
+            <div class="box" onclick="turn(5)"id="box5"></div>
+            <div class="box" onclick="turn(6)"id="box6"></div>
+            <div class="box" onclick="turn(7)"id="box7"></div>
+            <div class="box" onclick="turn(8)"id="box8"></div>
+        </div>
+
+        <div></div>
+        <div></div>
+        <div class="scoreboard">
+                <h4 id="scoreX"></h4>
+                <h4 id="scoreO"></h4>
+
+        </div>
+        <div></div>
+        <div></div>
+        <div>
+            <h2 id="winner"></h2>
+        </div>
+        <div> </div>
+
+    </div>
+    <script src="main.js"></script>
+</body>
+</html>

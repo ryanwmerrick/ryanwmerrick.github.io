@@ -1,0 +1,59 @@
+body {
+    background-color:#e7e0f7
+}
+#home {
+    font-size:20px;
+}
+#mainHeader {
+    font-family: sans-serif;
+    font-weight:600;
+    color:#D77FA1;
+    text-align:center;
+    font-size: 2.1rem;
+
+}
+#cakeEmoji {
+    padding-top: 0.5rem;
+    padding-bottom: 2.0rem;
+    width: 6rem;
+    height: 6rem;
+}
+#textbox {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+#submit {
+    background-color:#2894d7;
+    color: black;
+    border-radius:0.8rem;
+    border:none;
+    font-family: sans-serif;
+    font-weight: 600;
+    text-align: center;
+    font-size: 1.0rem;
+    margin-top: 1.5rem;
+    width:7rem;
+    margin-bottom: 1.5rem;
+    padding-top: 0.8rem;
+    padding-bottom: 0.8rem;
+
+}
+#percentage {
+    font-size: 50px;
+    text-align: center;
+}
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 10%;
+  text-align: center;
+}
+@viewport {
+    width: device-width ;
+    zoom: 1.0 ;
+  }
+@-ms-viewport {
+    width: device-width ;
+  }
+
