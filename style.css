@@ -1,0 +1,81 @@
+body{
+
+    background-color: #2D3250;
+}
+.container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+    height: 90vh;
+}
+
+.topRow{
+    font-family:"Fantasy";
+    color: #7077A1;
+    display: flex;
+    width:70vh;
+    height:7vh;
+    margin-top: 15vh;
+    margin-bottom:5vh;
+    
+    justify-content: space-between;
+    align-items: center;
+    border-bottom:2px solid #7E84AA;
+}
+.name{
+    display: flex;
+    align-items: center; 
+    
+    font-size: 1.5em;
+    
+}
+.resourceContainer{
+    display:flex;
+    width: 20vh;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.pagesContainer{
+    display:flex;
+    width: 60vh;
+    flex-direction: column;
+    text-decoration: none;
+    justify-content: center;
+    align-items:center;
+    margin-bottom: 2vh;
+    border-bottom: 2px solid #7E84AA;
+}
+
+.page{
+    font-family: "impact";
+    padding:2vh;
+    margin-bottom: 2vh;
+    text-decoration: underline;
+    color: #B7BBD0;
+}
+.page:hover{
+    background-color: #424769;
+    border-radius: 8px;
+}
+.resource{
+    font-size: 1.1;
+    padding:1vh;
+    color:#7077A1
+    
+}
+.resource:hover{
+    background-color: #424769;
+    border-radius: 8px;
+    text-decoration: none;
+}
+#projects{
+    font-size: 4em;
+}
+#about{
+    font-size: 3em;
+    margin-bottom: 5vh;
+}
+
+
