@@ -50,8 +50,8 @@ body{
 
 .page{
     font-family: "impact";
-    padding:2vh;
-    margin-bottom: 2vh;
+    padding:1.5vh;
+    margin-bottom: 1vh;
     text-decoration: underline;
     color: #B7BBD0;
 }
@@ -74,7 +74,7 @@ body{
     font-size: 4em;
 }
 #about{
-    font-size: 3em;
+    font-size: 4em;
     margin-bottom: 5vh;
 }
 
