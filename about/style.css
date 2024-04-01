@@ -3,6 +3,7 @@ body{
     display: flex;
     justify-content: center;
 }
+
 .outerContainer{
     margin-top: 10vh;
     display: inline-block;
@@ -53,5 +54,20 @@ body{
     font-size: 1.3em;
     color: #7077A1;
 
+
+}
+.backButton{
+    position: absolute;
+    left:5vh;
+    top: 3vh;
+    padding: 0.5vh 1vh;
+    font-size: 1.5em;
+    color:#7077A1
+}
+.backButton:hover{
+    background-color: #424769;
+    
+    border-radius: 20%;
+    text-decoration: none;
 
 }

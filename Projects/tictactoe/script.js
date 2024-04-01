@@ -30,7 +30,7 @@ function winCheck(){
     //Top Row Horizontal
     if((board[0]===board[1] && board[0]===board[2])){
         if(board[0]==="X"){
-            winner.innerHTML="X Wins!"
+            winner.innerHTML="X Wins! Click TicTacToe!"
             gameOver=true
             boxZero.style.color="#9DB171"
             boxOne.style.color="#9DB171"
@@ -38,7 +38,7 @@ function winCheck(){
             scoreX+=1
 
         }else if(board[0]==="O"){
-            winner.innerHTML="O Wins!"
+            winner.innerHTML="O Wins! Click TicTacToe!"
             gameOver=true
             boxZero.style.color="#9DB171"
             boxOne.style.color="#9DB171"
@@ -50,14 +50,14 @@ function winCheck(){
     //Middle Row Horizontal
     if((board[3]===board[4] && board[3]===board[5])){
         if(board[3]==="X"){
-            winner.innerHTML="X Wins!"
+            winner.innerHTML="X Wins! Click TicTacToe!"
             gameOver=true
             boxThree.style.color="#9DB171"
             boxFour.style.color="#9DB171"
             boxFive.style.color="#9DB171"
             scoreX+=1
         }else if(board[3]==="O"){
-            winner.innerHTML="O Wins!"
+            winner.innerHTML="O Wins! Click TicTacToe!"
             gameOver=true
             boxThree.style.color="#9DB171"
             boxFour.style.color="#9DB171"
@@ -69,14 +69,14 @@ function winCheck(){
     //Bottom Row Horizontal
     if((board[6]===board[7] && board[6]===board[8])){
         if(board[6]==="X"){
-            winner.innerHTML="X Wins!"
+            winner.innerHTML="X Wins! Click TicTacToe!"
             gameOver=true
             boxSix.style.color="#9DB171"
             boxSeven.style.color="#9DB171"
             boxEight.style.color="#9DB171"
             scoreX+=1            
         }else if(board[6]==="O"){
-            winner.innerHTML="O Wins!"
+            winner.innerHTML="O Wins! Click TicTacToe!"
             gameOver=true
             boxSix.style.color="#9DB171"
             boxSeven.style.color="#9DB171"
@@ -88,14 +88,14 @@ function winCheck(){
     //Left Row Vertical
     if((board[0]===board[3] && board[0]===board[6])){
         if(board[0]==="X"){
-            winner.innerHTML="X Wins!"
+            winner.innerHTML="X Wins! Click TicTacToe!"
             gameOver=true
             boxZero.style.color="#B1717D"
             boxThree.style.color="#B1717D"
             boxSix.style.color="#B1717D"  
             scoreX+=1          
         }else if(board[0]==="O"){
-            winner.innerHTML="O Wins!"
+            winner.innerHTML="O Wins! Click TicTacToe!"
             gameOver=true
             boxZero.style.color="#B1717D"
             boxThree.style.color="#B1717D"
@@ -107,14 +107,14 @@ function winCheck(){
     //Middle Row Vertical
     if((board[1]===board[4] && board[1]===board[7])){
         if(board[1]==="X"){
-            winner.innerHTML="X Wins!"
+            winner.innerHTML="X Wins! Click TicTacToe!"
             gameOver=true
             boxOne.style.color="#B1717D"
             boxFour.style.color="#B1717D"
             boxSeven.style.color="#B1717D" 
             scoreX+=1   
         }else if(board[1]==="O"){
-            winner.innerHTML="O Wins!"
+            winner.innerHTML="O Wins! Click TicTacToe!"
             gameOver=true
             boxOne.style.color="#B1717D"
             boxFour.style.color="#B1717D"
@@ -126,14 +126,14 @@ function winCheck(){
     //Right Row Vertical
     if((board[2]===board[5] && board[2]===board[8])){
         if(board[2]==="X"){
-            winner.innerHTML="X Wins!"
+            winner.innerHTML="X Wins! Click TicTacToe!"
             gameOver=true
             boxTwo.style.color="#B1717D"
             boxFive.style.color="#B1717D"
             boxEight.style.color="#B1717D"  
             scoreX+=1
         }else if(board[2]==="O"){
-            winner.innerHTML="O Wins!"
+            winner.innerHTML="O Wins! Click TicTacToe!"
             gameOver=true
             boxTwo.style.color="#B1717D"
             boxFive.style.color="#B1717D"
@@ -145,14 +145,14 @@ function winCheck(){
     //Top Left - Bottom Right
     if((board[0]===board[4] && board[0]===board[8])){
         if(board[0]==="X"){
-            winner.innerHTML="X Wins!"
+            winner.innerHTML="X Wins! Click TicTacToe!"
             gameOver=true
             boxZero.style.color="#717DB1"
             boxFour.style.color="#717DB1"
             boxEight.style.color="#717DB1"
             scoreX+=1
         }else if(board[0]==="O"){
-            winner.innerHTML="O Wins!"
+            winner.innerHTML="O Wins! Click TicTacToe!"
             gameOver=true
             boxZero.style.color="#717DB1"
             boxFour.style.color="#717DB1"
@@ -164,14 +164,14 @@ function winCheck(){
     //Top Right- Bottom Left
     if((board[2]===board[4] && board[2]===board[6])){
         if(board[2]==="X"){
-            winner.innerHTML="X Wins! Click TicTacToe to Play Again!"
+            winner.innerHTML="X Wins! Click TicTacToe!"
             gameOver=true
             boxTwo.style.color="#717DB1"
             boxFour.style.color="#717DB1"
             boxSix.style.color="#717DB1" 
             scoreX+=1
         }else if(board[2]==="O"){
-            winner.innerHTML="O Wins! Click TicTacToe to Play Again!"
+            winner.innerHTML="O Wins! Click TicTacToe! Click TicTacToe!"
             gameOver=true
             boxTwo.style.color="#717DB1"
             boxFour.style.color="#717DB1"
@@ -180,7 +180,7 @@ function winCheck(){
         }
 
     }
-   else if(board.includes("")==false){
+   else if(board.includes("")==false && gameOver==false){
        winner.innerHTML="Draw"
        gameOver=true
    }
