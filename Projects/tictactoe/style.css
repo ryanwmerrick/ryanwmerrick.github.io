@@ -70,3 +70,19 @@ body{
     font-size: 3rem;
     color: #628395;
 }
+.backButton{
+    position: absolute;
+    left:5vh;
+    top: 3vh;
+    padding: 0.5vh 1vh;
+    font-size: 1.5em;
+    color:#7077A1
+}
+.backButton:hover{
+    background-color: #424769;
+    
+    border-radius: 20%;
+    text-decoration: none;
+
+}
+
