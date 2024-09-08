@@ -1,23 +1,24 @@
-let MCI = {club: "Manchester City", abr: "MCI", player: "Alejandro Contreras", gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
-let LIV = {club: "Liverpool", abr: "LIV", player: "Luke Kimmich", gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
-let ARS = {club: "Arsenal", abr: "ARS", player: "Nate Young", gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
-let AVL = {club: "Aston Villa", abr: "AVL", player: "Ryan Higgs", gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
-let MUN = {club: "Manchester United", abr: "MUN", player: "Evan Ensminger", gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
-let BHA = {club: "Brighton", abr: "BHA", player: "Will Rybka", gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
-let NEW = {club: "Newcastle", abr: "NEW", player: "Evan Yoder", gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
-let BRE = {club: "Brentford", abr: "BRE", player: "Jed Hart", gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
-let BOU = {club: "Bournemouth", abr: "BOU", player: "Camden Thomas", gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
-let NFO = {club: "Nottingham Forest", abr: "NFO", player: "Theo Campbell", gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
-let TOT = {club: "Tottenham Hotspur", abr: "TOT", player: "Luke Ladas", gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
-let CHE = {club: "Chelsea", abr: "CHE", player: "", gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
-let FUL = {club: "Fulham", abr: "FUL", player: "John-Luc Harbour", gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
-let WHU = {club: "West Ham", abr: "WHU", player: "Ben Reaggs", gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
-let LEI = {club: "Leicester City", abr: "LEI", player: "Aidan Eck", gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
-let CRY = {club: "Crystal Palace", abr: "CRY", player: "Ryan Merrick", gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
-let IPS = {club: "Ipswich Town", abr: "IPS", player: "Jake Kimmich", gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
-let WOL = {club: "Wolverhampton Wanderers", abr: "WOL", player: "", gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
-let SOU = {club: "Southampton", abr: "SOU", player: "Colton Hudson", gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
-let EVE = {club: "Everton", abr: "EVE", player: "Noah Gray", gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
+let MCI = {club: "Manchester City", abr: "MCI", player: "Alejandro Contreras", nick: "Alej", gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
+let LIV = {club: "Liverpool", abr: "LIV", player: "Luke Kimmich", nick: "Luke", gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
+let ARS = {club: "Arsenal", abr: "ARS", player: "Nate Young", nick: "Nate", gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
+let AVL = {club: "Aston Villa", abr: "AVL", player: "Ryan Higgs", nick: "Higgs", gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
+let MUN = {club: "Manchester United", abr: "MUN", player: "Evan Ensminger", nick: "Zinger", gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
+let BHA = {club: "Brighton", abr: "BHA", player: "Will Rybka", nick: "Will", gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
+let NEW = {club: "Newcastle", abr: "NEW", player: "Evan Yoder", nick: "Alej", gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
+let BRE = {club: "Brentford", abr: "BRE", player: "Jed Hart", nick: "Jed", gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
+let BOU = {club: "Bournemouth", abr: "BOU", player: "Camden Thomas", nick: "Cam", gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
+let NFO = {club: "Nottingham Forest", abr: "NFO", player: "Theo Campbell", nick: "Theo", gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
+let TOT = {club: "Tottenham Hotspur", abr: "TOT", player: "Luke Ladas", nick: "Ladas", gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
+let CHE = {club: "Chelsea", abr: "CHE", player: "Matt Herrmann", nick: "Herm", gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
+let FUL = {club: "Fulham", abr: "FUL", player: "John-Luc Harbour", nick: "JL", gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
+let WHU = {club: "West Ham", abr: "WHU", player: "Ben Reaggs", nick: "Ben", gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
+let LEI = {club: "Leicester City", abr: "LEI", player: "Aidan Eck", nick: "Aidan", gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
+let CRY = {club: "Crystal Palace", abr: "CRY", player: "Ryan Merrick", nick: "Merrick", gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
+let IPS = {club: "Ipswich Town", abr: "IPS", player: "Jake Kimmich", nick: "Jake", gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
+let WOL = {club: "Wolverhampton Wanderers", abr: "WOL", player: "Owen Zimmerman", nick: "Owen", gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
+let SOU = {club: "Southampton", abr: "SOU", player: "Colton Hudson", nick: "Colton", gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
+let EVE = {club: "Everton", abr: "EVE", player: "Noah Gray", nick: "Noah", gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
+
 
 
 
@@ -36,6 +37,12 @@ NFO 3 BOU 1
 IPS 3 EVE 6
 IPS 3 BOU 6
 EVE 5 BOU 1
+Jake 5 Higgs 0
+Noah 3 Aidan 2
+Aidan 1 Cam 1
+Cam 2 Herm 1
+Will 1 Theo 0
+Merrick 2 Jake 1
 
 `
 
@@ -54,8 +61,8 @@ EVE 5 BOU 1
     
         for (let i of matchesArray) {
             let [team1Str, score1Str, team2Str, score2Str] = i.split(" ");
-            let team1 = league.find(team => team.abr === team1Str);
-            let team2 = league.find(team => team.abr === team2Str);
+            let team1 = league.find(team => team.abr === team1Str || team.nick=== team1Str);
+            let team2 = league.find(team => team.abr === team2Str || team.nick === team2Str);
     
             let score1 = parseInt(score1Str);
             let score2 = parseInt(score2Str);

@@ -38,6 +38,10 @@ table{
 
     /* color + background */
     color: #87688A;
+
+    position: sticky;
+    top: 0;
+    background-color: #FBFAFA;
     
     
     
@@ -54,5 +58,27 @@ td, th {
     padding: 8px;
   }
 
+
+/* phone screen accounts for  */
+
+@media only screen and (max-width: 600px) {
+    .leaderboard {
+        font-size: 12px; /* Reduce font size on smaller screens */
+    }
+    
+    .logo {
+        height: 5vw; /* Set logo size relative to the viewport width */
+        width: 5vw;
+    }
+
+    td, th {
+        padding: 4px; /* Reduce padding */
+    }
+
+    .leaderboard {
+        overflow-x: auto; /* Ensure horizontal scrolling doesn't happen */
+        white-space: nowrap; /* Prevent text from wrapping */
+    }
+}
 
 
