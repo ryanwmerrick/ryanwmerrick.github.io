@@ -43,7 +43,8 @@ Aidan 1 Cam 1
 Cam 2 Herm 1
 Will 1 Theo 0
 Merrick 2 Jake 1
-
+Merrick 3 Theo 0
+Jake 1 Theo 0
 `
 
 
@@ -149,7 +150,7 @@ function setLeaderboard(){
                 <td>${league[i].ga}</td>
                 <td>${league[i].gd}</td>
                 <td>${league[i].za}</td>
-                <td><strong>${league[i].points}</strong></td>
+                <td class="points"><strong>${league[i].points}</strong></td>
                 `;
         table.appendChild(newRow);
         

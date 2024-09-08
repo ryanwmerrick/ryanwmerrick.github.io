@@ -40,12 +40,13 @@ table{
     color: #87688A;
 
     position: sticky;
-    top: 0;
+    top:0;
     background-color: #FBFAFA;
     
     
     
 }
+
 
 
 .club{
@@ -67,8 +68,8 @@ td, th {
     }
     
     .logo {
-        height: 5vw; /* Set logo size relative to the viewport width */
-        width: 5vw;
+        height: 7vw; /* Set logo size relative to the viewport width */
+        width: 7vw;
     }
 
     td, th {
@@ -78,6 +79,14 @@ td, th {
     .leaderboard {
         overflow-x: auto; /* Ensure horizontal scrolling doesn't happen */
         white-space: nowrap; /* Prevent text from wrapping */
+    }
+    .points{
+        position: sticky;
+        right: 0;
+        background-color: #fff; /* Background color to avoid overlap */
+        z-index: 1;
+        box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1); /* Optional: Add shadow to make it stand out */
+    
     }
 }
 
