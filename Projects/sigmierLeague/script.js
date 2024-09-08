@@ -43,7 +43,7 @@ Aidan 1 Cam 1
 Cam 2 Herm 1
 Will 1 Theo 0
 Merrick 2 Jake 1
-Merrick 3 Theo 0
+Merrick 0 Theo 3
 Jake 1 Theo 0
 Higgs 2 Colton 0
 NFO 1 SOU 1
