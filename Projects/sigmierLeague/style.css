@@ -81,6 +81,9 @@ td, th {
         overflow-x: auto; /* Ensure horizontal scrolling doesn't happen */
         white-space: nowrap; /* Prevent text from wrapping */
     }
+    .topRow{
+        position: static;
+    }
     .points{
         position: sticky;
         right: 0;
