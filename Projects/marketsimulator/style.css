@@ -1,0 +1,77 @@
+body{
+    
+}
+/* All the input information at the top */
+#stock,#date{
+    margin:10px;
+}
+.addStock{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+/* Changing Info Container */
+.changingContainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+
+}
+
+
+/* Starting Portfolio LEFT SIDE OF SCREEN */
+#portfolioHeader{
+    display: flex;
+    justify-content: center;
+}
+
+.portfolioContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+
+    width: 100%;
+}
+.portfolioData{
+    display: flex;
+    justify-content:space-around ;
+    flex-direction: row;
+    width: 100%;
+
+}
+
+
+/* Current Portfolio RIGHT SIDE OF SCREEN */
+.updatedPortfolioContainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    margin-top:0px;
+    margin-right:200px;
+    width: 100%;
+}
+
+
+
+
+
+#stockList, #priceList,#sharesList, #datesList,#newStockList, #newPriceList,#newSharesList, #newDatesList{
+    list-style-type: none;
+}
+
+.moneyContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100px;
+    margin: 20px 0;
+    
+}
+

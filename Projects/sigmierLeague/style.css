@@ -1,0 +1,58 @@
+table{
+    width: 100%;
+    
+}
+.leaderboard {
+    position: relative;
+    text-align: center;
+    font-size: 16px;
+    letter-spacing: -0.4px;
+    color: #5e5d5e;
+    
+    
+  
+
+    
+}
+.logo {
+    height: 7%;
+    width: 7%; /* Adjust the width as needed */
+    display: inline-block; /* Ensure the image is inline with the text */
+    vertical-align: middle;
+    padding-right: 2%;
+}
+.leaderboard td, .leaderboard th {
+    border-bottom: 1px solid #f2e6e6; /* Thin grey line */
+}
+
+
+
+.topRow{
+    /* font + text */
+    font-family: Verdana, sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 25%;
+    text-decoration: rgb(135,102,138);
+    background-color: #FBFAFA;
+
+    /* color + background */
+    color: #87688A;
+    
+    
+    
+}
+
+
+.club{
+    text-align: left;
+
+}
+td, th {
+    
+
+    padding: 8px;
+  }
+
+
+

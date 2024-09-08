@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+    <title>Stock Market Simulator</title>
+</head>
+<body>
+    <div class="addStock">
+        <div>
+            <!-- Input Stock Text Box -->
+            <input type="text" placeholder="Stock Symbol" size="20" name="stock" id="stock">
+            
+            <!-- Input Number of Shares Box -->
+            <input type="number" placeholder="# of Shares" size="10"name="shares" id="shares">
+
+            <!-- Input Purchase Date Box -->
+            <input type="date" placeholder="Date of Purchase" size="15" name="date" id="date">
+
+        </div>
+        <div>
+            <!-- Submit data in boxes button -->
+            <input type="submit" value="Add to Portfolio" id="add" onclick="addToPortfolio()">
+        </div>
+    </div>  
+
+
+    
+    
+    <div class="changingContainer">
+
+        <!-- LEFT SIDE OF SCREEN with all the lists within the portfolio including stock symbols, shares, and dates purchased-->
+        <div class="portfolioContainer">
+            <!-- "Portfolio" Label on left side of screen -->
+            <div id="portfolioHeader">
+                <h1>Starting Portfolio</h1>
+            </div>
+            <div class="portfolioData">
+                <ul id="stockList">
+                    <li><u>Stock</u></li>
+                </ul>
+                <ul id="priceList">
+                    <li><u>Price Paid</u></li>
+                </ul>
+                <ul id="sharesList">
+                    <li><u>Shares</u></li>
+                </ul>
+                <ul id="datesList">
+                    <li><u>Date Purchased</u></li>
+                </ul>
+            </div>
+        </div>
+        <!-- CENTER OF SCREEN with the money information -->
+        <div class="moneyContainer">
+                <h1 id="money">$0.00</h1>
+                <input type="submit" value="Run" id="run" onclick="updatePortfolio()">
+        </div>
+        <!-- Submit data in boxes button -->
+        
+
+
+        <!-- RIGHT SIDE OF SCREEN with all the lists within the portfolio including stock symbols, shares, and dates purchased-->
+        <div class="portfolioContainer">
+            <!-- "Portfolio" Label on left side of screen -->
+            <div id="portfolioHeader">
+                <h1>Current Portfolio</h1>
+            </div>
+            <div class="portfolioData">
+                <ul id="newStockList">
+                    <li><u>Stock</u></li>
+                </ul>
+                <ul id="newPriceList">
+                    <li><u>Current Price</u></li>
+                </ul>
+                
+                <ul id="newSharesList">
+                    <li><u>Shares</u></li>
+                </ul>
+
+                <ul id="newDatesList">
+                    <li><u>Date Purchased</u></li>
+                </ul>
+            </div>
+        </div>
+    </div>  
+
+    
+    
+</body>
+</html>
