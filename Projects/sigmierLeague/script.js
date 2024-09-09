@@ -60,6 +60,8 @@ Noah 4 Merrick 2
 Ben 6 Merrick 2
 Cam 2 Merrick 1
 Ben 3 Jake 2
+Ben 2 Aidan 1
+Ben 1 Cam 1
 
 
 `
