@@ -24,6 +24,16 @@ table{
 .leaderboard td, .leaderboard th {
     border-bottom: 1px solid #f2e6e6; /* Thin grey line */
 }
+.leagueLogo{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    align-items: center;
+    height: 10%;
+    width:10%;
+    padding: 1%;
+
+}
 
 
 

@@ -47,6 +47,21 @@ Merrick 0 Theo 3
 Jake 1 Theo 0
 Higgs 2 Colton 0
 NFO 1 SOU 1
+Nate 1 Noah 0
+Aidan 1 Nate 0
+Noah 3 Colton 2
+Nate 3 Herm 2
+Nate 0 Colton 0
+Noah 2 Herm 1
+Owen 3 Cam 3
+Noah 5 Owen 2
+Ben 2 Owen 2
+Noah 4 Merrick 2
+Ben 6 Merrick 2
+Cam 2 Merrick 1
+Ben 3 Jake 2
+
+
 `
 
 
