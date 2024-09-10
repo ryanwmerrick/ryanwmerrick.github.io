@@ -39,7 +39,7 @@ Nate 3 Jake 1
 Theo 0 Nate 0
 Ben 2 Colton 2
 Yoder 4 Ladas 2
-JL 3 Merrik 0
+JL 3 Merrick 0
 Ben 1 JL 1
 Colton 2 Will 1
 Will 2 Merrick 1
@@ -52,3 +52,6 @@ Theo 4 Alej 3
 JL 3 Alej 0
 Colton 2 Alej 1
 Aidan 4 Alej 0
+Noah 4 Alej 2
+Aidan 0 Colton 0
+Ben 5 Alej 0

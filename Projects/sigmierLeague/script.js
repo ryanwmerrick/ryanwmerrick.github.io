@@ -2,10 +2,10 @@ let MCI = {club: "Manchester City", abr: "MCI", player: "Alejandro Contreras", n
 let LIV = {club: "Liverpool", abr: "LIV", player: "Luke Kimmich", nick: "Luke", matches: [], gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
 let ARS = {club: "Arsenal", abr: "ARS", player: "Nate Young", nick: "Nate", matches: [], gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
 let AVL = {club: "Aston Villa", abr: "AVL", player: "Ryan Higgs", nick: "Higgs", matches: [], gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
-let MUN = {club: "Manchester United", abr: "MUN", player: "Evan Ensminger", nick: "Zinger", matches: [], gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
+let MUN = {club: "Manchester United", abr: "MUN", player: "Kale Timmons", nick: "Kale", matches: [], gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
 let BHA = {club: "Brighton", abr: "BHA", player: "Will Rybka", nick: "Will", matches: [], gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
 let NEW = {club: "Newcastle", abr: "NEW", player: "Evan Yoder", nick: "Yoder", matches: [], gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
-let BRE = {club: "Brentford", abr: "BRE", player: "Jed Hart", nick: "Jed", matches: [], gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
+let BRE = {club: "Brentford", abr: "BRE", player: "Jaden Claycamp", nick: "Jaden", matches: [], gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
 let BOU = {club: "Bournemouth", abr: "BOU", player: "Camden Thomas", nick: "Cam", matches: [], gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
 let NFO = {club: "Nottingham Forest", abr: "NFO", player: "Theo Campbell", nick: "Theo", matches: [], gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
 let TOT = {club: "Tottenham Hotspur", abr: "TOT", player: "Luke Ladas", nick: "Ladas", matches: [], gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
@@ -82,6 +82,9 @@ Theo 4 Alej 3
 JL 3 Alej 0
 Colton 2 Alej 1
 Aidan 4 Alej 0
+Noah 4 Alej 2
+Aidan 0 Colton 0
+Ben 5 Alej 0
 
 
 `;
@@ -144,7 +147,9 @@ function setPoints() {
         team.points = (3 * team.wins) + team.draws;
     }
     let numGames= document.querySelector(".numGames");
+    let numRemaining=document.querySelector(".numRemaining");
     numGames.innerHTML=`Total Games Played: ${gamesPlayed}`;
+    numRemaining.innerHTML=`Games Remaining: ${380 - gamesPlayed}`;
 
 }
     
