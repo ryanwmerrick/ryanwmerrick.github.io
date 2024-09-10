@@ -24,6 +24,8 @@ let EVE = {club: "Everton", abr: "EVE", player: "Noah Gray", nick: "Noah", match
 
 let league = [MCI, LIV, ARS, AVL, MUN, BHA, NEW, BRE, BOU, NFO, TOT, CHE, FUL, WHU, LEI, CRY, IPS, WOL, SOU, EVE];
 
+let gamesPlayed=0;
+
 let matches=`
 
 LIV 2 IPS 1
@@ -75,6 +77,12 @@ Higgs 2 Will 0
 Merrick 2 Higgs 1
 Jake 1 Yoder 0
 Yoder 1 Aidan 4
+Higgs 4 Alej 2
+Theo 4 Alej 3
+JL 3 Alej 0
+Colton 2 Alej 1
+
+
 `;
 
 
@@ -122,6 +130,8 @@ function setPoints() {
 
         team1.matches.push({selTeam: team1.abr, selScore: score1, oppTeam:team2.abr, oppScore: score2});
         team2.matches.push({selTeam: team2.abr, selScore: score2, oppTeam:team1.abr, oppScore: score1});
+
+        gamesPlayed++;
     }
 
     // Derived Data
@@ -132,6 +142,8 @@ function setPoints() {
         // Point calculation
         team.points = (3 * team.wins) + team.draws;
     }
+    let numGames= document.querySelector(".numGames");
+    numGames.innerHTML=`Total Games Played: ${gamesPlayed}`;
 
 }
     

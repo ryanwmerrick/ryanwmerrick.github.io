@@ -3,6 +3,7 @@ table{
     
 }
 .leaderboard{
+    
     position: relative;
     text-align: center;
     font-size: 16px;
@@ -10,10 +11,18 @@ table{
     color: #5e5d5e;
     
     
-  
-
-    
 }
+.numGames{
+    font-size: 16px;
+    letter-spacing: -0.4px;
+    color: #5e5d5e;
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    
+
+}
+
 .logo {
     height: 7%;
     width: 7%; 
@@ -77,7 +86,7 @@ a:hover{
 
 }
 td, th {
-    
+
 
     padding: 8px;
   }

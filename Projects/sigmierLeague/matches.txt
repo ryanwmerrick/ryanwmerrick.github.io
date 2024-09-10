@@ -47,3 +47,7 @@ Higgs 2 Will 0
 Merrick 2 Higgs 1
 Jake 1 Yoder 0
 Yoder 1 Aidan 4
+Higgs 4 Alej 2
+Theo 4 Alej 3
+JL 3 Alej 0
+Colton 2 Alej 1
