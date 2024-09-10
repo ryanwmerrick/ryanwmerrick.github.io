@@ -75,6 +75,7 @@ Will 2 Merrick 1
 Higgs 2 Will 0
 Merrick 2 Higgs 1
 Jake 1 Yoder 0
+Yoder 1 Aidan 4
 `;
 
 
