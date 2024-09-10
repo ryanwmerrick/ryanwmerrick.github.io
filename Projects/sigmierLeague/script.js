@@ -61,7 +61,6 @@ Ben 6 Merrick 2
 Cam 2 Merrick 1
 Ben 3 Jake 2
 Ben 2 Aidan 1
-Ben 2 Aidan 1
 Cam 1 Ben 1
 Ben 1 Nate 0
 Nate 3 Jake 1
