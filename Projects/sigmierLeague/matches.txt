@@ -32,3 +32,17 @@ Noah 4 Merrick 2
 Ben 6 Merrick 2
 Cam 2 Merrick 1
 Ben 3 Jake 2
+Ben 2 Aidan 1
+Cam 1 Ben 1
+Ben 1 Nate 0
+Nate 3 Jake 1
+Theo 0 Nate 0
+Ben 2 Colton 2
+Yoder 4 Ladas 2
+JL 3 Merrik 0
+Ben 1 JL 1
+Colton 2 Will 1
+Will 2 Merrick 1
+Higgs 2 Will 0
+Merrick 2 Higgs 1
+Jake 1 Yoder 0

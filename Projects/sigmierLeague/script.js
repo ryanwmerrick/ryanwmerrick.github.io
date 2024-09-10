@@ -1,23 +1,23 @@
-let MCI = {club: "Manchester City", abr: "MCI", player: "Alejandro Contreras", nick: "Alej", gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
-let LIV = {club: "Liverpool", abr: "LIV", player: "Luke Kimmich", nick: "Luke", gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
-let ARS = {club: "Arsenal", abr: "ARS", player: "Nate Young", nick: "Nate", gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
-let AVL = {club: "Aston Villa", abr: "AVL", player: "Ryan Higgs", nick: "Higgs", gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
-let MUN = {club: "Manchester United", abr: "MUN", player: "Evan Ensminger", nick: "Zinger", gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
-let BHA = {club: "Brighton", abr: "BHA", player: "Will Rybka", nick: "Will", gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
-let NEW = {club: "Newcastle", abr: "NEW", player: "Evan Yoder", nick: "Alej", gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
-let BRE = {club: "Brentford", abr: "BRE", player: "Jed Hart", nick: "Jed", gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
-let BOU = {club: "Bournemouth", abr: "BOU", player: "Camden Thomas", nick: "Cam", gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
-let NFO = {club: "Nottingham Forest", abr: "NFO", player: "Theo Campbell", nick: "Theo", gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
-let TOT = {club: "Tottenham Hotspur", abr: "TOT", player: "Luke Ladas", nick: "Ladas", gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
-let CHE = {club: "Chelsea", abr: "CHE", player: "Matt Herrmann", nick: "Herm", gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
-let FUL = {club: "Fulham", abr: "FUL", player: "John-Luc Harbour", nick: "JL", gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
-let WHU = {club: "West Ham", abr: "WHU", player: "Ben Reaggs", nick: "Ben", gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
-let LEI = {club: "Leicester City", abr: "LEI", player: "Aidan Eck", nick: "Aidan", gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
-let CRY = {club: "Crystal Palace", abr: "CRY", player: "Ryan Merrick", nick: "Merrick", gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
-let IPS = {club: "Ipswich Town", abr: "IPS", player: "Jake Kimmich", nick: "Jake", gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
-let WOL = {club: "Wolverhampton Wanderers", abr: "WOL", player: "Owen Zimmerman", nick: "Owen", gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
-let SOU = {club: "Southampton", abr: "SOU", player: "Colton Hudson", nick: "Colton", gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
-let EVE = {club: "Everton", abr: "EVE", player: "Noah Gray", nick: "Noah", gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
+let MCI = {club: "Manchester City", abr: "MCI", player: "Alejandro Contreras", nick: "Alej", matches: [], gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
+let LIV = {club: "Liverpool", abr: "LIV", player: "Luke Kimmich", nick: "Luke", matches: [], gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
+let ARS = {club: "Arsenal", abr: "ARS", player: "Nate Young", nick: "Nate", matches: [], gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
+let AVL = {club: "Aston Villa", abr: "AVL", player: "Ryan Higgs", nick: "Higgs", matches: [], gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
+let MUN = {club: "Manchester United", abr: "MUN", player: "Evan Ensminger", nick: "Zinger", matches: [], gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
+let BHA = {club: "Brighton", abr: "BHA", player: "Will Rybka", nick: "Will", matches: [], gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
+let NEW = {club: "Newcastle", abr: "NEW", player: "Evan Yoder", nick: "Yoder", matches: [], gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
+let BRE = {club: "Brentford", abr: "BRE", player: "Jed Hart", nick: "Jed", matches: [], gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
+let BOU = {club: "Bournemouth", abr: "BOU", player: "Camden Thomas", nick: "Cam", matches: [], gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
+let NFO = {club: "Nottingham Forest", abr: "NFO", player: "Theo Campbell", nick: "Theo", matches: [], gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
+let TOT = {club: "Tottenham Hotspur", abr: "TOT", player: "Luke Ladas", nick: "Ladas", matches: [], gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
+let CHE = {club: "Chelsea", abr: "CHE", player: "Matt Herrmann", nick: "Herm", matches: [], gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
+let FUL = {club: "Fulham", abr: "FUL", player: "John-Luc Harbour", nick: "JL", matches: [], gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
+let WHU = {club: "West Ham", abr: "WHU", player: "Ben Reaggs", nick: "Ben", matches: [], gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
+let LEI = {club: "Leicester City", abr: "LEI", player: "Aidan Eck", nick: "Aidan", matches: [], gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
+let CRY = {club: "Crystal Palace", abr: "CRY", player: "Ryan Merrick", nick: "Merrick", matches: [], gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
+let IPS = {club: "Ipswich Town", abr: "IPS", player: "Jake Kimmich", nick: "Jake", matches: [], gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
+let WOL = {club: "Wolverhampton Wanderers", abr: "WOL", player: "Owen Zimmerman", nick: "Owen", matches: [], gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
+let SOU = {club: "Southampton", abr: "SOU", player: "Colton Hudson", nick: "Colton", matches: [], gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
+let EVE = {club: "Everton", abr: "EVE", player: "Noah Gray", nick: "Noah", matches: [], gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
 
 
 
@@ -61,70 +61,79 @@ Ben 6 Merrick 2
 Cam 2 Merrick 1
 Ben 3 Jake 2
 Ben 2 Aidan 1
-Ben 1 Cam 1
+Ben 2 Aidan 1
+Cam 1 Ben 1
+Ben 1 Nate 0
+Nate 3 Jake 1
+Theo 0 Nate 0
+Ben 2 Colton 2
+Yoder 4 Ladas 2
+JL 3 Merrick 0
+Ben 1 JL 1
+Colton 2 Will 1
+Will 2 Merrick 1
+Higgs 2 Will 0
+Merrick 2 Higgs 1
+Jake 1 Yoder 0
+`;
 
 
-`
-
-
-    function setPoints() {
-        //gets rid of white space before all the matches
-        let matchesArray= matches.trim().split("\n");
-        for(let i=0;i<matchesArray.length;i++){
-            //gets rid of white space in each line/each match
-            matchesArray[i]= matchesArray[i].trim();
-
-        }
-        
-
-        
-    
-        for (let i of matchesArray) {
-            let [team1Str, score1Str, team2Str, score2Str] = i.split(" ");
-            let team1 = league.find(team => team.abr === team1Str || team.nick=== team1Str);
-            let team2 = league.find(team => team.abr === team2Str || team.nick === team2Str);
-    
-            let score1 = parseInt(score1Str);
-            let score2 = parseInt(score2Str);
-    
-            if (score1 > score2) {
-                team1.wins++;
-                team2.losses++;
-                if (score1 - score2 >= 7) {
-                    team2.za++;
-                }
-            } else if (score2 > score1) {
-                team2.wins++;
-                team1.losses++;
-                if (score2 - score1 >= 7) {
-                    team1.za++;
-                }
-            } else {
-                team1.draws++;
-                team2.draws++;
-            }
-    
-            // Goals for, goals against, games played
-            team1.gf += score1;
-            team1.ga += score2;
-            team2.gf += score2;
-            team2.ga += score1;
-    
-            team1.gp++;
-            team2.gp++;
-        }
-    
-        // Derived Data
-        for (const team of league) {
-            // Goal differential calculation
-            team.gd = team.gf - team.ga;
-    
-            // Point calculation
-            team.points = (3 * team.wins) + team.draws;
-        }
-    
-        console.log(league); // Debugging line
+function setPoints() {
+    //gets rid of white space before all the matches
+    let matchesArray= matches.trim().split("\n");
+    for(let i=0;i<matchesArray.length;i++){
+        //gets rid of white space in each line/each match
+        matchesArray[i]= matchesArray[i].trim();
     }
+    
+    for (let i of matchesArray) {
+        let [team1Str, score1Str, team2Str, score2Str] = i.split(" ");
+        let team1 = league.find(team => team.abr === team1Str || team.nick=== team1Str);
+        let team2 = league.find(team => team.abr === team2Str || team.nick === team2Str);
+
+        let score1 = parseInt(score1Str);
+        let score2 = parseInt(score2Str);
+
+        if (score1 > score2) {
+            team1.wins++;
+            team2.losses++;
+            if (score1 - score2 >= 7) {
+                team2.za++;
+            }
+        } else if (score2 > score1) {
+            team2.wins++;
+            team1.losses++;
+            if (score2 - score1 >= 7) {
+                team1.za++;
+            }
+        } else {
+            team1.draws++;
+            team2.draws++;
+        }
+        // Goals for, goals against, games played
+        team1.gf += score1;
+        team1.ga += score2;
+        team2.gf += score2;
+        team2.ga += score1;
+
+        team1.gp++;
+        team2.gp++;
+        //Adding results to result page
+
+        team1.matches.push({selTeam: team1.abr, selScore: score1, oppTeam:team2.abr, oppScore: score2});
+        team2.matches.push({selTeam: team2.abr, selScore: score2, oppTeam:team1.abr, oppScore: score1});
+    }
+
+    // Derived Data
+    for (const team of league) {
+        // Goal differential calculation
+        team.gd = team.gf - team.ga;
+
+        // Point calculation
+        team.points = (3 * team.wins) + team.draws;
+    }
+
+}
     
 
 function setLeaderboard(){
@@ -157,10 +166,15 @@ function setLeaderboard(){
 
         let newRow= document.createElement("tr");
         newRow.className="row";
-
+    
         newRow.innerHTML=`
                 <td>${parseInt(i)+1}</td>
-                <td class="club"> <img src="images/${league[i].abr}.png" class="logo"> <strong> ${league[i].club}</strong> (${league[i].player})</td>
+                <td class="club"> 
+                    <img src="images/${league[i].abr}.png" class="logo">
+                    <a href="clubPage/index.html?team=${league[i].abr}"> 
+                        <strong>${league[i].club}</strong> (${league[i].player}) 
+                    </a>
+                </td>
                 <td>${league[i].gp}</td>
                 <td>${league[i].wins}</td>
                 <td>${league[i].draws}</td>
@@ -172,12 +186,51 @@ function setLeaderboard(){
                 <td class="points"><strong>${league[i].points}</strong></td>
                 `;
         table.appendChild(newRow);
-        
-
+    
     }
+}
+// Function to get URL parameters
+function getURLParam(param) {
+    const urlParams = new URLSearchParams(window.location.search);
+    let abr= urlParams.get(param);
 
-
+    clubInfo(abr);
 }
 
+function clubInfo(abr) {
+    let team = league.find(t => t.abr === abr);
+
+    let addHeader = document.querySelector(".clubInfo");
+    addHeader.innerHTML = `
+        <img src="../images/${team.abr}.png" alt="${team.abr} Logo">
+        <h1>${team.club}</h1>
+    `;
+
+    let matchesPlayed = `<ul class="matchesPlayed">`;
+
+    for (let match of team.matches) {
+        let oppTeam = league.find(t => t.abr === match.oppTeam);
+        matchesPlayed += `
+            <li>
+                ${match.selTeam} (${team.nick})
+                <img src="../images/${abr}.png" alt="${abr} Logo" class="matchLogo">
+                ${match.selScore} - ${match.oppScore}
+                <img src="../images/${oppTeam.abr}.png" alt="${oppTeam.abr} Logo" class="matchLogo">
+                ${match.oppTeam} (${oppTeam.nick})
+            </li>
+        `;
+    }
+
+    matchesPlayed += `</ul>`;
+
+    let newRow = document.createElement("tr");
+    newRow.innerHTML = `
+        <td class="matches">${matchesPlayed}</td>
+        <td></td>
+        <td></td>
+    `;
+    let table = document.querySelector(".infoTable");
+    table.appendChild(newRow);
+}
 setPoints();
 setLeaderboard();

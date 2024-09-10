@@ -1,0 +1,67 @@
+
+table{
+    width: 100%;
+    margin-top: 10px;
+    
+}
+.topRow{
+    /* font + text */
+    font-family: Verdana, sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 25%;
+    text-decoration: rgb(135,102,138);
+    background-color: #FBFAFA;
+
+    /* color + background */
+    color: #87688A;
+
+    position: sticky;
+    
+    background-color: #FBFAFA;
+
+    
+    text-align: center;
+
+    
+}
+/* CLUB INFO PAGE WHEN TEAM IS CLICKED ON */
+
+
+.clubInfo {
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    background-color: #8CBADF; /* Choose your preferred background color */
+    
+    padding: 20px 0 20px 50px ;
+    width: 100vw; /* Ensure it spans the full width of the viewport */
+    box-sizing: border-box;
+}
+
+
+.clubInfo img {
+    margin-right: 15px; /* Space between the logo and the club name */
+    height: 250px; /* Adjust logo size as needed */
+    width: auto;
+}
+
+.clubInfo h1 {
+    margin: 0;
+    font-size: 2rem;
+}
+
+.matchLogo {
+    width: 20px;  /* Adjust the width as needed */
+    height: 20px; /* Adjust the height as needed */
+    object-fit: cover; /* Ensures the image covers the defined area without distortion */
+}
+ul{
+    list-style-type: none;
+    font-size: 16;
+    text-align: center;
+}
+
+
+
+/* phone screen accounts for  */
