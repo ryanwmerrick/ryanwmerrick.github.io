@@ -12,7 +12,7 @@ table{
     
     
 }
-.numGames,.numRemaining{
+.numGames,.numRemaining,.zaCount{
     font-size: 16px;
     letter-spacing: -0.4px;
     color: #5e5d5e;

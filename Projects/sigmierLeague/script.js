@@ -25,6 +25,7 @@ let EVE = {club: "Everton", abr: "EVE", player: "Noah Gray", nick: "Noah", match
 let league = [MCI, LIV, ARS, AVL, MUN, BHA, NEW, BRE, BOU, NFO, TOT, CHE, FUL, WHU, LEI, CRY, IPS, WOL, SOU, EVE];
 
 let gamesPlayed=0;
+let zaCount=0;
 
 let matches=`
 
@@ -135,12 +136,14 @@ function setPoints() {
             team2.losses++;
             if (score1 - score2 >= 7) {
                 team2.za++;
+                zaCount++;
             }
         } else if (score2 > score1) {
             team2.wins++;
             team1.losses++;
             if (score2 - score1 >= 7) {
                 team1.za++;
+                zaCount++;
             }
         } else {
             team1.draws++;
@@ -167,13 +170,15 @@ function setPoints() {
         // Goal differential calculation
         team.gd = team.gf - team.ga;
 
-        // Point calculation
+        // Point calculation=
         team.points = (3 * team.wins) + team.draws;
     }
     let numGames= document.querySelector(".numGames");
     let numRemaining=document.querySelector(".numRemaining");
+    let zaCounter=document.querySelector(".zaCount")
     numGames.innerHTML=`Total Games Played: ${gamesPlayed}`;
     numRemaining.innerHTML=`Games Remaining: ${380 - gamesPlayed}`;
+    zaCounter.innerHTML=`🍕= ${zaCount}`;
 
 }
     
