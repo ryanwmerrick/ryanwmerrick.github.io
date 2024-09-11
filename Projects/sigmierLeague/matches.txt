@@ -66,7 +66,7 @@ JL 5 Will 0
 Herm 3 Jaden 1
 Jaden 1 Kale 1
 Kale 3 Alej 1
-Luke 9 Alej 0
+Ladas 9 Alej 0
 Ben 3 Jaden 1
 Ladas 5 Luke 0
 Alej 5 Luke 5
@@ -83,3 +83,6 @@ Cam 6 Jaden 3
 Jaden 4 Aidan 2
 Higgs 2 Nate 1
 Noah 8 Ben 1
+Yoder 3 Kale 1
+Herm 3 Will 0
+Owen 3 Alej 1
