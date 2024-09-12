@@ -1,23 +1,23 @@
-let MCI = {club: "Manchester City", abr: "MCI", player: "Alejandro Contreras", nick: "Alej", matches: [], gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
-let LIV = {club: "Liverpool", abr: "LIV", player: "Luke Kimmich", nick: "Luke", matches: [], gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
-let ARS = {club: "Arsenal", abr: "ARS", player: "Nate Young", nick: "Nate", matches: [], gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
-let AVL = {club: "Aston Villa", abr: "AVL", player: "Ryan Higgs", nick: "Higgs", matches: [], gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
-let MUN = {club: "Manchester United", abr: "MUN", player: "Kale Timmons", nick: "Kale", matches: [], gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
-let BHA = {club: "Brighton", abr: "BHA", player: "Will Rybka", nick: "Will", matches: [], gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
-let NEW = {club: "Newcastle", abr: "NEW", player: "Evan Yoder", nick: "Yoder", matches: [], gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
-let BRE = {club: "Brentford", abr: "BRE", player: "Jaden Claycamp", nick: "Jaden", matches: [], gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
-let BOU = {club: "Bournemouth", abr: "BOU", player: "Camden Thomas", nick: "Cam", matches: [], gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
-let NFO = {club: "Nottingham Forest", abr: "NFO", player: "Theo Campbell", nick: "Theo", matches: [], gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
-let TOT = {club: "Tottenham Hotspur", abr: "TOT", player: "Luke Ladas", nick: "Ladas", matches: [], gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
-let CHE = {club: "Chelsea", abr: "CHE", player: "Matt Herrmann", nick: "Herm", matches: [], gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
-let FUL = {club: "Fulham", abr: "FUL", player: "John-Luc Harbour", nick: "JL", matches: [], gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
-let WHU = {club: "West Ham", abr: "WHU", player: "Ben Reaggs", nick: "Ben", matches: [], gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
-let LEI = {club: "Leicester City", abr: "LEI", player: "Aidan Eck", nick: "Aidan", matches: [], gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
-let CRY = {club: "Crystal Palace", abr: "CRY", player: "Ryan Merrick", nick: "Merrick", matches: [], gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
-let IPS = {club: "Ipswich Town", abr: "IPS", player: "Jake Kimmich", nick: "Jake", matches: [], gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
-let WOL = {club: "Wolverhampton Wanderers", abr: "WOL", player: "Owen Zimmerman", nick: "Owen", matches: [], gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
-let SOU = {club: "Southampton", abr: "SOU", player: "Colton Hudson", nick: "Colton", matches: [], gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
-let EVE = {club: "Everton", abr: "EVE", player: "Noah Gray", nick: "Noah", matches: [], gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
+let MCI = {club: "Manchester City", abr: "MCI", player: "Alejandro Contreras", nick: "Alej", fontColor: "#37003C", color: "rgb(140, 186, 223)", matches: [], gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
+let LIV = {club: "Liverpool", abr: "LIV", player: "Luke Kimmich", nick: "Luke", fontColor: "#FFFFFF", color: "#rgb(202, 11, 20)" , matches: [], gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
+let ARS = {club: "Arsenal", abr: "ARS", player: "Nate Young", nick: "Nate", fontColor: "#FFFFFF", color: "rgb(240, 2, 5)" , matches: [], gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
+let AVL = {club: "Aston Villa", abr: "AVL", player: "Ryan Higgs", nick: "Higgs", fontColor: "#FFFFFF", color: "rgb(157, 32, 88)" , matches: [], gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
+let MUN = {club: "Manchester United", abr: "MUN", player: "Kale Timmons", nick: "Kale", fontColor: "#FFFFFF", color: "rgb(222, 11, 11)" , matches: [], gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
+let BHA = {club: "Brighton", abr: "BHA", player: "Will Rybka", nick: "Will", fontColor: "#FFFFFF", color: "rgb(16, 107, 196)" , matches: [], gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
+let NEW = {club: "Newcastle", abr: "NEW", player: "Evan Yoder", nick: "Yoder", fontColor: "#FFFFFF", color: "rgb(61, 57, 58)" , matches: [], gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
+let BRE = {club: "Brentford", abr: "BRE", player: "Jaden Claycamp", nick: "Jaden", fontColor: "#FFFFFF", color: "rgb(241, 22, 28)" , matches: [], gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
+let BOU = {club: "Bournemouth", abr: "BOU", player: "Camden Thomas", nick: "Cam", fontColor: "#FFFFFF", color: "rgb(212, 26, 33)" , matches: [], gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
+let NFO = {club: "Nottingham Forest", abr: "NFO", player: "Theo Campbell", nick: "Theo", fontColor: "#FFFFFF", color: "rgb(212, 51, 77)" , matches: [], gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
+let TOT = {club: "Tottenham Hotspur", abr: "TOT", player: "Luke Ladas", nick: "Ladas", fontColor: "#37003C", color: "rgb(233, 233, 233)" , matches: [], gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
+let CHE = {club: "Chelsea", abr: "CHE", player: "Matt Herrmann", nick: "Herm", fontColor: "#37003C", color: "rgb(31, 65, 233)" , matches: [], gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
+let FUL = {club: "Fulham", abr: "FUL", player: "John-Luc Harbour", nick: "JL", fontColor: "#FFFFFF", color: "rgb(234, 234, 234)" , matches: [], gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
+let WHU = {club: "West Ham", abr: "WHU", player: "Ben Reaggs", nick: "Ben", fontColor: "#FFFFFF", color: "rgb(142, 51, 68)" , matches: [], gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
+let LEI = {club: "Leicester City", abr: "LEI", player: "Aidan Eck", nick: "Aidan", fontColor: "#FFFFFF", color: "rgb(2, 57, 149)" , matches: [], gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
+let CRY = {club: "Crystal Palace", abr: "CRY", player: "Ryan Merrick", nick: "Merrick", fontColor: "#FFFFFF", color: "rgb(12, 83, 166)" , matches: [], gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
+let IPS = {club: "Ipswich Town", abr: "IPS", player: "Jake Kimmich", nick: "Jake", fontColor: "#FFFFFF", color: "rgb(5, 57, 174)" , matches: [], gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
+let WOL = {club: "Wolverhampton Wanderers", abr: "WOL", player: "Owen Zimmerman", nick: "Owen", fontColor: "rgb(55, 0, 60)", color: "#FAA31B" , matches: [], gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
+let SOU = {club: "Southampton", abr: "SOU", player: "Colton Hudson", nick: "Colton", fontColor: "#FFFFFF", color: "rgb(227, 20, 61)" , matches: [], gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
+let EVE = {club: "Everton", abr: "EVE", player: "Noah Gray", nick: "Noah", fontColor: "#FFFFFF", color: "rgb(39, 40, 172)" , matches: [], gp: 0, wins: 0, losses: 0, draws: 0, gf: 0, ga: 0, gd: 0, za: 0, points: 0};
 
 
 
@@ -116,8 +116,10 @@ Higgs 2 Nate 1
 Noah 8 Ben 1
 Yoder 3 Kale 1
 Herm 3 Will 0
+Cam 2 Will 2
 Owen 3 Alej 1
 Nate 5 Luke 0
+Noah 3 JL 2
 
 
 
@@ -255,9 +257,16 @@ function getURLParam(param) {
 }
 
 function clubInfo(abr) {
+    // finds the team reference
     let team = league.find(t => t.abr === abr);
 
     let addHeader = document.querySelector(".clubInfo");
+    
+    //text and background color for the header
+
+    addHeader.style.background = `linear-gradient(90deg, ${team.color} 0%, rgba(255,255,255,0) 150%)`;
+    addHeader.style.color = team.fontColor;
+
     addHeader.innerHTML = `
         <img src="../images/${team.abr}.png" alt="${team.abr} Logo">
         <h1>${team.club}</h1>

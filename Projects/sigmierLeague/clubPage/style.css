@@ -32,7 +32,7 @@ table{
     display: flex;
     align-items: center;
     justify-content: left;
-    background-color: #8CBADF; /* Choose your preferred background color */
+    
     
     padding: 20px 0 20px 50px ;
     width: 100vw; /* Ensure it spans the full width of the viewport */
