@@ -86,3 +86,4 @@ Noah 8 Ben 1
 Yoder 3 Kale 1
 Herm 3 Will 0
 Owen 3 Alej 1
+Nate 5 Luke 0
