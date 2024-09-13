@@ -89,3 +89,9 @@ Cam 2 Will 2
 Owen 3 Alej 1
 Nate 5 Luke 0
 Noah 3 JL 2
+Noah 4 Theo 2
+Jaden 2 Will 0
+JL 3 Higgs 0
+JL 1 Aidan 1
+Jaden 3 Owen 1
+Ladas 7 Kale 0

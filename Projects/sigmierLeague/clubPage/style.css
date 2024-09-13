@@ -1,7 +1,7 @@
 
 table{
     width: 100%;
-    margin-top: 10px;
+    margin-top: 15px;
     
 }
 .topRow{
@@ -61,6 +61,11 @@ ul{
     font-size: 16;
     text-align: center;
 }
+td{
+    
+    vertical-align: top; /* Aligns content at the top of the cell */
+}
+
 
 
 
@@ -68,31 +73,26 @@ ul{
 
 
 @media only screen and (max-width: 768px) {
-    .clubInfo {
-        padding: 10px; /* Reduce padding on mobile */
-        flex-direction: column; /* Stack logo and text vertically */
-        text-align: center; /* Center align text */
-    }
-
-    .clubInfo img {
-        height: 150px; /* Reduce logo size on mobile */
-        margin-bottom: 10px; /* Space between logo and text */
-    }
-
-    .clubInfo h1 {
-        font-size: 1.5rem; /* Reduce font size on mobile */
-    }
-
-    .topRow {
-        font-size: 16px; /* Reduce font size on mobile */
-        line-height: 20px; /* Adjust line height for readability */
-    }
-
     table {
-        font-size: 14px; /* Adjust font size for table content */
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
     }
 
-    ul {
-        font-size: 14px; /* Adjust font size for list items */
+    thead th {
+        position: sticky;
+        top: 0;
+        background-color: #FBFAFA; /* Same background color as the table */
+        z-index: 1;
+        padding: 10px; /* Ensure enough padding so headers are not cut off */
+    }
+
+    /* Add padding at the top of the table to ensure the header is not cut off */
+    table {
+        margin-top: 20px;
+    }
+    
+    td, th {
+        padding: 10px; /* Adjust padding for table cells and headers */
     }
 }
