@@ -126,6 +126,7 @@ JL 3 Higgs 0
 JL 1 Aidan 1
 Jaden 3 Owen 1
 Ladas 7 Kale 0
+JL 2 Luke 0
 
 
 
@@ -345,9 +346,9 @@ function clubInfo(abr) {
 
     let newRow = document.createElement("tr");
     newRow.innerHTML = `
-        <td>${matchesPlayed}</td>
-        <td>${needToPlay(play1)}</td>
-        <td>${needToPlay(play2)}</td>
+        <td class="matches">${matchesPlayed}</td>
+        <td class="needPlay">${needToPlay(play1)}</td>
+        <td class="needPlay">${needToPlay(play2)}</td>
     `;
     let table = document.querySelector(".infoTable");
     table.appendChild(newRow);

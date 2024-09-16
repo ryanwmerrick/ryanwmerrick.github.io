@@ -94,35 +94,36 @@ td, th {
 
 
 
-@media only screen and (max-width: 600px) {
-    .leaderboard {
-        font-size: 12px; /* Reduce font size on smaller screens */
-    }
-    
-    .logo {
-        height: 7vw; /* Set logo size relative to the viewport width */
-        width: 7vw;
-    }
-
-    td, th {
-        padding: 4px; /* Reduce padding */
+/* Ensure the table scrolls horizontally on smaller screens */
+@media only screen and (max-width: 768px) {
+    .table-wrapper {
+        display: block;
+        width: 100%;
+        overflow-x: auto;  /* Allows horizontal scrolling */
+        white-space: nowrap;  /* Prevents text wrapping in table cells */
     }
 
-    .leaderboard {
-        overflow-x: auto; /* Ensure horizontal scrolling doesn't happen */
-        white-space: nowrap; /* Prevent text from wrapping */
+    table {
+        width: 100%;  /* Ensures table takes full width */
+        border-collapse: collapse;
     }
-    .topRow{
-        position: static;
+
+    th, td {
+        padding: 10px;  /* Adds padding to make content more readable */
+        text-align: left;  /* Aligns the text to the left */
+        border: 1px solid #ddd;  /* Optional: Add a border around table cells */
     }
-    .points{
-        position: sticky;
-        right: 0;
-        background-color: #fff; /* Background color to avoid overlap */
-        z-index: 1;
-        box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1); /* Optional: Add shadow to make it stand out */
-    
+
+    th {
+        background-color: #FBFAFA;  /* Keeps the header background consistent */
+        font-weight: bold;  /* Emphasizes the header text */
+    }
+
+    /* Ensure the table headers and rows don't get cut off */
+    thead th, tbody td {
+        padding: 10px;
     }
 }
+
 
 

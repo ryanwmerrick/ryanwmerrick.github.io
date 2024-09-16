@@ -28,6 +28,7 @@ table{
 /* CLUB INFO PAGE WHEN TEAM IS CLICKED ON */
 
 
+
 .clubInfo {
     display: flex;
     align-items: center;
@@ -60,10 +61,18 @@ ul{
     list-style-type: none;
     font-size: 16;
     text-align: center;
+   
 }
 td{
     
     vertical-align: top; /* Aligns content at the top of the cell */
+}
+.matchesCol{
+    width: 33%;
+}
+
+.needPlayCol{
+    width: 33%;
 }
 
 
@@ -73,26 +82,50 @@ td{
 
 
 @media only screen and (max-width: 768px) {
-    table {
-        display: block;
-        overflow-x: auto;
-        white-space: nowrap;
+    .clubInfo {
+        padding: 10px 0 10px 20px; /* Reduce padding */
+        font-size: 0.8rem; /* Scale down font size */
     }
 
-    thead th {
-        position: sticky;
-        top: 0;
-        background-color: #FBFAFA; /* Same background color as the table */
-        z-index: 1;
-        padding: 10px; /* Ensure enough padding so headers are not cut off */
+    .clubInfo img {
+        height: 150px; /* Scale down logo size */
     }
 
-    /* Add padding at the top of the table to ensure the header is not cut off */
-    table {
-        margin-top: 20px;
+    .clubInfo h1 {
+        font-size: 1.5rem; /* Scale down team name size */
+    }
+
+    .matchLogo {
+        width: 15px; /* Scale down match logo size */
+        height: 15px; /* Scale down match logo size */
+    }
+    td{
+        font-size: 10px; /* Scale down font size */
+        
+    }
+    ul{
+        text-align: center;
+        padding: 5px;
+        margin: 0;  
     }
     
-    td, th {
-        padding: 10px; /* Adjust padding for table cells and headers */
+    th{
+        font-size: 11px;
+        
+        
+    
     }
+    .matchesCol{
+        width: 50%;
+    }
+
+    .needPlayCol{
+        width: 40%;
+    }
+    table {
+        display: block; /* Make the table block for horizontal scrolling */
+        overflow-x: auto; /* Enable horizontal scrolling */
+        white-space: nowrap; /* Prevent text from wrapping */
+    }
+
 }
