@@ -148,6 +148,10 @@ td, th {
     
         z-index: 2; /* Ensure it stays above other content */
     }
+    .clubInfo img {
+        height: 100px; /* Adjust height for mobile view */
+        width: auto; /* Maintain aspect ratio */
+    }
     
 
 }
