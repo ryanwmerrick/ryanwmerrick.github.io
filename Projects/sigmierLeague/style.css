@@ -6,7 +6,7 @@ table{
     
     position: relative;
     text-align: center;
-    font-size: 16px;
+    font-size: 20px;
     letter-spacing: -0.4px;
     color: #5e5d5e;
     
@@ -54,7 +54,7 @@ table{
 .topRow{
     /* font + text */
     font-family: Verdana, sans-serif;
-    font-size: 12px;
+    font-size: 16px;
     font-weight: 700;
     line-height: 40%;
     text-decoration: rgb(135,102,138);
@@ -151,6 +151,12 @@ td, th {
     .clubInfo img {
         height: 100px; /* Adjust height for mobile view */
         width: auto; /* Maintain aspect ratio */
+    }
+    .leaderboard{
+        font-size: 16px;
+    }
+    .topRow{
+        font-size: 12px;
     }
     
 
