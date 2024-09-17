@@ -1,7 +1,14 @@
 
+body, html {
+    margin: 0; /* Remove default margin */
+    padding: 0; /* Remove default padding */
+    width: 100%; /* Ensure full width */
+    overflow-x: hidden; /* Prevent horizontal scroll if content overflows */
+}
+
 table{
     width: 100%;
-    margin-top: 15px;
+    margin-top: 5px;
     
 }
 .topRow{
@@ -9,9 +16,11 @@ table{
     font-family: Verdana, sans-serif;
     font-size: 20px;
     font-weight: 700;
-    line-height: 25%;
+    line-height: 80%;
     text-decoration: rgb(135,102,138);
     background-color: #FBFAFA;
+    
+    
 
     /* color + background */
     color: #87688A;
@@ -33,13 +42,12 @@ table{
     display: flex;
     align-items: center;
     justify-content: left;
+    padding: 25px;
     
+    width: 100%; /* Ensure it spans the full width of the container */
+    background-color: #f0f0f0; /* Example background color, adjust as needed */
     
-    padding: 20px 0 20px 50px ;
-    width: 100vw; /* Ensure it spans the full width of the viewport */
-    box-sizing: border-box;
 }
-
 
 .clubInfo img {
     margin-right: 15px; /* Space between the logo and the club name */
@@ -50,22 +58,25 @@ table{
 .clubInfo h1 {
     margin: 0;
     font-size: 2rem;
+    line-height: 1.2; /* Adjust line height for better vertical alignment */
 }
 
 .matchLogo {
-    width: 20px;  /* Adjust the width as needed */
-    height: 20px; /* Adjust the height as needed */
+    width: 25px;  /* Adjust the width as needed */
+    height: 25px; /* Adjust the height as needed */
     object-fit: cover; /* Ensures the image covers the defined area without distortion */
 }
 ul{
     list-style-type: none;
-    font-size: 16;
+    font-size: 22px;
     text-align: center;
+
    
 }
 td{
     
     vertical-align: top; /* Aligns content at the top of the cell */
+    padding-top: 5px;
 }
 .matchesCol{
     width: 33%;
@@ -82,6 +93,11 @@ td{
 
 
 @media only screen and (max-width: 768px) {
+    .topRow th{
+        font-size: 12px; /* Adjust font size for mobile */
+        white-space: normal; /* Ensure wrapping is enabled */
+        word-break: break-word; /* Break words to fit within the cell */
+    }
     .clubInfo {
         padding: 10px 0 10px 20px; /* Reduce padding */
         font-size: 0.8rem; /* Scale down font size */
@@ -96,21 +112,22 @@ td{
     }
 
     .matchLogo {
-        width: 15px; /* Scale down match logo size */
-        height: 15px; /* Scale down match logo size */
+        width: 12px; /* Scale down match logo size */
+        height: 12px; /* Scale down match logo size */
     }
     td{
         font-size: 10px; /* Scale down font size */
         
     }
     ul{
+        font-size: 10px;
         text-align: center;
         padding: 5px;
         margin: 0;  
     }
     
     th{
-        font-size: 11px;
+        font-size: 12px;
         
         
     
@@ -120,7 +137,7 @@ td{
     }
 
     .needPlayCol{
-        width: 40%;
+        width: 25%;
     }
     table {
         display: block; /* Make the table block for horizontal scrolling */
