@@ -28,7 +28,6 @@ let gamesPlayed=0;
 let zaCount=0;
 
 let matches=`
-
 LIV 2 IPS 1
 LIV 3 SOU 2
 LIV 2 LEI 2
@@ -114,7 +113,7 @@ Cam 6 Jaden 3
 Jaden 4 Aidan 2
 Higgs 2 Nate 1
 Noah 8 Ben 1
-Yoder 3 Kale 1
+Yoder 1 Kale 3
 Herm 3 Will 0
 Cam 2 Will 2
 Owen 3 Alej 1
@@ -127,9 +126,6 @@ JL 1 Aidan 1
 Jaden 3 Owen 1
 Ladas 7 Kale 0
 JL 2 Luke 0
-
-
-
 
 `;
 

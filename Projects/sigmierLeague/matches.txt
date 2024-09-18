@@ -83,7 +83,7 @@ Cam 6 Jaden 3
 Jaden 4 Aidan 2
 Higgs 2 Nate 1
 Noah 8 Ben 1
-Yoder 3 Kale 1
+Yoder 1 Kale 3
 Herm 3 Will 0
 Cam 2 Will 2
 Owen 3 Alej 1
