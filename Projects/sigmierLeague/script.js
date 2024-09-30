@@ -126,6 +126,8 @@ JL 1 Aidan 1
 Jaden 3 Owen 1
 Ladas 7 Kale 0
 JL 2 Luke 0
+Ben 1 Higgs 1
+Noah 6 Higgs 1
 
 `;
 
