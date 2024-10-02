@@ -128,6 +128,8 @@ Ladas 7 Kale 0
 JL 2 Luke 0
 Ben 1 Higgs 1
 Noah 6 Higgs 1
+Jake 4 Will 1
+Ben 6 Will 0
 
 `;
 
