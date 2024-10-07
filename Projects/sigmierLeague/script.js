@@ -131,6 +131,11 @@ Noah 6 Higgs 1
 Jake 4 Will 1
 Ben 6 Will 0
 Will 2 Noah 1
+Will 0 Luke 0
+Kale 2 Jake 1
+Kale 3 Ben 2
+Ladas 3 Ben 0
+Ben 2 Yoder 2
 
 `;
 
