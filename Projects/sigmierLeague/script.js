@@ -136,6 +136,21 @@ Kale 2 Jake 1
 Kale 3 Ben 2
 Ladas 3 Ben 0
 Ben 2 Yoder 2
+Theo 2 Owen 1
+Jaden 3 Luke 1
+Nate 4 Merrick 1
+Colton 2 Cam 2
+Yoder 3 Noah 3
+Aidan 3 Jake 2
+Owen 3 Aidan 3
+Theo 1 Kale 1
+Kale 3 Higgs 0
+Ladas 5 Higgs 0
+Ladas 3 Aidan 0
+Aidan 1 Kale 0
+Noah 3 Kale 1
+Nate 0 Kale 0
+
 
 `;
 
