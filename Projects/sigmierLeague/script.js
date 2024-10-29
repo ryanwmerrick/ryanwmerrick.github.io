@@ -150,8 +150,7 @@ Ladas 3 Aidan 0
 Aidan 1 Kale 0
 Noah 3 Kale 1
 Nate 0 Kale 0
-
-
+Nate 6 Alej 0
 `;
 
 
