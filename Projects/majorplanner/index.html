@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    
+
+    
+    <title>Major Planner GCC</title>
+</head>
+<body>
+
+    <div class="nav_bar_container">
+        <!-- logo -->
+        <a href="#">
+            <img class="logo" src="logo.png" alt="Degree Planner">
+        </a>
+        <!-- tabs -->
+        <ul class="tabs">
+            <li class="logged-in">
+                <a href="#" class="modal-trigger" data-target="modal-account">Account</a>
+            </li>
+            <li class="logged-in">
+                <a href="#" class="modal-trigger" data-target="modal-logout">Logout</a>
+            </li>
+            <li class="logged-out">
+                <a href="#" class="modal-trigger" data-target="modal-signin">Sign In</a>
+            </li>
+            <li class="logged-out">
+                <a href="#" class="modal-trigger" data-target="modal-signup">Sign Up</a>
+            </li>
+            
+        </ul>
+
+    </div>
+    <!-- SIGN UP MODAL -->
+     <div id="modal-signup" class="modal">
+        <div class="modal-content">
+            <h4>Sign Up</h4>
+            <form id="sign-up-form">
+                <!-- Email Box -->
+                <div class="input-box">
+                    <input type="email" id="sign-up-email" required>
+                    <label for="sign-up-email">Email Address</label>
+                </div>
+                <!-- Password Box -->
+                <div class="input-box">
+                    <input type="email" id="sign-up-password" required>
+                    <label for="sign-up-password">Email Address</label>
+                </div>
+
+            </form>
+            <button>Sign Up</button>
+
+        </div>
+    
+    </div>
+    
+     <!-- LOGIN MODAL -->
+    <div id="modal-signin" class="modal" style="display: none;">
+        <div class="modal-content">
+            <h4>Sign In</h4>
+            <form id="sign-up-form">
+                <!-- Email Box -->
+                <div class="input-box">
+                    <input type="email" id="sign-in-email" required>
+                    <label for="sign-in-email">Email Address</label>
+                </div>
+                <!-- Password Box -->
+                <div class="input-box">
+                    <input type="email" id="sign-in-password" required>
+                    <label for="sign-in-password">Email Address</label>
+                </div>
+
+            </form>
+            <button>Sign In</button>
+
+        </div>
+
+
+    </div>
+     
+    
+    <!-- Import Materialize JS (at the end of the body) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Initialize all modals
+            var modals = document.querySelectorAll('.modal');
+            M.Modal.init(modals);
+        });
+    </script>
+
+     
+    
+    
+
+</body>
+</html>

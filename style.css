@@ -1,81 +1,302 @@
-body{
+/* NAVIGATION BAR */
+*{
+    padding: 0;
+    margin: 0;
 
-    background-color: #2D3250;
+    background-color: #212121;
 }
-.container{
+.navigationBar{
+    height: 8.3vh;
+    display: flex;
+    justify-content: space-between;
+    padding: 0px 10.1vh;
+
+    background-color: #1c1c1c;
+    border: 2px solid #171717;
+}
+.logo{
+    display: flex;
+    align-items: center;
+
+    color: #F6F6F6;
+    background-color: #1c1c1c;
+}
+.logo h1{
+    background-color: #1c1c1c;
+    font-size: 5vh;
+
+    
+}
+.tabs{
+    display:flex;
+    justify-content: space-evenly;
+    align-items: center;
+    gap: 5vh;
+
+    background-color: #1c1c1c;
+
+}
+.tabs a{
+    text-decoration: none;
+    background-color: #1c1c1c;
+    color: #F6F6F6;
+    font-size: 2.8vh;
+}
+.tabs a:hover{
+    color: #6D9886;
+}
+.contactMe{
+    width: 17vh;
+    height: 4.5vh;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 1.9vh;
+    margin-left: 0.88vh;
+
+    background-color: #6D9886;
+    color: #212121;
+    font-size: 2.5vh;
+    border: none;
+    
+}
+.contactMe:hover{
+    background-color: #8bad9f;
+}
+
+.hamburger{
+    display: none;
+    font-size: 4vh;
+    color: #F6F6F6;
+    cursor: pointer;
+    background-color: #1c1c1c;
+
+}
+
+/* NAVIGATION BAR */
+
+#home{
+
+    color: #8bad9f;
+}
+
+
+.homePageContainer{
+    height: calc(100vh - 8.89vh);
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    
+}
+.intro{
+
     display: flex;
     flex-direction: column;
-    align-items: center;
+    padding-bottom: 6.3vh;
     
-    height: 90vh;
+    
 }
 
-.topRow{
-    font-family:"Fantasy";
-    color: #7077A1;
-    display: flex;
-    width:70vh;
-    height:7vh;
-    margin-top: 15vh;
-    margin-bottom:5vh;
+.smallIntro{
+    color:#F6F6F6;
+    font-family: 'Rubik';
+
+    padding-left: 0.88vh;
+    font-size: 1.9vh;
     
-    justify-content: space-between;
-    align-items: center;
-    border-bottom:2px solid #7E84AA;
 }
 .name{
-    display: flex;
-    align-items: center; 
-    
-    font-size: 1.5em;
-    
+    color: #F6F6F6;
+    font-family: 'Rubik';
+    font-size: 12.7vh;
 }
-.resourceContainer{
-    display:flex;
-    width: 20vh;
-    justify-content: space-between;
+.bio{
+    padding-bottom: 2.5vh;
+    padding-left: 0.88vh;
+    color: #D9CAB3;
+    font-family: 'Rubik';
+    font-size: 20px;
+}
+.contactMe2{
+    width: 22vh;
+    height: 5vh;
+    display: inline-flex;
     align-items: center;
-}
-
-.pagesContainer{
-    display:flex;
-    width: 60vh;
-    flex-direction: column;
-    text-decoration: none;
     justify-content: center;
-    align-items:center;
-    margin-bottom: 2vh;
-    border-bottom: 2px solid #7E84AA;
-}
+    border-radius: 1.9vh;
+    margin-left: 0.88vh;
 
-.page{
-    font-family: "impact";
-    padding:1.5vh;
-    margin-bottom: 1vh;
-    text-decoration: underline;
-    color: #B7BBD0;
-}
-.page:hover{
-    background-color: #424769;
-    border-radius: 8px;
-}
-.resource{
-    
-    padding:1vh;
-    color:#7077A1
+    background-color: #6D9886;
+    color: #212121;
+    font-size: 2.5vh;
+    border: none;
     
 }
-.resource:hover{
-    background-color: #424769;
-    border-radius: 8px;
-    text-decoration: none;
-}
-#projects{
-    font-size: 4em;
-}
-#about{
-    font-size: 4em;
-    margin-bottom: 5vh;
+.contactMe2:hover{
+    background-color: #8bad9f;
 }
 
 
+.headshot{
+    width: 60vh;
+    height: 60vh;
+    border-radius: 50%;
+    outline: 1px solid #F6F6F6;
+
+}
+.square{
+    position: fixed;
+    top: 20%;
+    left: 35%;
+    width: 3vh;
+    height: 3vh;
+    background-color: #6D9886;
+    opacity: 50%;
+    
+}
+.circle{
+    position: fixed;
+    top: 80%;
+    left:10%;
+    border-radius: 50%;
+    width: 3vh;
+    height:3vh;
+
+    background-color: #e4a691;
+    opacity: 50%;
+}
+
+.triangle{
+    position: fixed;
+    top: 90%;
+    left: 70%;
+    width: 0; /* Set width to 0 because the size is defined by borders */
+    height: 0; /* Set height to 0 */
+    border-left: 1.5vh solid transparent;
+    border-right: 1.5vh solid transparent;
+    border-bottom: 3vh solid #DCC17C;
+    opacity: 50%;
+}
+.square2{
+    position: fixed;
+    top: 70%;
+    left: 95%;
+    width: 3vh;
+    height: 3vh;
+    background-color: #2D97C9;
+    opacity: 50%;
+
+}
+.circle2{
+    position: fixed;
+    top: 50%;
+    left:48%;
+    border-radius: 50%;
+    width: 3vh;
+    height:3vh;
+
+    background-color: #dd1c1a;
+    opacity: 50%;
+
+}
+
+
+/* FOR MOBILE DEVICE */
+
+@media only screen and (max-width: 760px) {
+
+/* Responsive styles for larger screens (tablets and desktops) */
+    html, body {
+        height: 100%; /* Ensure the page takes up the full height */
+        overflow: hidden; /* Prevent overflow */
+        margin: 0;
+        padding: 0;
+    }
+
+    .logo{
+        padding-left: 2vh;
+    }
+
+    .navigationBar {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 0;
+        
+
+    }
+    .tabs{
+        display: none; /* Hidden by default */
+        position: absolute;
+        top: 8.8vh; 
+        right: 0.4vh;
+        flex-direction: column;
+        gap:2vh;
+        
+        
+        background-color: #1c1c1c;
+        border-top: 1px solid #171717;
+        padding: 1vh;
+        
+        
+        
+    }
+    .tabs a, .tabs button {
+        font-size: 2.5vh;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+
+    .hamburger {
+        padding-right: 2vh;
+        display: flex; /* Ensure it behaves as a flex item */
+        align-items: center; /* Center the hamburger vertically */
+        justify-content: center; /* Center the hamburger horizontally */
+    }
+  
+
+    .homePageContainer{
+        width: 100%;
+
+        display: flex;
+        flex-direction: column;
+
+        justify-content: space-evenly;
+        
+        
+    }
+    .intro {
+        width: 90%; /* Make the intro take most of the width */
+        
+        padding-bottom: 0vh;
+       
+    }
+
+    .headshot {
+        width: 35vh; /* Scale down the image for mobile */
+        height: 35vh;
+    }
+    .square{
+
+        left: 75%;
+    }
+    .triangle{
+
+        left: 75%;
+    }
+    .circle2{
+        top: 55%;
+        left: 60%;
+    }
+    
+
+   
+
+    
+
+
+
+
+}

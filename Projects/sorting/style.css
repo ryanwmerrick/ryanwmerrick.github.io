@@ -1,0 +1,42 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+.inputContainer{
+    margin: 20px;
+}
+.numElementsContainer,.sortSelectionContainer,.startStopContainer,.speedContainer{
+    margin-bottom: 10px;
+}
+.startStopContainer,.speedContainer{
+   
+    display: flex;
+
+    
+}
+.startStopContainer button{
+    margin-right:8px;
+    height: 30px;
+    width: 80px;
+}
+.speedContainer button{
+    margin-right:8px;
+    height: 30px;
+    width: 80px;
+
+}
+
+.rectangle{
+    background-color: black;
+    
+}
+.rectangles{
+    display: flex;
+    align-items: flex-end;
+    position:fixed;
+    bottom: 0;
+    width: 100%;
+    
+    justify-content: center;
+    
+}

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+    <title>Sorting</title>
+</head>
+<body>
+
+
+    <div class="inputContainer">
+        <!-- Number of Elements input Line -->
+        <div class="numElementsContainer">
+            <label for="numElements">Number of Elements:</label>
+            <input type="text" id="numElements">
+            <button onclick="makeRectangles()">Enter</button>
+        </div>
+        <!-- Choose type of Sort Drop Down -->
+        <div class="sortSelectionContainer">
+            <label for="sortSelection">Type of Sort:</label>
+            <select name="sorts" id="sortSelection">
+                <option value="bubbleSort">Bubble Sort</option>
+                <option value="mergeSort">Merge Sort</option>
+                
+            </select>
+        </div>
+        <!-- Start sort -->
+        <div class="startStopContainer">
+            <button onclick="startSort()">Start Sort</button>
+            <button>Pause Sort</button>
+        
+        </div>
+        <div class="speedContainer">
+            <button>Slow Down</button>
+            <button>Speed Up</button>
+        </div>
+        
+    </div>
+
+    
+    <div class="rectangles">
+    </div>
+
+
+    
+</body>
+</html>

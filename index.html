@@ -4,34 +4,56 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <script>href="script.js"</script>
+    <link href='https://fonts.googleapis.com/css?family=Rubik' rel='stylesheet'>
+    <script src="script.js"></script> <!-- Load script.js -->
     <title>Homepage</title>
 
 </head>
 <body>
+    
 
-    <div class="container">
-        <div class="topRow">
-            <div class="name">
-                <h3>ryan merrick</h3>
-            </div>
-            <div class="resourceContainer">
-                <h4>
-                    <a class="resource" href="https://github.com/ryanwmerrick">GitHub</a>
-                </h4>
-                <h4>
-                    <a class="resource" href="https://www.linkedin.com/in/ryan-merrick-w">LinkedIn</a>
-                </h4>
-            </div>
 
+    <div class="navigationBar">
+        <div class="logo">
+            <h1>RM</h1>
+        </div>
+        <div class="hamburger" onclick="toggleDropdown()">☰</div>
+        <div class="tabs" id="tabsDropdown">
+            <a href="index.html" id="home">Home</a>
+            <a href="/Projects/index.html" id="projects">Projects</a>
+            <a href="/about/index.html" id="about">About</a>
+            <button class="contactMe">Contact Me</button>
+        </div>
+
+    </div>
+    <div class="homePageContainer">
+        <div class="intro">
             
+            <p class="smallIntro">HELLO, MY NAME IS</p>
+            <p class="name">Ryan</p>
+            <p class="name">Merrick</p>
+            <p class="bio">CS Student at Grove City College</p>
+            <button class="contactMe2">Contact Me</button>
+
+
         </div>
-        <div class="pagesContainer">
-            <a class="page" id="projects" href="/Projects/index.html">Projects</a>
-            <a class="page" id="about" href="/about/index.html">About</a>
+        <div class="headshot">
+            <img class="headshot" src="headshot.jpeg">
+
         </div>
         
-        
-    </div>  
+
+
+
+    </div>
+    <div class="square" id="square"></div>
+    <div class="circle"></div>
+    <div class="triangle"></div>
+    <div class="square2"></div>
+    <div class="circle2"></div>
+
+
+
+    
 </body>
 </html>
