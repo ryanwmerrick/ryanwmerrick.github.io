@@ -4,11 +4,13 @@
 
     background-color: #212121;
 }
+
+/* Navigation Bar */
 .navigationBar{
     height: 8.3vh;
     display: flex;
     justify-content: space-between;
-    padding: 0px 10.1vh;
+    padding: 0vh 10.1vh;
 
     background-color: #1c1c1c;
     border: 2px solid #171717;
@@ -74,4 +76,246 @@
 
 #about{
     color:#8bad9f;
+}
+/* NAVIGATION BAR END */
+
+
+.aboutPageContainer{
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
+}
+.accounts{
+    height:30vh;
+    width: 100vh;
+    display: flex;
+    gap: 20vh;
+    justify-content: center;
+    
+    
+    align-items: center;
+    
+    
+
+}
+
+.account-item{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    
+    font-family: 'Rubik';
+    font-size: 8vh;
+    text-align: center;
+    
+}
+.account-item a{
+    color: #8bad9f;
+}
+.account-item a:hover{
+    color: #6D9886;
+}
+.accountLogo{
+    width: 7vh;
+    height: 7vh;
+    margin-right: 1vh;
+}
+.emailLogo{
+    width: 5vh;
+    height: 5vh;
+}
+
+.event{
+    width: 100vh;
+    height: 33vh;
+    border-left: 0.2vh solid #F6F6F6;
+    position: relative;
+}
+.circleBullett{
+    border: 0.4vh solid #F6F6F6;
+    width: 5vh;
+    height: 5vh;
+    border-radius: 50%;
+
+    position: absolute;
+    top: 0;
+    left: -2.9vh;
+
+
+}
+.eventLabel{
+    padding-top: 0vh;
+    padding-left: 6vh;
+    color: #F6F6F6;
+    font-family: 'Rubik';
+    font-size: 5vh;
+    text-decoration: underline;
+}
+.eventDescription{
+    padding-top: 2vh;
+    padding-left: 10vh;
+    color: #D9CAB3;
+    font-family: 'Rubik';
+    font-size: 2.5vh;
+    line-height: 4vh; 
+
+}
+
+.square{
+    position: fixed;
+    top: 40%;
+    left: 15%;
+    width: 3vh;
+    height: 3vh;
+    background-color: #6D9886;
+    opacity: 50%;
+    
+}
+.circle{
+    position: fixed;
+    top: 80%;
+    left:10%;
+    border-radius: 50%;
+    width: 3vh;
+    height:3vh;
+
+    background-color: #e4a691;
+    opacity: 50%;
+}
+
+.triangle{
+    position: fixed;
+    top: 90%;
+    left: 80%;
+    width: 0; /* Set width to 0 because the size is defined by borders */
+    height: 0; /* Set height to 0 */
+    border-left: 1.5vh solid transparent;
+    border-right: 1.5vh solid transparent;
+    border-bottom: 3vh solid #DCC17C;
+    opacity: 50%;
+}
+.square2{
+    position: fixed;
+    top: 70%;
+    left: 95%;
+    width: 3vh;
+    height: 3vh;
+    background-color: #2D97C9;
+    opacity: 50%;
+
+}
+.circle2{
+    position: fixed;
+    top: 35%;
+    left:85%;
+    border-radius: 50%;
+    width: 3vh;
+    height:3vh;
+
+    background-color: #dd1c1a;
+    opacity: 50%;
+
+}
+
+/* FOR MOBILE DEVICE */
+
+@media only screen and (max-width: 760px) {
+    html, body{
+        overflow-x: hidden;
+    }
+    .logo {
+        padding-left: 2vh;
+    }
+    .navigationBar {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 0;
+    }
+    .tabs {
+        display: none; /* Hidden by default */
+        position: absolute;
+        top: 8.8vh;
+        right: 0.4vh;
+        flex-direction: column;
+        gap: 2vh;
+        background-color: #1c1c1c;
+        border-top: 1px solid #171717;
+        padding: 1vh;
+    }
+    .tabs a {
+        font-size: 2.5vh;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+    .hamburger {
+        padding-right: 2vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .aboutPageContainer {
+        width: 95%; /* Adjust width slightly larger for small screens */
+        padding: 2vh; /* Adding padding to ensure content spacing */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: auto; /* Center the container */
+        overflow-x: hidden;
+    }
+    .accounts {
+        width: 100%; /* Full width for row layout */
+        display: flex;
+        flex-direction: column; /* Column layout for small screens */
+        align-items: center;
+        gap: 2vh;
+    }
+    .account-item {
+        font-size: 3vh; /* Reduced font size */
+        margin-bottom: 1vh; /* Adding space between items */
+    }
+    .accountLogo {
+        width: 5vh; /* Reduced logo size */
+        height: 5vh;
+    }
+    .event {
+        width: 100%;
+        height: auto;
+        border: none;
+    }
+    .circleBullett {
+        width: 4vh; /* Reduced bullet size */
+        height: 4vh;
+        left: 0vh; /* Adjusted left positioning */
+    }
+    .eventLabel {
+        font-size: 4vh; /* Reduced event label font size */
+    }
+    .eventDescription {
+        font-size: 2vh; /* Reduced description font size */
+    }
+    .square{
+        top: 60vh;
+        left: 5vh;
+    }
+    .circle{
+        top: 90vh;
+        left: 3vh;
+    }
+    .triangle{
+        left: 53vh;
+    }
+    .square2{
+        left: 54vh;
+    }
+    .circle2{
+        top: 20vh;
+        left:  45vh;
+    }
 }
