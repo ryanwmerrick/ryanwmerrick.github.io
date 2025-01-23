@@ -15,6 +15,7 @@
 
     background-color: #1c1c1c;
     border: 2px solid #171717;
+    z-index: 2;
 }
 .logo{
     display: flex;
@@ -28,6 +29,10 @@
     font-size: 5vh;
 
     
+}
+#tabsDropdown{
+    z-index: 2;
+
 }
 .tabs{
     display:flex;
@@ -99,15 +104,13 @@
     color: #d5e1dc;
     text-decoration: none;
     border: 5px solid #6D9886;
-    
     border-radius: 25px;
-    
     background-color: #43564E;
     
-    
     z-index: 1;
-    width: 35vh;
-    height: 35vh;
+    min-width: 35vh;
+    /* height: 35vh; */
+    aspect-ratio: 1;
 
 }
 .project:hover,
@@ -121,8 +124,6 @@
     width:23vh;
     background-color: #43564E;
     
-    
-    
 }
 .projectLabel{
     font: 'Rubik';
@@ -132,7 +133,7 @@
 .projectDescription{
     font: 'Rubik';
     font-size: 2vh;
-    padding-top: 1vh;
+    
     background-color: #43564E;
     color: #bfcac6;
 }
@@ -244,7 +245,8 @@
         flex-direction: column;
         align-items: center;
         gap: 3vh;        
-        margin-top: 10vh;
+        margin-top: 5vh;
+        margin-bottom: 5vh;
 
     }
 
@@ -254,19 +256,18 @@
         justify-content: center;
         flex-direction: column;
         
-
         font: 'Rubik';
         color: #d5e1dc;
         border-width: 5px;
         border-radius: 25px;
         border-color: #6D9886;
         background-color: #43564E;
+
+        min-width: 30vh;
         
         
         
-        width: 250px;
-        height: 250px;
-    
+       
     }
     .project:hover,
     .project:hover .projectLogo, 
@@ -289,9 +290,14 @@
     .projectDescription{
         font: 'Rubik';
         font-size: 12px ;
-        padding-top: 1vh;
+        padding-top: 0vh;
         background-color: #43564E;
         color: #bfcac6;
+    }
+
+    #contactMeSmall{
+        padding-left: 2vh;
+        padding-right: 2vh;
     }
 
     .square2{
