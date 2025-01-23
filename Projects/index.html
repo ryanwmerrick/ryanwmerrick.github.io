@@ -4,17 +4,71 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <script>href="script.js"</script>
+    <link href='https://fonts.googleapis.com/css?family=Rubik' rel='stylesheet'>
+    <script src="script.js"></script>
+
     <title>Projects</title>
-    <!-- Back Button -->
-    <a class="backButton" href="../index.html">back</a>
-    <!-- Back Button -->
-</head>
-<body class="container">
-    <a class="projects" href="tictactoe/index.html">TicTacToe</a><br>
-    <a class="projects" href="birthdaycalc/index.html">Birthday Paradox Calculator</a><br>
-    <a class="projects" href="memorization/index.html">Memorization Practice</a>
-    <a class="projects" href="sigmierLeague/index.html">Sigmier League</a>
     
+</head>
+<body>
+
+    <div class="navigationBar">
+        <div class="logo">
+            <h1>RM</h1>
+        </div>
+        <div class="hamburger" onclick="toggleDropdown()">☰</div>
+        <div class="tabs" id="tabsDropdown">
+            <a href="/index.html" id="home">Home</a>
+            <a href="/Projects/index.html" id="projects">Projects</a>
+            <a href="/about/index.html" id="about">About</a>
+            <a href="mailto:ryan@merrick.live">
+                <button class="contactMe" href="mailto:ryan@merrick.live">Contact Me</button>
+            </a>
+        </div>
+
+    </div>
+    
+
+    <div class="projectContainer">
+
+        <a class="project" href="sigmierLeague/index.html">
+            <img class="projectLogo" src="logos/sigmier.png" >
+            <p class="projectLabel">Sigmier League</p>
+            <p class="projectDescription">Custom Premier League Simulator</p>
+        </a>
+
+        <a class="project" href="sorting/index.html">
+            <img class="projectLogo" src="logos/sorting.png" >
+            <p class="projectLabel">Sort Simulation</p>
+            <p class="projectDescription">Various Array Sorting Methods</p>
+        </a>
+
+        <a class="project" href="tictactoe/index.html">
+
+            <img class="projectLogo" src="logos/tictactoe.png" >
+            <p class="projectLabel"> Tic-Tac-Toe</p>
+            <p class="projectDescription">Classic TicTacToe</p>
+
+        </a>
+        <a class="project" href="memorization/index.html">
+            <img class="projectLogo" src="logos/memory.png" >
+            <p class="projectLabel">Memorization</p>
+            <p class="projectDescription">Basic Text Memorization Practice</p>
+        </a>
+        <a class="project" href="birthdaycalc/index.html">
+            <img class="projectLogo" src="logos/birthday.png" >
+            <p class="projectLabel">Birthday Paradox</p>
+            <p class="projectDescription">Simple Paradox Calculator</p>
+        </a>
+        
+        
+    </div>
+    <div class="square" id="square"></div>
+    <div class="circle"></div>
+    <div class="triangle"></div>
+    <div class="square2"></div>
+    <div class="circle2"></div>
+    
+
 </body>
 </html>

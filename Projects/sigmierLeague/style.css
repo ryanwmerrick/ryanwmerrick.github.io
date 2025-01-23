@@ -95,6 +95,23 @@ td, th {
 
     padding: 8px;
   }
+
+  .backButton{
+    position: absolute;
+    left:5vh;
+    top: 3vh;
+    padding: 0.5vh 1vh;
+    font-size: 1.5em;
+    color:#7077A1
+}
+.backButton:hover{
+    background-color: #424769;
+    
+    border-radius: 20%;
+    text-decoration: none;
+
+}
+
   
 
 
@@ -162,6 +179,22 @@ td, th {
     .topRow{
         font-size: 12px;
     }
+    .backButton{
+        position: absolute;
+        left:5vh;
+        top: 3vh;
+        padding: 0.5vh 1vh;
+        font-size: 1.5em;
+        color:#7077A1
+    }
+    .backButton:hover{
+        background-color: #424769;
+        
+        border-radius: 20%;
+        text-decoration: none;
+    
+    }
+    
     
 
 }

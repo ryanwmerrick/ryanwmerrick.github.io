@@ -188,19 +188,13 @@
 @media only screen and (max-width: 760px) {
 
     /* Responsive styles for larger screens (tablets and desktops) */
-        html, body {
-            height: 100%; /* Ensure the page takes up the full height */
-            overflow: hidden; /* Prevent overflow */
-            margin: 0;
-            padding: 0;
-        }
-    
+        
         .logo{
             padding-left: 2vh;
         }
     
         .navigationBar {
-            width: 100%;
+            width: 99%;
             display: flex;
             flex-direction: row;
             justify-content: space-between;
@@ -233,9 +227,9 @@
     
         .hamburger {
             padding-right: 2vh;
-            display: flex; /* Ensure it behaves as a flex item */
-            align-items: center; /* Center the hamburger vertically */
-            justify-content: center; /* Center the hamburger horizontally */
+            display: flex; 
+            align-items: center;
+            justify-content: center; 
         }
       
     
@@ -248,14 +242,15 @@
             
         }
         .intro {
-            width: 90%; /* Make the intro take most of the width */
+            width: 90%; 
             padding-bottom: 0vh;
            
         }
     
         .headshot {
-            width: 35vh; /* Scale down the image for mobile */
+            width: 35vh; 
             height: 35vh;
+            z-index: 1;
         }
         .square{
     
@@ -264,6 +259,7 @@
         .triangle{
     
             left: 75%;
+            z-index: 0;
         }
         .circle2{
             top: 55%;

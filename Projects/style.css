@@ -1,41 +1,306 @@
-body{
-    background-color: #2D3250;
-    display: flex;
-    justify-content: center;
+
+*{
+    padding: 0;
+    margin: 0;
+    background-color: #212121;
 }
-.container{
+
+/* NAVIGATION BAR */
+
+.navigationBar{
+    height: 8.3vh;
     display: flex;
-    flex-direction: column;
+    justify-content: space-between;
+    padding: 0px 10.1vh;
+
+    background-color: #1c1c1c;
+    border: 2px solid #171717;
+}
+.logo{
+    display: flex;
     align-items: center;
-    height: 90vh;
+
+    color: #F6F6F6;
+    background-color: #1c1c1c;
 }
-.projects{
-    display: flex;
-    align-content: center;
-    flex-direction: column;
-    font-family: "impact";
-    padding:1.5vh;
-    margin-bottom: 1vh;
-    text-decoration: underline;
-    font-size: 3em;
-    color: #B7BBD0;
-}
-.projects:hover{
-    background-color: #424769;
-    border-radius: 8px;
-}
-.backButton{
-    position: absolute;
-    left:5vh;
-    top: 3vh;
-    padding: 0.5vh 1vh;
-    font-size: 1.5em;
-    color:#7077A1
-}
-.backButton:hover{
-    background-color: #424769;
+.logo h1{
+    background-color: #1c1c1c;
+    font-size: 5vh;
+
     
-    border-radius: 20%;
+}
+.tabs{
+    display:flex;
+    justify-content: space-evenly;
+    align-items: center;
+    gap: 5vh;
+
+    background-color: #1c1c1c;
+
+}
+.tabs a{
     text-decoration: none;
+    background-color: #1c1c1c;
+    color: #F6F6F6;
+    font-size: 2.8vh;
+}
+.tabs a:hover{
+    color: #6D9886;
+}
+.contactMe{
+    width: 22vh;
+    height: 5vh;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 1.9vh;
+    margin-left: 0.88vh;
+
+    background-color: #6D9886;
+    color: #212121;
+    font-size: 2.5vh;
+    border: none;
+    
+}
+.contactMe:hover{
+    background-color: #8bad9f;
+}
+
+.hamburger{
+    display: none;
+    font-size: 4vh;
+    color: #F6F6F6;
+    cursor: pointer;
+    background-color: #1c1c1c;
+
+}
+
+/* NAVIGATION BAR */
+
+.projectContainer{
+    display: flex;
+    flex-wrap: wrap;
+    
+    align-items: center;
+    justify-content: center;
+    gap: 3vh;        
+    margin-top: 10vh;
+
+}
+
+.project{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    
+
+    font: 'Rubik';
+    color: #d5e1dc;
+    text-decoration: none;
+    border: 5px solid #6D9886;
+    
+    border-radius: 25px;
+    
+    background-color: #43564E;
+    
+    
+    z-index: 1;
+    width: 35vh;
+    height: 35vh;
+
+}
+.project:hover,
+.project:hover .projectLogo, 
+.project:hover .projectLabel, 
+.project:hover .projectDescription {
+    background-color: #547768;
+}
+
+.projectLogo{
+    width:23vh;
+    background-color: #43564E;
+    
+    
+    
+}
+.projectLabel{
+    font: 'Rubik';
+    font-size: 4.5vh;
+    background-color: #43564E;
+}
+.projectDescription{
+    font: 'Rubik';
+    font-size: 2vh;
+    padding-top: 1vh;
+    background-color: #43564E;
+    color: #bfcac6;
+}
+
+.square{
+    position: fixed;
+    top: 12%;
+    left: 35%;
+    width: 3vh;
+    height: 3vh;
+    background-color: #6D9886;
+    opacity: 50%;
+    
+}
+.circle{
+    position: fixed;
+    top: 80%;
+    left:5%;
+    border-radius: 50%;
+    width: 3vh;
+    height:3vh;
+
+    background-color: #e4a691;
+    opacity: 50%;
+}
+
+.triangle{
+    position: fixed;
+    top: 95%;
+    left: 70%;
+    width: 0; /* Set width to 0 because the size is defined by borders */
+    height: 0; /* Set height to 0 */
+    border-left: 1.5vh solid transparent;
+    border-right: 1.5vh solid transparent;
+    border-bottom: 3vh solid #DCC17C;
+    opacity: 50%;
+}
+.square2{
+    position: fixed;
+    top: 70%;
+    left: 95%;
+    width: 3vh;
+    height: 3vh;
+    background-color: #2D97C9;
+    opacity: 50%;
+
+}
+.circle2{
+    position: fixed;
+    top: 30%;
+    left:97%;
+    border-radius: 50%;
+    width: 3vh;
+    height:3vh;
+
+    background-color: #dd1c1a;
+    opacity: 50%;
+
+}
+
+
+/* FOR MOBILE DEVICE */
+
+@media only screen and (max-width: 760px) {
+
+    .logo{
+        padding-left: 2vh;
+    }
+
+
+    .navigationBar {
+        width: 99%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 0;
+        
+    }
+
+    .tabs{
+        display: none;
+        position: absolute;
+        top: 8.8vh; 
+        right: 0.4vh;
+        flex-direction: column;
+        gap:2vh;
+        
+        background-color: #1c1c1c;
+        border-top: 1px solid #171717;
+        padding: 1vh;
+
+    }
+    .tabs a, .tabs button {
+        font-size: 2.5vh;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+
+    .hamburger {
+        padding-right: 2vh;
+        display: flex; 
+        align-items: center; 
+        justify-content: center;
+    }
+
+    .projectContainer{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 3vh;        
+        margin-top: 10vh;
+
+    }
+
+    .project{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        
+
+        font: 'Rubik';
+        color: #d5e1dc;
+        border-width: 5px;
+        border-radius: 25px;
+        border-color: #6D9886;
+        background-color: #43564E;
+        
+        
+        
+        width: 250px;
+        height: 250px;
+    
+    }
+    .project:hover,
+    .project:hover .projectLogo, 
+    .project:hover .projectLabel, 
+    .project:hover .projectDescription {
+        background-color: #547768;
+    }
+
+    .projectLogo{
+        width:23vh;
+        background-color: #43564E;
+        
+        
+    }
+    .projectLabel{
+        font: 'Rubik';
+        font-size: 30px;
+        background-color: #43564E;
+    }
+    .projectDescription{
+        font: 'Rubik';
+        font-size: 12px ;
+        padding-top: 1vh;
+        background-color: #43564E;
+        color: #bfcac6;
+    }
+
+    .square2{
+        left: 87%;
+    }
+    .triangle{
+        top: 59%;
+        left:40%;
+    }
+
 
 }

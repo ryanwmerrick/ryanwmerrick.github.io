@@ -310,6 +310,7 @@
     }
     .triangle{
         left: 53vh;
+        z-index: auto;
     }
     .square2{
         left: 54vh;
