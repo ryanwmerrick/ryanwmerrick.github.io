@@ -133,9 +133,9 @@
 .projectDescription{
     font: 'Rubik';
     font-size: 2vh;
-    
     background-color: #43564E;
     color: #bfcac6;
+    padding-top: 3%;
 }
 
 .square{
