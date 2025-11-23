@@ -1,0 +1,6 @@
+flask
+flask-sqlalchemy
+requests
+google-genai     
+python-dotenv
+apscheduler
