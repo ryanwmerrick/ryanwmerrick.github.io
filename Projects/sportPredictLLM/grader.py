@@ -4,6 +4,7 @@ import re
 from dotenv import load_dotenv
 from app import app
 from models import db, Pick
+import ingest
 
 load_dotenv()
 
@@ -158,7 +159,7 @@ def run_grader():
 
         # Optimization: Fetch scores once per sport
         # We use a set to know which sports we need
-        active_sports = set([p.sport for p in pending_picks])
+        active_sports= ingest.ACTIVE_SPORTS
         scores_cache = {}
         
         for sport in active_sports:

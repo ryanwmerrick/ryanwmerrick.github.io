@@ -4,3 +4,4 @@ requests
 google-genai     
 python-dotenv
 apscheduler
+psycopg2-binary #neon db

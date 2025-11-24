@@ -21,6 +21,7 @@ class Pick(db.Model):
     value_edge = db.Column(db.Float)
     rationale = db.Column(db.Text)
     
+    model= db.Column(db.String(20))
     result = db.Column(db.String(20), default="PENDING")
 
     def __repr__(self):

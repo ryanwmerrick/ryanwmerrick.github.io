@@ -1,11 +1,23 @@
+import os
 from flask import Flask, render_template
 from models import db, Pick
+import ingest
+from dotenv import load_dotenv
+from datetime import date
+
+# Load the secrets BEFORE creating the app
+load_dotenv()
 
 app = Flask(__name__)
 
-# Configures SQL database
+# LOGIC: Use the Cloud DB if available, otherwise local file
+uri = os.getenv("DATABASE_URL")  # Get the string from .env
+if uri and uri.startswith("postgres://"):
+    # Fix for some platforms that use 'postgres' instead of 'postgresql'
+    uri = uri.replace("postgres://", "postgresql://", 1)
+    
 app.config['SECRET_KEY'] = 'dev-key-secret'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///sports.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = uri or 'sqlite:///sports.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db.init_app(app)
@@ -37,7 +49,9 @@ def calculate_profit(picks):
 def index():
     # Fetch all PENDING picks for the homepage
     picks = Pick.query.filter_by(result="PENDING").order_by(Pick.date.asc()).all()
-    return render_template('index.html', picks=picks)
+    curr_Date= date.today()
+    curr_Date = curr_Date.strftime("%m/%d/%y")
+    return render_template('index.html', picks=picks, curr_Date=curr_Date)
 
 @app.route('/stats')
 def stats():
@@ -64,6 +78,13 @@ def stats():
                          win_rate=win_rate, 
                          loss_rate=loss_rate, 
                          profit=total_profit)
+
+@app.route('/about')
+def about():
+    curr_model= ingest.current_model
+    curr_sports= ingest.active_sports_names
+    curr_markets= ingest.market_names
+    return render_template("about.html", curr_model=curr_model, curr_sports= curr_sports,curr_markets=curr_markets)
 
 if __name__ == '__main__':
     with app.app_context():

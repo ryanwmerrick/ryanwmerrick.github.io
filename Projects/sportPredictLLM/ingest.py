@@ -7,7 +7,8 @@ from google import genai
 from google.genai import types
 from pydantic import BaseModel, Field
 from typing import List, Optional
-
+from datetime import datetime
+from zoneinfo import ZoneInfo
 # FLASK IMPORTS
 from app import app
 from models import db, Pick
@@ -18,6 +19,7 @@ load_dotenv()
 ODDS_API_KEY = os.getenv("ODDS_API_KEY")
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 client = genai.Client(api_key=GEMINI_API_KEY)
+current_model= "Gemini-2.0-Flash"
 
 # Sports to track
 ACTIVE_SPORTS = [
@@ -25,8 +27,12 @@ ACTIVE_SPORTS = [
     "americanfootball_nfl",
     "icehockey_nhl"
 ]
+active_sports_names=[
+    "NBA", "NFL", "NHL"
+]
 REGIONS = "us"
 MARKETS = "h2h,spreads,totals"
+market_names= ["ML", "Spreads", "Totals"]
 
 # ==========================================
 # 1. NEW PYDANTIC SCHEMAS (LIST SUPPORT)
@@ -65,11 +71,26 @@ class GameAnalysis(BaseModel):
 def get_game_odds(sport_key):
     print(f"  Fetching odds for {sport_key}...")
     url = f"https://api.the-odds-api.com/v4/sports/{sport_key}/odds"
+    
+    #PARAMETERS
+    # time parameter 
+    eastern = ZoneInfo("America/New_York")
+    now_est = datetime.now(eastern)
+    # 11:00 AM EST to 11:59PM EST (initialize in EST, convert to UTC, convert to ISO)
+    start_est = now_est.replace(hour=11, minute=0, second=0, microsecond=0)
+    end_est = now_est.replace(hour=23, minute=59, second=59, microsecond=0)
+    start_utc = start_est.astimezone(ZoneInfo("UTC"))
+    end_utc = end_est.astimezone(ZoneInfo("UTC"))
+    start_iso = start_utc.strftime('%Y-%m-%dT%H:%M:%SZ')
+    end_iso = end_utc.strftime('%Y-%m-%dT%H:%M:%SZ')
+    
     params = {
         "apiKey": ODDS_API_KEY,
         "regions": REGIONS,
         "markets": MARKETS,
-        "oddsFormat": "american"
+        "oddsFormat": "american",
+        "commenceTimeFrom": start_iso,
+        "commenceTimeTo": end_iso
     }
     try:
         response = requests.get(url, params=params)
@@ -138,7 +159,7 @@ def run_game_analysis(game_obj):
     FOCUS: Injuries, Schedule (Rest), Motivation, Head-to-Head history.
     """
     res_a = client.models.generate_content(
-        model='gemini-2.0-flash',
+        model=current_model,
         contents=prompt_a,
         config=types.GenerateContentConfig(response_mime_type='application/json', response_schema=QualitativeAnalysis)
     )
@@ -158,7 +179,7 @@ def run_game_analysis(game_obj):
     2. Total points scored? (Projected Total)
     """
     res_b = client.models.generate_content(
-        model='gemini-2.0-flash',
+        model=current_model,
         contents=prompt_b,
         config=types.GenerateContentConfig(response_mime_type='application/json', response_schema=QuantitativeAnalysis)
     )
@@ -192,7 +213,7 @@ def run_game_analysis(game_obj):
     """
     
     res_c = client.models.generate_content(
-        model='gemini-2.0-flash',
+        model=current_model,
         contents=prompt_c,
         config=types.GenerateContentConfig(response_mime_type='application/json', response_schema=GameAnalysis)
     )
@@ -265,15 +286,17 @@ def run_ingest():
         
         for bet in top_9_bets:
             new_pick = Pick(
-                sport=bet['sport'],
-                matchup=bet['matchup'],
-                market_type=bet['market_type'],
-                selection=bet['selection'],
-                price=bet['price'],
-                confidence_score=bet['confidence_score'],
-                value_edge=bet['value_edge'],
-                rationale=bet['rationale']
+                sport=bet['sport'], #type: ignore
+                matchup=bet['matchup'], #type: ignore
+                market_type=bet['market_type'], #type: ignore
+                selection=bet['selection'], #type: ignore
+                price=bet['price'], #type: ignore
+                confidence_score=bet['confidence_score'], #type: ignore
+                value_edge=bet['value_edge'], #type: ignore
+                model= current_model, #type: ignore
+                rationale=bet['rationale'] #type: ignore
             )
+
             db.session.add(new_pick)
             print(f"[SAVED TO DB] {bet['selection']} (Edge: {bet['value_edge']:.2%})")
 
