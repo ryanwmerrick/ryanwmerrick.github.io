@@ -13,26 +13,14 @@ from zoneinfo import ZoneInfo
 from app import app
 from models import db, Pick
 
+from constants import CURRENT_MODEL, CURRENT_VERSION, ACTIVE_SPORTS, REGIONS, MARKETS
 load_dotenv()
 
 # CONFIGURATION
 ODDS_API_KEY = os.getenv("ODDS_API_KEY")
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 client = genai.Client(api_key=GEMINI_API_KEY)
-current_model= "Gemini-2.0-Flash"
 
-# Sports to track
-ACTIVE_SPORTS = [
-    "basketball_nba",
-    "americanfootball_nfl",
-    "icehockey_nhl"
-]
-active_sports_names=[
-    "NBA", "NFL", "NHL"
-]
-REGIONS = "us"
-MARKETS = "h2h,spreads,totals"
-market_names= ["ML", "Spreads", "Totals"]
 
 # ==========================================
 # 1. NEW PYDANTIC SCHEMAS (LIST SUPPORT)
@@ -115,6 +103,11 @@ def format_game_data(game):
     home = game['home_team']
     away = game['away_team']
     
+    #get game time
+    raw_time = game['commence_time']
+    # Remove the 'Z' and parse
+    game_dt = datetime.fromisoformat(raw_time.replace('Z', '+00:00'))
+    
     # Gets all the bookies
     bookie = next((b for b in game['bookmakers'] if b['key'] in ['draftkings', 'fanduel', 'mgm']), game['bookmakers'][0] if game['bookmakers'] else None)
     if not bookie: return None
@@ -140,6 +133,7 @@ def format_game_data(game):
         "id": game['id'],
         "sport": game['sport_title'],
         "matchup": f"{away} @ {home}",
+        "game_time": game_dt,
         "lines_summary": " | ".join(lines)
     }
 
@@ -159,7 +153,7 @@ def run_game_analysis(game_obj):
     FOCUS: Injuries, Schedule (Rest), Motivation, Head-to-Head history.
     """
     res_a = client.models.generate_content(
-        model=current_model,
+        model=CURRENT_MODEL,
         contents=prompt_a,
         config=types.GenerateContentConfig(response_mime_type='application/json', response_schema=QualitativeAnalysis)
     )
@@ -179,7 +173,7 @@ def run_game_analysis(game_obj):
     2. Total points scored? (Projected Total)
     """
     res_b = client.models.generate_content(
-        model=current_model,
+        model=CURRENT_MODEL,
         contents=prompt_b,
         config=types.GenerateContentConfig(response_mime_type='application/json', response_schema=QuantitativeAnalysis)
     )
@@ -213,7 +207,7 @@ def run_game_analysis(game_obj):
     """
     
     res_c = client.models.generate_content(
-        model=current_model,
+        model=CURRENT_MODEL,
         contents=prompt_c,
         config=types.GenerateContentConfig(response_mime_type='application/json', response_schema=GameAnalysis)
     )
@@ -259,6 +253,7 @@ def run_ingest():
                             bet_record = {
                                 "sport": formatted_game['sport'],
                                 "matchup": formatted_game['matchup'],
+                                "game_time": formatted_game['game_time'],
                                 "market_type": bet['bet_type'],
                                 "selection": bet['selection'],
                                 "price": bet['odds'],
@@ -288,12 +283,14 @@ def run_ingest():
             new_pick = Pick(
                 sport=bet['sport'], #type: ignore
                 matchup=bet['matchup'], #type: ignore
+                game_time=bet['game_time'], #type: ignore
                 market_type=bet['market_type'], #type: ignore
                 selection=bet['selection'], #type: ignore
                 price=bet['price'], #type: ignore
                 confidence_score=bet['confidence_score'], #type: ignore
                 value_edge=bet['value_edge'], #type: ignore
-                model= current_model, #type: ignore
+                model= CURRENT_MODEL, #type: ignore
+                version= CURRENT_VERSION, #type: ignore
                 rationale=bet['rationale'] #type: ignore
             )
 

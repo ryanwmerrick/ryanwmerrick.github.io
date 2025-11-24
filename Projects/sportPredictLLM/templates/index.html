@@ -57,7 +57,7 @@
           <div class="card bet-card h-100">
             <div class="card-header d-flex justify-content-between align-items-center">
               <span>{{ pick.sport|replace('basketball_', '')|replace('americanfootball_', '')|replace('icehockey_', '')|upper }}</span>
-              <small class="text-muted">{{ pick.date.strftime('%b %d') }}</small>
+              <small class="text-muted">{{ pick.game_time | est_time }}</small>
             </div>
             
             <div class="card-body">

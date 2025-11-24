@@ -5,7 +5,9 @@ db = SQLAlchemy()
 
 class Pick(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    date = db.Column(db.DateTime, default=datetime.utcnow)
+    date = db.Column(db.DateTime, default=datetime.now)
+    
+    game_time = db.Column(db.DateTime)
     
     # Game Context
     sport = db.Column(db.String(50))
@@ -22,6 +24,7 @@ class Pick(db.Model):
     rationale = db.Column(db.Text)
     
     model= db.Column(db.String(20))
+    version= db.Column(db.String(20))
     result = db.Column(db.String(20), default="PENDING")
 
     def __repr__(self):

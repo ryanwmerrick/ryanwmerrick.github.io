@@ -1,19 +1,19 @@
 import os
 from flask import Flask, render_template
 from models import db, Pick
-import ingest
 from dotenv import load_dotenv
-from datetime import date
+from datetime import datetime, date, timedelta
+from zoneinfo import ZoneInfo # Built-in Python library (No install needed)
 
+from constants import CURRENT_MODEL, ACTIVE_SPORTS_NAMES, MARKET_NAMES
 # Load the secrets BEFORE creating the app
 load_dotenv()
 
 app = Flask(__name__)
 
 # LOGIC: Use the Cloud DB if available, otherwise local file
-uri = os.getenv("DATABASE_URL")  # Get the string from .env
+uri = os.getenv("DATABASE_URL")
 if uri and uri.startswith("postgres://"):
-    # Fix for some platforms that use 'postgres' instead of 'postgresql'
     uri = uri.replace("postgres://", "postgresql://", 1)
     
 app.config['SECRET_KEY'] = 'dev-key-secret'
@@ -22,7 +22,29 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db.init_app(app)
 
-#Calculates total profit
+# --- CUSTOM FILTER: UTC to EST (Using ZoneInfo) ---
+def format_est(value, format="%b %d @ %I:%M %p"):
+    if value is None:
+        return ""
+    
+    # Define timezones using the built-in library
+    utc = ZoneInfo("UTC")
+    est = ZoneInfo("America/New_York")
+    
+    # Check if the datetime is naive (has no timezone info)
+    if value.tzinfo is None:
+        # Assume it's UTC (because that's what datetime.utcnow() gives us)
+        value = value.replace(tzinfo=utc)
+    
+    # Convert to EST
+    local_dt = value.astimezone(est)
+    local_dt = local_dt - timedelta(minutes=10) #adjusts back 10 min for national anthem
+    return local_dt.strftime(format)
+
+# Register the filter so Jinja can use it
+app.jinja_env.filters['est_time'] = format_est
+
+# Calculates total profit
 def calculate_profit(picks):
     balance = 0
     bet_amount = 10 
@@ -32,13 +54,10 @@ def calculate_profit(picks):
             balance -= bet_amount
         elif p.result == 'WIN':
             try:
-                # Convert string odds (e.g. "+150", "-110") to integer
                 odds = float(p.price)
                 if odds > 0:
-                    # Positive Odds (e.g. +150): Profit = Bet * (Odds/100)
                     profit = bet_amount * (odds / 100)
                 else:
-                    # Negative Odds (e.g. -110): Profit = Bet * (100/abs(Odds))
                     profit = bet_amount * (100 / abs(odds))
                 balance += profit
             except:
@@ -49,9 +68,9 @@ def calculate_profit(picks):
 def index():
     # Fetch all PENDING picks for the homepage
     picks = Pick.query.filter_by(result="PENDING").order_by(Pick.date.asc()).all()
-    curr_Date= date.today()
-    curr_Date = curr_Date.strftime("%m/%d/%y")
-    return render_template('index.html', picks=picks, curr_Date=curr_Date)
+    # Get today's date for display
+    today_str = date.today().strftime("%m/%d/%y")
+    return render_template('index.html', picks=picks, curr_Date=today_str)
 
 @app.route('/stats')
 def stats():
@@ -81,10 +100,11 @@ def stats():
 
 @app.route('/about')
 def about():
-    curr_model= ingest.current_model
-    curr_sports= ingest.active_sports_names
-    curr_markets= ingest.market_names
-    return render_template("about.html", curr_model=curr_model, curr_sports= curr_sports,curr_markets=curr_markets)
+    # Pulling constants from ingest.py
+    return render_template("about.html", 
+                         curr_model=CURRENT_MODEL, 
+                         curr_sports=ACTIVE_SPORTS_NAMES, 
+                         curr_markets=MARKET_NAMES)
 
 if __name__ == '__main__':
     with app.app_context():
