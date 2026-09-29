@@ -54,7 +54,7 @@ button { cursor: pointer; }
   padding:
     max(20px, env(safe-area-inset-top))
     max(16px, env(safe-area-inset-right))
-    max(32px, env(safe-area-inset-bottom))
+    calc(112px + env(safe-area-inset-bottom))
     max(16px, env(safe-area-inset-left));
 }
 
@@ -135,7 +135,6 @@ h2 { font-size: 22px; font-weight: 700; text-transform: uppercase; letter-spacin
 #board {
   max-height: 50dvh;
   overflow-y: auto;
-  overscroll-behavior: contain;
 }
 .board-head {
   position: sticky;
@@ -197,37 +196,33 @@ h2 { font-size: 22px; font-weight: 700; text-transform: uppercase; letter-spacin
 .empty { margin: 0; padding: 24px 12px; text-align: center; color: var(--muted); }
 .empty code { font-size: 14px; }
 
-/* Log button */
-.log-wrap {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
-  margin: 24px 0 4px;
-}
+/* Log button: pinned to the bottom so it's always one tap away */
 .log {
-  width: 72px;
-  height: 72px;
+  position: fixed;
+  z-index: 5;
+  left: 50%;
+  bottom: calc(16px + env(safe-area-inset-bottom));
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 60px;
+  padding: 0 28px 0 22px;
   border: 0;
-  border-radius: 50%;
+  border-radius: 30px;
   background: var(--accent);
   color: var(--accent-text);
-  font-size: 44px;
-  font-weight: 400;
-  line-height: 1;
-  box-shadow: 0 6px 18px rgb(200 16 46 / 0.35);
+  font-family: var(--display);
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  box-shadow: 0 6px 20px rgb(200 16 46 / 0.35), 0 2px 6px rgb(0 0 0 / 0.2);
   transition: transform 0.12s ease;
 }
-.log:active { transform: scale(0.94); }
-.log span { display: block; margin-top: -4px; }
-.log-label {
-  font-family: var(--display);
-  font-weight: 600;
-  font-size: 16px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
+.log:active { transform: translateX(-50%) scale(0.96); }
+.log .plus { font-family: var(--body); font-size: 34px; font-weight: 400; line-height: 1; margin-top: -3px; }
 
 /* Results */
 .results { list-style: none; margin: 0; padding: 0; }

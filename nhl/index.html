@@ -36,11 +36,6 @@
       <div id="board" aria-live="polite"></div>
     </section>
 
-    <div class="log-wrap">
-      <button type="button" id="logBtn" class="log" aria-label="Log a game"><span aria-hidden="true">+</span></button>
-      <span class="log-label" aria-hidden="true">Log a game</span>
-    </div>
-
     <section aria-labelledby="recentTitle">
       <h2 id="recentTitle">Recent results</h2>
       <ul id="results" class="results"></ul>
@@ -60,6 +55,8 @@
     </details>
 
   </main>
+
+  <button type="button" id="logBtn" class="log"><span class="plus" aria-hidden="true">+</span>Log a game</button>
 
   <div id="sheet" class="sheet" hidden>
     <div class="scrim" data-close></div>
