@@ -42,9 +42,13 @@ export function compareGames(a, b) {
   return 0;
 }
 
-export function marginMultiplier(margin, ot) {
+// winnerGap is the winner's rating minus the loser's (with team and home bonuses).
+// The FiveThirtyEight-style factor shrinks the bonus when the favourite wins big and
+// grows it when the underdog does, so blowing out weaker players isn't a free farm.
+export function marginMultiplier(margin, ot, winnerGap = 0) {
   if (ot) return 1;
-  return Math.min(2, 1 + 0.5 * Math.log(margin));
+  const bonus = Math.min(2, 1 + 0.5 * Math.log(margin));
+  return bonus * (2.2 / Math.max(1, winnerGap * 0.001 + 2.2));
 }
 
 // Replays the full history in date order. player_a is away, player_b is home.
@@ -63,11 +67,12 @@ export function computeRatings(players, games) {
 
     const ta = g.team_a ? teams.get(g.team_a) ?? 0 : 0;
     const tb = g.team_b ? teams.get(g.team_b) ?? 0 : 0;
-    const expA = 1 / (1 + 10 ** ((b.rating + tb + HOME_ADV - (a.rating + ta)) / 400));
+    const gapA = a.rating + ta - (b.rating + tb + HOME_ADV);
+    const expA = 1 / (1 + 10 ** (-gapA / 400));
 
     const aWon = g.score_a > g.score_b;
     const sA = aWon ? (g.ot ? OT_WIN : 1) : (g.ot ? 1 - OT_WIN : 0);
-    const mult = marginMultiplier(Math.abs(g.score_a - g.score_b), g.ot);
+    const mult = marginMultiplier(Math.abs(g.score_a - g.score_b), g.ot, aWon ? gapA : -gapA);
     const delta = K * mult * (sA - expA);
 
     a.rating += delta;
