@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>NHL 27 Standings</title>
+  <meta name="description" content="1v1 NHL 27 rankings for the group.">
+  <meta name="theme-color" content="#f3f7fa" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#08111f" media="(prefers-color-scheme: dark)">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script type="module" src="app.js"></script>
+</head>
+<body>
+  <main class="wrap">
+    <header class="top">
+      <p class="kicker">NHL 27 · 1v1</p>
+      <h1>Standings</h1>
+    </header>
+
+    <section class="card" aria-label="Leaderboard">
+      <div class="seg" role="group" aria-label="Leaderboard period">
+        <button type="button" data-view="week" aria-pressed="true">This week</button>
+        <button type="button" data-view="overall" aria-pressed="false">Overall</button>
+      </div>
+      <div class="week-nav" id="weekNav">
+        <button type="button" class="arrow" id="prevWeek" aria-label="Previous week">&#8249;</button>
+        <div class="week-label">
+          <span id="weekTag">This week</span>
+          <strong id="weekRange"></strong>
+        </div>
+        <button type="button" class="arrow" id="nextWeek" aria-label="Next week">&#8250;</button>
+      </div>
+      <div id="board" aria-live="polite"></div>
+    </section>
+
+    <div class="log-wrap">
+      <button type="button" id="logBtn" class="log" aria-label="Log a game"><span aria-hidden="true">+</span></button>
+      <span class="log-label" aria-hidden="true">Log a game</span>
+    </div>
+
+    <section aria-labelledby="recentTitle">
+      <h2 id="recentTitle">Recent results</h2>
+      <ul id="results" class="results"></ul>
+      <button type="button" id="moreBtn" class="more" hidden>Show more</button>
+    </section>
+
+    <details class="how">
+      <summary>How rankings work</summary>
+      <div class="how-body">
+        <p><strong>Overall</strong> is an Elo rating. Everyone starts at 1000. Beating someone rated higher than you earns more than beating someone rated lower.</p>
+        <p><strong>Margin counts a little.</strong> A regulation win is worth more the bigger the margin (1&nbsp;+&nbsp;0.5&nbsp;×&nbsp;ln(margin), up to 2×). An OT or shootout win counts as 0.75 of a win with no margin bonus, so the loser still keeps a bit.</p>
+        <p><strong>Teams count a little too.</strong> Each NHL team has a hidden strength that moves slowly with results (max ±40 points). Winning with a team that keeps winning earns slightly less; an upset with a weaker team earns slightly more.</p>
+        <p><strong>Ranked after 5 games.</strong> Until then you're listed as not ranked yet.</p>
+        <p><strong>This week</strong> shows rating points gained Monday to Sunday, with that week's record (W-L-OTL).</p>
+        <p>Everything is recalculated from the full game history in date order, so fixing or deleting a game corrects the ratings automatically.</p>
+      </div>
+    </details>
+
+    <p class="foot"><a href="/">ryan-merrick.com</a></p>
+  </main>
+
+  <div id="sheet" class="sheet" hidden>
+    <div class="scrim" data-close></div>
+    <div class="panel" role="dialog" aria-modal="true" aria-labelledby="sheetTitle">
+      <div class="grab" aria-hidden="true"></div>
+      <header class="sheet-head">
+        <h2 id="sheetTitle">Log a game</h2>
+        <button type="button" class="x" data-close aria-label="Close">&times;</button>
+      </header>
+
+      <div class="sides">
+        <fieldset class="side">
+          <legend>Player 1</legend>
+          <div class="select"><select class="player" data-side="a" aria-label="Player 1"></select></div>
+          <div class="select"><select class="team" data-side="a" aria-label="Player 1 team"></select></div>
+          <div class="stepper">
+            <button type="button" data-side="a" data-step="-1" aria-label="Player 1 score down">&minus;</button>
+            <output id="score-a" aria-label="Player 1 score">0</output>
+            <button type="button" data-side="a" data-step="1" aria-label="Player 1 score up">+</button>
+          </div>
+        </fieldset>
+        <fieldset class="side">
+          <legend>Player 2</legend>
+          <div class="select"><select class="player" data-side="b" aria-label="Player 2"></select></div>
+          <div class="select"><select class="team" data-side="b" aria-label="Player 2 team"></select></div>
+          <div class="stepper">
+            <button type="button" data-side="b" data-step="-1" aria-label="Player 2 score down">&minus;</button>
+            <output id="score-b" aria-label="Player 2 score">0</output>
+            <button type="button" data-side="b" data-step="1" aria-label="Player 2 score up">+</button>
+          </div>
+        </fieldset>
+      </div>
+
+      <form id="newPlayer" class="new-player" hidden>
+        <label for="newName" id="newLabel">New player</label>
+        <div class="new-row">
+          <input id="newName" type="text" maxlength="40" autocomplete="off" autocapitalize="words" placeholder="Name">
+          <button type="submit" class="small">Add</button>
+          <button type="button" class="small ghost" id="cancelNew">Cancel</button>
+        </div>
+      </form>
+
+      <div class="opts">
+        <label class="check"><input type="checkbox" id="ot"><span>OT / shootout</span></label>
+        <label class="date"><span>Date</span><input type="date" id="date"></label>
+      </div>
+
+      <p id="formError" class="error" role="alert"></p>
+      <button type="button" id="saveBtn" class="primary">Save game</button>
+      <button type="button" id="deleteBtn" class="danger" hidden>Delete game</button>
+    </div>
+  </div>
+</body>
+</html>
