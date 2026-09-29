@@ -6,6 +6,8 @@ export const TEAM_K = 4;
 export const TEAM_CAP = 40;
 export const MIN_GAMES = 5;
 export const OT_WIN = 0.75;
+// Rating points added to the home player (player_b) when predicting the result.
+export const HOME_ADV = 25;
 
 const clamp = (x, lo, hi) => Math.min(hi, Math.max(lo, x));
 
@@ -43,7 +45,7 @@ export function marginMultiplier(margin, ot) {
   return Math.min(2, 1 + 0.5 * Math.log(margin));
 }
 
-// Replays the full history in date order.
+// Replays the full history in date order. player_a is away, player_b is home.
 // Returns per-player totals, hidden team strengths, and each game's rating change.
 export function computeRatings(players, games) {
   const stats = new Map(players.map((p) => [p.id, {
@@ -59,7 +61,7 @@ export function computeRatings(players, games) {
 
     const ta = g.team_a ? teams.get(g.team_a) ?? 0 : 0;
     const tb = g.team_b ? teams.get(g.team_b) ?? 0 : 0;
-    const expA = 1 / (1 + 10 ** ((b.rating + tb - (a.rating + ta)) / 400));
+    const expA = 1 / (1 + 10 ** ((b.rating + tb + HOME_ADV - (a.rating + ta)) / 400));
 
     const aWon = g.score_a > g.score_b;
     const sA = aWon ? (g.ot ? OT_WIN : 1) : (g.ot ? 1 - OT_WIN : 0);

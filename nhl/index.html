@@ -11,8 +11,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
   <!-- Bump ?v= here and in app.js imports on every change, so phones never mix a new page with cached old files. -->
-  <link rel="stylesheet" href="style.css?v=7">
-  <script type="module" src="app.js?v=7"></script>
+  <link rel="stylesheet" href="style.css?v=8">
+  <script type="module" src="app.js?v=8"></script>
 </head>
 <body>
   <main class="wrap">
@@ -49,6 +49,7 @@
         <p><strong>Overall</strong> is an Elo rating. Everyone starts at 1000. Beating someone rated higher than you earns more than beating someone rated lower.</p>
         <p><strong>Margin counts a little.</strong> A regulation win is worth more the bigger the margin (1&nbsp;+&nbsp;0.5&nbsp;×&nbsp;ln(margin), up to 2×). An OT or shootout win counts as 0.75 of a win with no margin bonus, so the loser still keeps a bit.</p>
         <p><strong>Teams count a little too.</strong> Each NHL team has a hidden strength that moves slowly with results (max ±40 points). Winning with a team that keeps winning earns slightly less; an upset with a weaker team earns slightly more.</p>
+        <p><strong>Home ice counts a little.</strong> The home player gets a 25-point edge when predicting the result, so winning at home earns slightly less and winning away earns slightly more.</p>
         <p><strong>Ranked after 5 games.</strong> Until then you're listed as not ranked yet.</p>
         <p><strong>This week</strong> shows rating points gained Monday to Sunday, with that week's record (W-L-OTL).</p>
         <p>Everything is recalculated from the full game history in date order, so fixing or deleting a game corrects the ratings automatically.</p>
@@ -70,23 +71,23 @@
 
       <div class="sides">
         <fieldset class="side">
-          <legend>Player 1</legend>
-          <div class="select"><select class="player" data-side="a" aria-label="Player 1"></select></div>
-          <div class="select"><select class="team" data-side="a" aria-label="Player 1 team"></select></div>
+          <legend>Away</legend>
+          <div class="select"><select class="player" data-side="a" aria-label="Away"></select></div>
+          <div class="select"><select class="team" data-side="a" aria-label="Away team"></select></div>
           <div class="stepper">
-            <button type="button" data-side="a" data-step="-1" aria-label="Player 1 score down">&minus;</button>
-            <output id="score-a" aria-label="Player 1 score">0</output>
-            <button type="button" data-side="a" data-step="1" aria-label="Player 1 score up">+</button>
+            <button type="button" data-side="a" data-step="-1" aria-label="Away score down">&minus;</button>
+            <output id="score-a" aria-label="Away score">0</output>
+            <button type="button" data-side="a" data-step="1" aria-label="Away score up">+</button>
           </div>
         </fieldset>
         <fieldset class="side">
-          <legend>Player 2</legend>
-          <div class="select"><select class="player" data-side="b" aria-label="Player 2"></select></div>
-          <div class="select"><select class="team" data-side="b" aria-label="Player 2 team"></select></div>
+          <legend>Home</legend>
+          <div class="select"><select class="player" data-side="b" aria-label="Home"></select></div>
+          <div class="select"><select class="team" data-side="b" aria-label="Home team"></select></div>
           <div class="stepper">
-            <button type="button" data-side="b" data-step="-1" aria-label="Player 2 score down">&minus;</button>
-            <output id="score-b" aria-label="Player 2 score">0</output>
-            <button type="button" data-side="b" data-step="1" aria-label="Player 2 score up">+</button>
+            <button type="button" data-side="b" data-step="-1" aria-label="Home score down">&minus;</button>
+            <output id="score-b" aria-label="Home score">0</output>
+            <button type="button" data-side="b" data-step="1" aria-label="Home score up">+</button>
           </div>
         </fieldset>
       </div>

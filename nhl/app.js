@@ -1,8 +1,8 @@
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
-import { SUPABASE_URL, SUPABASE_ANON_KEY } from './config.js?v=7';
+import { SUPABASE_URL, SUPABASE_ANON_KEY } from './config.js?v=8';
 import {
   computeRatings, overallTable, weeklyTable, weekStart, addDays, today, compareGames, MIN_GAMES,
-} from './rank.js?v=7';
+} from './rank.js?v=8';
 
 const TEAMS = [
   ['ANA', 'Anaheim Ducks'], ['BOS', 'Boston Bruins'], ['BUF', 'Buffalo Sabres'],
@@ -171,22 +171,17 @@ function renderResults() {
 }
 
 function resultHtml(g) {
+  // Scoreboard order: away on the left, home on the right, winner in bold.
   const aWon = g.score_a > g.score_b;
-  const w = aWon
-    ? { id: g.player_a, score: g.score_a, team: g.team_a }
-    : { id: g.player_b, score: g.score_b, team: g.team_b };
-  const l = aWon
-    ? { id: g.player_b, score: g.score_b, team: g.team_b }
-    : { id: g.player_a, score: g.score_a, team: g.team_a };
   const d = state.calc.perGame.get(g.id);
   const change = d ? signed(aWon ? d.a : d.b) : '';
-  const teams = w.team || l.team ? `${w.team || '—'} vs ${l.team || '—'}` : '';
+  const teams = g.team_a || g.team_b ? `${g.team_a || '—'} @ ${g.team_b || '—'}` : '';
   return `
     <li><button type="button" class="result" data-game="${g.id}">
       <span class="score-line">
-        <span class="p win">${esc(playerName(w.id))}</span>
-        <span class="score">${w.score}–${l.score}</span>
-        <span class="p lose">${esc(playerName(l.id))}</span>
+        <span class="p ${aWon ? 'win' : 'lose'}">${esc(playerName(g.player_a))}</span>
+        <span class="score">${g.score_a}–${g.score_b}</span>
+        <span class="p ${aWon ? 'lose' : 'win'}">${esc(playerName(g.player_b))}</span>
       </span>
       <span class="meta">
         <span>${fmtDay(g.played_on)}${teams ? ` · ${teams}` : ''}${g.ot ? ' · <span class="tag">OT</span>' : ''}</span>
@@ -275,7 +270,7 @@ function lastTeam(playerId, excludeId) {
 
 function showNewPlayer(side) {
   newSide = side;
-  $('newLabel').textContent = `New player for Player ${side === 'a' ? 1 : 2}`;
+  $('newLabel').textContent = `New ${side === 'a' ? 'away' : 'home'} player`;
   $('newPlayer').hidden = false;
   $('newName').value = '';
   $('newName').focus();
