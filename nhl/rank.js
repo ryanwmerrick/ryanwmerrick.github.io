@@ -5,6 +5,8 @@ export const K = 32;
 export const TEAM_K = 4;
 export const TEAM_CAP = 40;
 export const MIN_GAMES = 5;
+// Different opponents needed to be ranked, so nobody gets ranked by beating one friend.
+export const MIN_OPPONENTS = 3;
 export const OT_WIN = 0.75;
 // Rating points added to the home player (player_b) when predicting the result.
 export const HOME_ADV = 25;
@@ -49,7 +51,7 @@ export function marginMultiplier(margin, ot) {
 // Returns per-player totals, hidden team strengths, and each game's rating change.
 export function computeRatings(players, games) {
   const stats = new Map(players.map((p) => [p.id, {
-    id: p.id, name: p.name, rating: START, games: 0, w: 0, l: 0, otl: 0,
+    id: p.id, name: p.name, rating: START, games: 0, w: 0, l: 0, otl: 0, opponents: new Set(),
   }]));
   const teams = new Map();
   const perGame = new Map();
@@ -72,6 +74,8 @@ export function computeRatings(players, games) {
     b.rating -= delta;
     a.games++;
     b.games++;
+    a.opponents.add(b.id);
+    b.opponents.add(a.id);
     const [winner, loser] = aWon ? [a, b] : [b, a];
     winner.w++;
     if (g.ot) loser.otl++; else loser.l++;
@@ -91,10 +95,11 @@ export function computeRatings(players, games) {
 
 export function overallTable(calc) {
   const all = [...calc.stats.values()];
-  const ranked = all.filter((p) => p.games >= MIN_GAMES)
+  const isRanked = (p) => p.games >= MIN_GAMES && p.opponents.size >= MIN_OPPONENTS;
+  const ranked = all.filter(isRanked)
     .sort((x, y) => y.rating - x.rating);
-  const unranked = all.filter((p) => p.games < MIN_GAMES)
-    .sort((x, y) => y.games - x.games || x.name.localeCompare(y.name));
+  const unranked = all.filter((p) => !isRanked(p))
+    .sort((x, y) => y.games - x.games || y.opponents.size - x.opponents.size || x.name.localeCompare(y.name));
   return { ranked, unranked };
 }
 

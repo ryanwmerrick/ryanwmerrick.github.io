@@ -1,8 +1,8 @@
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
-import { SUPABASE_URL, SUPABASE_ANON_KEY } from './config.js?v=8';
+import { SUPABASE_URL, SUPABASE_ANON_KEY } from './config.js?v=9';
 import {
-  computeRatings, overallTable, weeklyTable, weekStart, addDays, today, compareGames, MIN_GAMES,
-} from './rank.js?v=8';
+  computeRatings, overallTable, weeklyTable, weekStart, addDays, today, compareGames, MIN_GAMES, MIN_OPPONENTS,
+} from './rank.js?v=9';
 
 const TEAMS = [
   ['ANA', 'Anaheim Ducks'], ['BOS', 'Boston Bruins'], ['BUF', 'Buffalo Sabres'],
@@ -142,10 +142,10 @@ function overallHtml() {
     ? headHtml('Rating') + `<ol class="board">${ranked
       .map((r, i) => rowHtml(i + 1, r, Math.round(r.rating)))
       .join('')}</ol>`
-    : `<p class="empty">Nobody has ${MIN_GAMES} games yet.</p>`;
+    : '<p class="empty">Nobody is ranked yet.</p>';
   if (unranked.length) {
     html += `<p class="sub">Not ranked yet</p><ul class="pending">${unranked
-      .map((r) => `<li><span>${esc(r.name)}</span><span>${r.games}/${MIN_GAMES} games</span></li>`)
+      .map((r) => `<li><span>${esc(r.name)}</span><span>${Math.min(r.games, MIN_GAMES)}/${MIN_GAMES} games · ${Math.min(r.opponents.size, MIN_OPPONENTS)}/${MIN_OPPONENTS} opponents</span></li>`)
       .join('')}</ul>`;
   }
   return html;
