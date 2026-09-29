@@ -131,7 +131,16 @@ h2 { font-size: 22px; font-weight: 700; text-transform: uppercase; letter-spacin
 .week-label strong { font-family: var(--display); font-size: 20px; font-weight: 600; }
 
 /* Leaderboard */
+#board {
+  max-height: 50dvh;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
 .board-head {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: var(--surface);
   display: flex;
   justify-content: space-between;
   padding: 10px 12px 4px;
