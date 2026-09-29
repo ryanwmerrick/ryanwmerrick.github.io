@@ -316,8 +316,6 @@ h2 { font-size: 22px; font-weight: 700; text-transform: uppercase; letter-spacin
 .how-body strong { color: var(--text); }
 .how-body p { margin: 0 0 12px; }
 
-.foot { text-align: center; font-size: 13px; margin-top: 24px; }
-.foot a { color: var(--muted); }
 
 /* Bottom sheet */
 .sheet { position: fixed; inset: 0; z-index: 10; }
