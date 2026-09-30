@@ -11,14 +11,19 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
   <!-- Bump ?v= here and in app.js imports on every change, so phones never mix a new page with cached old files. -->
-  <link rel="stylesheet" href="style.css?v=11">
-  <script type="module" src="app.js?v=11"></script>
+  <link rel="stylesheet" href="style.css?v=12">
+  <script type="module" src="app.js?v=12"></script>
 </head>
 <body>
   <main class="wrap">
     <header class="top">
-      <p class="kicker">NHL 27 · 1v1</p>
-      <h1>Standings</h1>
+      <div>
+        <p class="kicker">NHL 27 · 1v1</p>
+        <h1>Standings</h1>
+      </div>
+      <button type="button" id="leagueBtn" class="icon-btn" aria-label="League stats">
+        <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path d="M5 20V11M12 20V4M19 20v-6" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>
+      </button>
     </header>
 
     <section class="card" aria-label="Leaderboard">
@@ -56,7 +61,6 @@
         <p><strong>Ranked after 5 games against at least 3 different opponents.</strong> Until then you're listed as not ranked yet, with your progress shown. Your rating still counts from your first game; this only decides who appears on the Overall leaderboard.</p>
         <p><strong>This week</strong> shows rating points gained Monday to Sunday, with that week's record (W-L-OTL).</p>
         <p>Everything is recalculated from the full game history in date order, so fixing or deleting a game corrects the ratings automatically.</p>
-        <p class="change"><strong>Rule change, Sep 29, 2026:</strong> team tiers replaced the old learned team strengths, which barely moved because everyone picks strong teams from their three rolls. All past games were recalculated with the tiers, so some ratings shifted by a few points.</p>
       </div>
     </details>
 
@@ -64,7 +68,20 @@
 
   <button type="button" id="logBtn" class="log"><span class="plus" aria-hidden="true">+</span>Log a game</button>
 
-  <div id="sheet" class="sheet" hidden>
+  <div id="panel" class="sheet" hidden>
+    <div class="scrim" data-close-panel></div>
+    <div class="panel tall" role="dialog" aria-modal="true" aria-labelledby="panelTitle">
+      <div class="grab" aria-hidden="true"></div>
+      <header class="sheet-head">
+        <button type="button" class="back" id="panelBack" aria-label="Back" hidden>&#8249;</button>
+        <h2 id="panelTitle"></h2>
+        <button type="button" class="x" data-close-panel aria-label="Close">&times;</button>
+      </header>
+      <div id="panelBody"></div>
+    </div>
+  </div>
+
+  <div id="sheet" class="sheet sheet-top" hidden>
     <div class="scrim" data-close></div>
     <div class="panel" role="dialog" aria-modal="true" aria-labelledby="sheetTitle">
       <div class="grab" aria-hidden="true"></div>

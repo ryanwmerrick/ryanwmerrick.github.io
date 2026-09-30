@@ -62,10 +62,12 @@ export function marginMultiplier(margin, ot, winnerGap = 0) {
 }
 
 // Replays the full history in date order. player_a is away, player_b is home.
-// Returns per-player totals and each game's rating change.
+// Returns per-player totals and rating history, and each game's rating change,
+// the away player's pre-game win chance, and both ratings after the game.
 export function computeRatings(players, games) {
   const stats = new Map(players.map((p) => [p.id, {
     id: p.id, name: p.name, rating: START, games: 0, w: 0, l: 0, otl: 0, opponents: new Set(),
+    history: [], peak: START,
   }]));
   const perGame = new Map();
 
@@ -92,7 +94,12 @@ export function computeRatings(players, games) {
     winner.w++;
     if (g.ot) loser.otl++; else loser.l++;
 
-    perGame.set(g.id, { a: delta, b: -delta });
+    a.history.push({ id: g.id, played_on: g.played_on, rating: a.rating });
+    b.history.push({ id: g.id, played_on: g.played_on, rating: b.rating });
+    a.peak = Math.max(a.peak, a.rating);
+    b.peak = Math.max(b.peak, b.rating);
+
+    perGame.set(g.id, { a: delta, b: -delta, expA, ratingA: a.rating, ratingB: b.rating });
   }
 
   return { stats, perGame };
@@ -131,4 +138,9 @@ export function weeklyTable(calc, games, monday) {
   }
 
   return [...rows.values()].sort((x, y) => y.points - x.points || y.w - x.w);
+}
+
+// Win chance for `a` against `b` on neutral ice with no team bonus.
+export function winChance(ratingA, ratingB) {
+  return 1 / (1 + 10 ** ((ratingB - ratingA) / 400));
 }

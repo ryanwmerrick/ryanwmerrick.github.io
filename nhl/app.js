@@ -1,8 +1,9 @@
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
-import { SUPABASE_URL, SUPABASE_ANON_KEY } from './config.js?v=11';
+import { SUPABASE_URL, SUPABASE_ANON_KEY } from './config.js?v=12';
 import {
-  computeRatings, overallTable, weeklyTable, weekStart, addDays, today, compareGames, MIN_GAMES, MIN_OPPONENTS, TEAM_TIERS, TIER_BONUS,
-} from './rank.js?v=11';
+  computeRatings, overallTable, weeklyTable, weekStart, addDays, today, compareGames, MIN_GAMES, MIN_OPPONENTS, TEAM_TIERS, TIER_BONUS, winChance,
+} from './rank.js?v=12';
+import { playerStats, headToHead, leagueStats, winPct, games as gameCount } from './stats.js?v=12';
 
 const TEAMS = [
   ['ANA', 'Anaheim Ducks'], ['BOS', 'Boston Bruins'], ['BUF', 'Buffalo Sabres'],
@@ -18,6 +19,7 @@ const TEAMS = [
   ['WSH', 'Washington Capitals'], ['WPG', 'Winnipeg Jets'],
 ];
 const MAX_SCORE = 30;
+const PENCIL = '<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16v4zM14 6l4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>';
 const PAGE = 15;
 
 const $ = (id) => document.getElementById(id);
@@ -46,6 +48,8 @@ const state = {
 };
 let form = null;
 let newSide = null;
+// Stack of open stat views, so Back returns to the previous one.
+let panel = [];
 
 // ---------- Data ----------
 
@@ -66,6 +70,7 @@ async function load() {
   state.loaded = true;
   render();
   if (form) fillPlayerOptions();
+  if (panel.length) renderPanel();
 }
 
 let reloadTimer;
@@ -119,11 +124,11 @@ function renderWeekNav() {
 }
 
 const rowHtml = (rank, r, val, cls = '') => `
-  <li class="row">
+  <li><button type="button" class="row" data-player="${r.id}">
     <span class="rank">${rank}</span>
     <span class="who"><span class="name">${esc(r.name)}</span><span class="rec">${record(r)}</span></span>
     <span class="val ${cls}">${val}</span>
-  </li>`;
+  </button></li>`;
 
 const headHtml = (right) => `<div class="board-head"><span>Player · W-L-OTL</span><span>${right}</span></div>`;
 
@@ -135,6 +140,8 @@ function weekHtml() {
     .join('')}</ol>`;
 }
 
+const progress = (r) => `${Math.min(r.games, MIN_GAMES)}/${MIN_GAMES} games · ${Math.min(r.opponents.size, MIN_OPPONENTS)}/${MIN_OPPONENTS} opponents`;
+
 function overallHtml() {
   const { ranked, unranked } = overallTable(state.calc);
   if (!ranked.length && !unranked.length) return '<p class="empty">No players yet. Log a game to get started.</p>';
@@ -145,7 +152,7 @@ function overallHtml() {
     : '<p class="empty">Nobody is ranked yet.</p>';
   if (unranked.length) {
     html += `<p class="sub">Not ranked yet</p><ul class="pending">${unranked
-      .map((r) => `<li><span>${esc(r.name)}</span><span>${Math.min(r.games, MIN_GAMES)}/${MIN_GAMES} games · ${Math.min(r.opponents.size, MIN_OPPONENTS)}/${MIN_OPPONENTS} opponents</span></li>`)
+      .map((r) => `<li><button type="button" data-player="${r.id}"><span>${esc(r.name)}</span><span>${progress(r)}</span></button></li>`)
       .join('')}</ul>`;
   }
   return html;
@@ -176,18 +183,22 @@ function resultHtml(g) {
   const d = state.calc.perGame.get(g.id);
   const change = d ? signed(aWon ? d.a : d.b) : '';
   const teams = g.team_a || g.team_b ? `${g.team_a || '—'} @ ${g.team_b || '—'}` : '';
+  // Tapping the card opens the matchup; the pencil edits the game.
   return `
-    <li><button type="button" class="result" data-game="${g.id}">
-      <span class="score-line">
-        <span class="p ${aWon ? 'win' : 'lose'}">${esc(playerName(g.player_a))}</span>
-        <span class="score">${g.score_a}–${g.score_b}</span>
-        <span class="p ${aWon ? 'lose' : 'win'}">${esc(playerName(g.player_b))}</span>
-      </span>
-      <span class="meta">
-        <span>${fmtDay(g.played_on)}${teams ? ` · ${teams}` : ''}${g.ot ? ' · <span class="tag">OT</span>' : ''}</span>
-        <span>${change}</span>
-      </span>
-    </button></li>`;
+    <li class="result-card">
+      <button type="button" class="result" data-h2h="${g.player_a}|${g.player_b}" aria-label="${esc(playerName(g.player_a))} vs ${esc(playerName(g.player_b))} matchup">
+        <span class="score-line">
+          <span class="p ${aWon ? 'win' : 'lose'}">${esc(playerName(g.player_a))}</span>
+          <span class="score">${g.score_a}–${g.score_b}</span>
+          <span class="p ${aWon ? 'lose' : 'win'}">${esc(playerName(g.player_b))}</span>
+        </span>
+        <span class="meta">
+          <span>${fmtDay(g.played_on)}${teams ? ` · ${teams}` : ''}${g.ot ? ' · <span class="tag">OT</span>' : ''}</span>
+          <span>${change}</span>
+        </span>
+      </button>
+      <button type="button" class="edit" data-edit="${g.id}" aria-label="Edit game">${PENCIL}</button>
+    </li>`;
 }
 
 // ---------- Sheet ----------
@@ -219,7 +230,8 @@ function syncForm() {
   $('date').value = form.date;
 }
 
-function openSheet(game) {
+// `prefill` starts a new game with players and teams already picked (used for rematches).
+function openSheet(game, prefill = null) {
   form = game
     ? {
       id: game.id,
@@ -230,8 +242,8 @@ function openSheet(game) {
     }
     : {
       id: null,
-      a: { player: '', team: '', score: 0 },
-      b: { player: '', team: '', score: 0 },
+      a: { player: prefill?.a ?? '', team: prefill?.a ? lastTeam(prefill.a) : '', score: 0 },
+      b: { player: prefill?.b ?? '', team: prefill?.b ? lastTeam(prefill.b) : '', score: 0 },
       ot: false,
       date: today(),
     };
@@ -243,18 +255,29 @@ function openSheet(game) {
   fillPlayerOptions();
 
   const sheet = $('sheet');
-  sheet.hidden = false;
-  document.body.style.overflow = 'hidden';
-  sheet.offsetHeight; // commit the start position so the slide-in animates
-  sheet.classList.add('open');
+  slideIn(sheet);
 }
 
 function closeSheet() {
-  const sheet = $('sheet');
-  sheet.classList.remove('open');
-  document.body.style.overflow = '';
   form = null;
-  setTimeout(() => { if (!form) sheet.hidden = true; }, 280);
+  slideOut($('sheet'), () => !form);
+}
+
+function slideIn(el) {
+  el.hidden = false;
+  el.offsetHeight; // commit the start position so the slide-in animates
+  el.classList.add('open');
+  lockScroll();
+}
+
+function slideOut(el, stillClosed) {
+  el.classList.remove('open');
+  lockScroll();
+  setTimeout(() => { if (stillClosed()) el.hidden = true; }, 280);
+}
+
+function lockScroll() {
+  document.body.style.overflow = form || panel.length ? 'hidden' : '';
 }
 
 // Team the player used most recently, ignoring the game being edited.
@@ -366,17 +389,47 @@ $('logBtn').addEventListener('click', () => {
   if (!configured) return alert('Connect Supabase in config.js first.');
   openSheet(null);
 });
-$('results').addEventListener('click', (e) => {
-  const btn = e.target.closest('[data-game]');
-  const game = btn && state.games.find((g) => g.id === btn.dataset.game);
-  if (game) openSheet(game);
+// Players, matchups and edit buttons appear in the standings, results and stat panels.
+document.addEventListener('click', (e) => {
+  const edit = e.target.closest('[data-edit]');
+  if (edit) {
+    const game = state.games.find((g) => g.id === edit.dataset.edit);
+    if (game) openSheet(game);
+    return;
+  }
+  const h2h = e.target.closest('[data-h2h]');
+  if (h2h) {
+    const [x, y] = h2h.dataset.h2h.split('|');
+    openPanel({ type: 'h2h', x, y });
+    return;
+  }
+  const player = e.target.closest('[data-player]');
+  if (player) {
+    openPanel({ type: 'player', id: player.dataset.player });
+    return;
+  }
+  const rematch = e.target.closest('[data-rematch]');
+  if (rematch) {
+    const [a, b] = rematch.dataset.rematch.split('|');
+    openSheet(null, { a, b });
+  }
+});
+$('leagueBtn').addEventListener('click', () => { if (state.loaded) openPanel({ type: 'league' }); });
+$('panel').addEventListener('click', (e) => {
+  if (e.target.closest('[data-close-panel]')) closePanel();
+});
+$('panelBack').addEventListener('click', () => {
+  panel.pop();
+  renderPanel();
 });
 
 $('sheet').addEventListener('click', (e) => {
   if (e.target.closest('[data-close]')) closeSheet();
 });
 document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape' && form) closeSheet();
+  if (e.key !== 'Escape') return;
+  if (form) closeSheet();
+  else if (panel.length) closePanel();
 });
 
 document.querySelectorAll('select.player').forEach((s) => s.addEventListener('change', () => {
@@ -406,6 +459,283 @@ $('newPlayer').addEventListener('submit', (e) => { e.preventDefault(); addPlayer
 $('cancelNew').addEventListener('click', hideNewPlayer);
 $('saveBtn').addEventListener('click', save);
 $('deleteBtn').addEventListener('click', remove);
+
+// ---------- Stat panels ----------
+
+function openPanel(view) {
+  const wasOpen = panel.length > 0;
+  if (JSON.stringify(panel.at(-1)) !== JSON.stringify(view)) panel.push(view);
+  if (!wasOpen) slideIn($('panel'));
+  renderPanel();
+}
+
+function closePanel() {
+  panel = [];
+  slideOut($('panel'), () => !panel.length);
+}
+
+function renderPanel() {
+  const view = panel.at(-1);
+  if (!view || !state.calc) return;
+  $('panelBack').hidden = panel.length < 2;
+  const body = $('panelBody');
+  const known = (id) => state.calc.stats.has(id);
+  if (view.type === 'player' && known(view.id)) {
+    $('panelTitle').textContent = playerName(view.id);
+    body.innerHTML = playerHtml(view.id);
+    mountChart(body.querySelector('.chart'), view.id);
+  } else if (view.type === 'h2h' && known(view.x) && known(view.y)) {
+    $('panelTitle').textContent = `${playerName(view.x)} vs ${playerName(view.y)}`;
+    body.innerHTML = h2hHtml(view.x, view.y);
+  } else if (view.type === 'league') {
+    $('panelTitle').textContent = 'League stats';
+    body.innerHTML = leagueHtml();
+  } else {
+    body.innerHTML = '<p class="empty">Nothing to show.</p>';
+  }
+  body.closest('.panel').scrollTop = 0;
+}
+
+const pct = (x) => `${Math.round(x * 100)}%`;
+const perGame = (x, n) => (n ? (x / n).toFixed(1) : '0.0');
+const tile = (val, label) => `<div class="tile"><span class="tile-val">${val}</span><span class="tile-label">${label}</span></div>`;
+const kv = (label, val) => `<div class="kv"><span>${label}</span><span>${val}</span></div>`;
+const section = (title, inner) => `<h3 class="panel-h">${title}</h3>${inner}`;
+const scoreVs = (s) => `${s.us}–${s.them} vs ${esc(playerName(s.opp))} · ${fmtDay(s.game.played_on)}`;
+const teamName = (abbr) => TEAMS.find(([a]) => a === abbr)?.[1] ?? abbr;
+const streakText = (st) => (st ? `${st.won ? 'W' : 'L'}${st.n}` : '—');
+const resultsList = (gs) => `<ul class="results">${gs.map(resultHtml).join('')}</ul>`;
+
+function playerHtml(id) {
+  const ps = playerStats(state.calc, state.games, id);
+  const p = ps.player;
+  const { ranked } = overallTable(state.calc);
+  const rank = ranked.findIndex((r) => r.id === id);
+  const standing = rank >= 0
+    ? `#${rank + 1} of ${ranked.length} ranked`
+    : `Not ranked yet<br>${progress(p)}`;
+
+  let html = `
+    <div class="hero">
+      <div><span class="hero-num">${Math.round(p.rating)}</span><span class="hero-label">Rating</span></div>
+      <div class="hero-side">${standing}<br>Peak ${Math.round(p.peak)}</div>
+    </div>`;
+  if (!p.games) return html + '<p class="empty">No games yet.</p>';
+
+  const rec = ps.record;
+  html += `<div class="tiles">
+    ${tile(record(rec), 'W-L-OTL')}
+    ${tile(pct(winPct(rec)), 'Win %')}
+    ${tile(p.games, 'Games')}
+    ${tile(perGame(ps.gf, p.games), 'Goals for / gm')}
+    ${tile(perGame(ps.ga, p.games), 'Goals against / gm')}
+    ${tile(signed(ps.gf - ps.ga), 'Goal diff')}
+    ${tile(streakText(ps.current), 'Streak')}
+    ${tile(ps.longest, 'Best win streak')}
+    ${tile(signed(ps.weekPts), 'This week')}
+  </div>`;
+
+  html += section('Rating', '<div class="chart"></div>');
+
+  html += section('Splits', `<div class="kvs">
+    ${kv('Home', record(ps.home))}
+    ${kv('Away', record(ps.away))}
+    ${kv('OT / shootout', `${ps.ot.w}-${ps.ot.l}`)}
+    ${ps.favTeam && gameCount(ps.favTeam) > 1 ? kv('Most-used team', `${esc(teamName(ps.favTeam.abbr))} · ${record(ps.favTeam)}`) : ''}
+    ${ps.biggestWin ? kv('Biggest win', scoreVs(ps.biggestWin)) : ''}
+    ${ps.worstLoss ? kv('Worst loss', scoreVs(ps.worstLoss)) : ''}
+  </div>`);
+
+  html += section('Vs opponents', `<ul class="opps">${ps.opponents.map((o) => `
+    <li><button type="button" data-h2h="${id}|${o.id}">
+      <span class="name">${esc(playerName(o.id))}</span>
+      <span class="rec">${record(o)}</span>
+      <span class="elo ${o.elo < 0 ? 'neg' : ''}">${signed(o.elo)}</span>
+    </button></li>`).join('')}</ul>
+    <p class="hint">Record and Elo won or lost against each opponent. Tap for the full matchup.</p>`);
+
+  html += section('Recent games', resultsList(ps.sides.slice(-10).reverse().map((s) => s.game)));
+  return html;
+}
+
+function h2hHtml(x, y) {
+  const h = headToHead(state.calc, state.games, x, y);
+  const nx = esc(playerName(x));
+  const ny = esc(playerName(y));
+  if (!h.meetings.length) return '<p class="empty">These two haven\'t played yet.</p>';
+
+  const lead = h.recX.w === h.recY.w ? 'Series tied'
+    : `${h.recX.w > h.recY.w ? nx : ny} leads the series`;
+  const n = h.meetings.length;
+  const rx = state.calc.stats.get(x).rating;
+  const ry = state.calc.stats.get(y).rating;
+  const chanceX = winChance(rx, ry);
+  // Home records from each player's side (x's away games are y's home games).
+  const homeX = { w: 0, l: 0, otl: 0 };
+  const homeY = { w: 0, l: 0, otl: 0 };
+  for (const s of h.sides) {
+    const [rec, won] = s.home ? [homeX, s.won] : [homeY, !s.won];
+    if (won) rec.w++;
+    else if (s.ot) rec.otl++;
+    else rec.l++;
+  }
+  const last = h.meetings.at(-1);
+  const streak = h.streak ? `${h.streak.won ? nx : ny} W${h.streak.n}` : '—';
+  const swing = Math.round(h.eloX) === 0 ? 'Even'
+    : `${h.eloX > 0 ? nx : ny} +${Math.round(Math.abs(h.eloX))}`;
+
+  let html = `
+    <div class="series">
+      <div class="series-side"><span class="name">${nx}</span><span class="rec">${record(h.recX)}</span></div>
+      <div class="series-score">${h.recX.w}<span>–</span>${h.recY.w}</div>
+      <div class="series-side"><span class="name">${ny}</span><span class="rec">${record(h.recY)}</span></div>
+    </div>
+    <p class="series-lead">${lead}</p>
+    <div class="tiles">
+      ${tile(n, 'Games')}
+      ${tile(`${h.goalsX}–${h.goalsY}`, 'Goals')}
+      ${tile(`${perGame(h.goalsX, n)}–${perGame(h.goalsY, n)}`, 'Avg score')}
+      ${tile(h.otGames, 'OT games')}
+      ${tile(streak, 'Streak')}
+      ${tile(swing, 'Elo swing')}
+    </div>`;
+
+  html += section('Details', `<div class="kvs">
+    ${gameCount(homeX) ? kv(`${nx} at home`, record(homeX)) : ''}
+    ${gameCount(homeY) ? kv(`${ny} at home`, record(homeY)) : ''}
+    ${h.bestX ? kv(`${nx}'s biggest win`, `${h.bestX.us}–${h.bestX.them} · ${fmtDay(h.bestX.game.played_on)}`) : ''}
+    ${h.bestY ? kv(`${ny}'s biggest win`, `${h.bestY.them}–${h.bestY.us} · ${fmtDay(h.bestY.game.played_on)}`) : ''}
+    ${kv('If they played now', `${nx} ${pct(chanceX)} · ${ny} ${pct(1 - chanceX)}`)}
+  </div>
+  <p class="hint">"If they played now" uses current ratings on neutral ice, with no team bonus.</p>`);
+
+  html += `<button type="button" class="secondary" data-rematch="${last.player_a}|${last.player_b}">Log a rematch</button>`;
+  html += section('All games', resultsList([...h.meetings].reverse()));
+  return html;
+}
+
+function leagueHtml() {
+  const L = leagueStats(state.calc, state.games);
+  if (!L.games) return '<p class="empty">No games yet.</p>';
+  const gameLine = (g) => `${esc(playerName(g.player_a))} ${g.score_a}–${g.score_b} ${esc(playerName(g.player_b))} · ${fmtDay(g.played_on)}`;
+  const link = (g, text) => `<button type="button" class="kv-link" data-h2h="${g.player_a}|${g.player_b}">${text}</button>`;
+
+  let html = `<div class="tiles">
+    ${tile(L.games, 'Games')}
+    ${tile(L.players, 'Players')}
+    ${tile(L.goals, 'Goals')}
+    ${tile(perGame(L.goals, L.games), 'Goals / game')}
+    ${tile(pct(L.ot / L.games), 'Went to OT')}
+    ${tile(pct(L.homeWins / L.games), 'Home wins')}
+  </div>
+  <p class="hint">The rankings give home ice a small edge (about 54% between equal players). The home-win rate shows how that's holding up.</p>`;
+
+  const upset = L.upset && L.upset.chance < 0.5 ? L.upset : null;
+  html += section('Records', `<div class="kvs">
+    ${L.peak ? kv('Highest rating', `${esc(L.peak.player.name)} · ${Math.round(L.peak.rating)} · ${fmtDay(L.peak.played_on)}`) : ''}
+    ${L.streak ? kv('Longest win streak', `${esc(L.streak.player.name)} · ${L.streak.n}`) : ''}
+    ${L.mostGames ? kv('Most games', `${esc(L.mostGames.name)} · ${L.mostGames.games}`) : ''}
+    ${kv('Biggest blowout', link(L.blowout, gameLine(L.blowout)))}
+    ${kv('Highest-scoring game', link(L.shootout, gameLine(L.shootout)))}
+    ${upset ? kv('Biggest upset', link(upset.game, `${gameLine(upset.game)} · winner had a ${pct(upset.chance)} chance`)) : ''}
+    ${L.rivalry ? kv('Busiest rivalry', `<button type="button" class="kv-link" data-h2h="${L.rivalry.ids[0]}|${L.rivalry.ids[1]}">${esc(playerName(L.rivalry.ids[0]))} vs ${esc(playerName(L.rivalry.ids[1]))} · ${L.rivalry.games} games</button>`) : ''}
+  </div>`);
+
+  html += section('Team tiers', `<table class="stat-table">
+    <thead><tr><th>Tier</th><th>Picks</th><th>Win %</th></tr></thead>
+    <tbody>${L.tiers.map((t) => `<tr><td>Tier ${t.tier}</td><td>${t.picks}</td><td>${t.picks ? pct(t.w / t.picks) : '—'}</td></tr>`).join('')}</tbody>
+  </table>
+  <p class="hint">How often a player using a team in each tier won.</p>`);
+
+  html += section('Most-used teams', `<table class="stat-table">
+    <thead><tr><th>Team</th><th>Picks</th><th>Wins</th></tr></thead>
+    <tbody>${L.teams.slice(0, 8).map((t) => `<tr><td>${esc(teamName(t.abbr))}</td><td>${t.picks}</td><td>${t.w}</td></tr>`).join('')}</tbody>
+  </table>`);
+  return html;
+}
+
+// Rating after each game, starting from 1000. Hover, tap or arrow keys show each point.
+function mountChart(el, id) {
+  if (!el) return;
+  const p = state.calc.stats.get(id);
+  const pts = [{ rating: 1000, label: 'Start' }, ...p.history.map((h) => {
+    const g = state.games.find((x) => x.id === h.id);
+    const s = g.player_a === id
+      ? { us: g.score_a, them: g.score_b, opp: g.player_b }
+      : { us: g.score_b, them: g.score_a, opp: g.player_a };
+    return { rating: h.rating, label: `${fmtDay(h.played_on)} · ${s.us > s.them ? 'W' : 'L'} ${s.us}–${s.them} vs ${playerName(s.opp)}` };
+  })];
+  if (pts.length < 2) {
+    el.innerHTML = '<p class="hint">Play a game to start the chart.</p>';
+    return;
+  }
+
+  const W = Math.max(260, el.clientWidth);
+  const H = 140;
+  const pad = { l: 8, r: 44, t: 14, b: 14 };
+  const vals = pts.map((d) => d.rating);
+  const lo = Math.min(1000, ...vals) - 10;
+  const hi = Math.max(1000, ...vals) + 10;
+  const x = (i) => pad.l + (i * (W - pad.l - pad.r)) / (pts.length - 1);
+  const y = (v) => pad.t + ((hi - v) * (H - pad.t - pad.b)) / (hi - lo);
+  const path = pts.map((d, i) => `${i ? 'L' : 'M'}${x(i).toFixed(1)},${y(d.rating).toFixed(1)}`).join('');
+  const lastI = pts.length - 1;
+
+  el.innerHTML = `
+    <svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" tabindex="0" role="img"
+      aria-label="Rating after each game, from 1000 to ${Math.round(vals[lastI])}. Use arrow keys to step through games.">
+      <line class="base" x1="${pad.l}" x2="${W - pad.r}" y1="${y(1000)}" y2="${y(1000)}"/>
+      <text class="axis" x="${W - pad.r + 6}" y="${y(1000) + 4}">1000</text>
+      <path class="line" d="${path}"/>
+      <text class="end" x="${W - pad.r + 6}" y="${y(vals[lastI]) + 4}">${Math.round(vals[lastI])}</text>
+      <line class="hair" y1="${pad.t - 6}" y2="${H - pad.b + 6}" visibility="hidden"/>
+      <circle class="dot" r="4" visibility="hidden"/>
+      <rect class="hit" x="0" y="0" width="${W}" height="${H}"/>
+    </svg>
+    <div class="tip" hidden><strong></strong><span></span></div>`;
+
+  const svg = el.querySelector('svg');
+  const hair = svg.querySelector('.hair');
+  const dot = svg.querySelector('.dot');
+  const tip = el.querySelector('.tip');
+  let cur = null;
+  const show = (i) => {
+    cur = Math.max(0, Math.min(lastI, i));
+    const cx = x(cur);
+    const cy = y(pts[cur].rating);
+    hair.setAttribute('x1', cx);
+    hair.setAttribute('x2', cx);
+    dot.setAttribute('cx', cx);
+    dot.setAttribute('cy', cy);
+    hair.setAttribute('visibility', 'visible');
+    dot.setAttribute('visibility', 'visible');
+    tip.hidden = false;
+    tip.querySelector('strong').textContent = Math.round(pts[cur].rating);
+    tip.querySelector('span').textContent = pts[cur].label;
+    const tw = tip.offsetWidth;
+    tip.style.left = `${Math.max(0, Math.min(W - tw, cx - tw / 2))}px`;
+  };
+  const hide = () => {
+    cur = null;
+    hair.setAttribute('visibility', 'hidden');
+    dot.setAttribute('visibility', 'hidden');
+    tip.hidden = true;
+  };
+  const nearest = (e) => {
+    const r = svg.getBoundingClientRect();
+    const px = ((e.clientX - r.left) / r.width) * W;
+    return Math.round(((px - pad.l) / (W - pad.l - pad.r)) * lastI);
+  };
+  svg.addEventListener('pointermove', (e) => show(nearest(e)));
+  svg.addEventListener('pointerdown', (e) => show(nearest(e)));
+  svg.addEventListener('pointerleave', (e) => { if (e.pointerType === 'mouse') hide(); });
+  svg.addEventListener('focus', () => show(lastI));
+  svg.addEventListener('blur', hide);
+  svg.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft') { show((cur ?? lastI) - 1); e.preventDefault(); }
+    if (e.key === 'ArrowRight') { show((cur ?? lastI) + 1); e.preventDefault(); }
+  });
+}
 
 function renderTiers() {
   const html = [1, 2, 3, 4].map((t) => {
