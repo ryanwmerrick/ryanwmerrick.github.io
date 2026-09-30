@@ -1,7 +1,7 @@
 // Stats for the player, head-to-head and league panels. Pure functions over the
 // games list and the output of computeRatings, so it can be tested outside the browser.
 
-import { compareGames, TEAM_TIERS, weekStart, today } from './rank.js?v=14';
+import { compareGames, TEAM_TIERS, weekStart, today } from './rank.js?v=15';
 
 const emptyRec = () => ({ w: 0, l: 0, otl: 0 });
 

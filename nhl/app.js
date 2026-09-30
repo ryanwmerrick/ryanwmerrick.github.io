@@ -1,9 +1,9 @@
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
-import { SUPABASE_URL, SUPABASE_ANON_KEY } from './config.js?v=14';
+import { SUPABASE_URL, SUPABASE_ANON_KEY } from './config.js?v=15';
 import {
   computeRatings, overallTable, weeklyTable, weekStart, addDays, today, compareGames, MIN_GAMES, MIN_OPPONENTS, TEAM_TIERS, TIER_BONUS, winChance,
-} from './rank.js?v=14';
-import { playerStats, headToHead, leagueStats, winPct, games as gameCount } from './stats.js?v=14';
+} from './rank.js?v=15';
+import { playerStats, headToHead, leagueStats, winPct, games as gameCount } from './stats.js?v=15';
 
 const TEAMS = [
   ['ANA', 'Anaheim Ducks'], ['BOS', 'Boston Bruins'], ['BUF', 'Buffalo Sabres'],
@@ -196,8 +196,9 @@ function resultHtml(g) {
           <span class="p ${aWon ? 'lose' : 'win'}">${esc(playerName(g.player_b))}</span>
         </span>
         <span class="meta">
-          <span>${fmtDay(g.played_on)} <span class="time">${fmtTime(g.created_at)}</span>${teams ? ` · ${teams}` : ''}${g.ot ? ' · <span class="tag">OT</span>' : ''}</span>
-          <span>${change}</span>
+          <span class="when">${fmtDay(g.played_on)}${g.ot ? ' <span class="tag">OT</span>' : ''}<span class="time">${fmtTime(g.created_at)}</span></span>
+          <span class="teams">${teams}</span>
+          <span class="change">${change}</span>
         </span>
       </button>
       <button type="button" class="matchup" data-h2h="${g.player_a}|${g.player_b}" aria-label="${esc(playerName(g.player_a))} vs ${esc(playerName(g.player_b))} matchup stats"><span>${STATS_ICON}</span></button>
