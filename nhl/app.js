@@ -1,9 +1,9 @@
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
-import { SUPABASE_URL, SUPABASE_ANON_KEY } from './config.js?v=15';
+import { SUPABASE_URL, SUPABASE_ANON_KEY } from './config.js?v=16';
 import {
   computeRatings, overallTable, weeklyTable, weekStart, addDays, today, compareGames, MIN_GAMES, MIN_OPPONENTS, TEAM_TIERS, TIER_BONUS, winChance,
-} from './rank.js?v=15';
-import { playerStats, headToHead, leagueStats, winPct, games as gameCount } from './stats.js?v=15';
+} from './rank.js?v=16';
+import { playerStats, headToHead, leagueStats, winPct, games as gameCount } from './stats.js?v=16';
 
 const TEAMS = [
   ['ANA', 'Anaheim Ducks'], ['BOS', 'Boston Bruins'], ['BUF', 'Buffalo Sabres'],
@@ -190,13 +190,13 @@ function resultHtml(g) {
   return `
     <li class="result-card">
       <button type="button" class="result" data-edit="${g.id}" aria-label="Edit ${esc(playerName(g.player_a))} ${g.score_a}–${g.score_b} ${esc(playerName(g.player_b))}">
-        <span class="score-line">
+        <span class="score-line${g.ot ? ' has-ot' : ''}">
           <span class="p ${aWon ? 'win' : 'lose'}">${esc(playerName(g.player_a))}</span>
-          <span class="score">${g.score_a}–${g.score_b}</span>
+          <span class="score">${g.score_a}–${g.score_b}${g.ot ? '<span class="tag">OT</span>' : ''}</span>
           <span class="p ${aWon ? 'lose' : 'win'}">${esc(playerName(g.player_b))}</span>
         </span>
         <span class="meta">
-          <span class="when">${fmtDay(g.played_on)}${g.ot ? ' <span class="tag">OT</span>' : ''}<span class="time">${fmtTime(g.created_at)}</span></span>
+          <span class="when">${fmtDay(g.played_on)}<span class="time">${fmtTime(g.created_at)}</span></span>
           <span class="teams">${teams}</span>
           <span class="change">${change}</span>
         </span>
@@ -622,8 +622,7 @@ function leagueHtml() {
     ${tile(perGame(L.goals, L.games), 'Goals / game')}
     ${tile(pct(L.ot / L.games), 'Went to OT')}
     ${tile(pct(L.homeWins / L.games), 'Home wins')}
-  </div>
-  <p class="hint">The rankings give home ice a small edge (about 54% between equal players). The home-win rate shows how that's holding up.</p>`;
+  </div>`;
 
   const upset = L.upset && L.upset.chance < 0.5 ? L.upset : null;
   html += section('Records', `<div class="kvs">
