@@ -268,17 +268,27 @@ h2 { font-size: 22px; font-weight: 700; text-transform: uppercase; letter-spacin
   border: 0;
   padding: 12px 8px 12px 14px;
 }
-.result:active, .edit:active { background: var(--sunken); }
-.edit {
+.result:active { background: var(--sunken); }
+/* Small visible chip, but the whole right edge of the card is the tap target. */
+.matchup {
   flex: none;
-  width: 48px;
+  width: 44px;
+  padding: 0 10px 0 0;
   border: 0;
-  border-left: 1px solid var(--line);
   background: transparent;
   color: var(--muted);
   display: grid;
   place-items: center;
 }
+.matchup span {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--sunken);
+}
+.matchup:active span { background: var(--line); color: var(--text); }
 .score-line {
   display: flex;
   align-items: baseline;
@@ -702,22 +712,6 @@ h2 { font-size: 22px; font-weight: 700; text-transform: uppercase; letter-spacin
 .stat-table td { padding: 9px 0; border-top: 1px solid var(--line); text-align: right; font-variant-numeric: tabular-nums; }
 .stat-table th:first-child, .stat-table td:first-child { text-align: left; }
 
-.secondary {
-  display: block;
-  width: 100%;
-  min-height: 50px;
-  margin-top: 16px;
-  border: 1px solid var(--line);
-  border-radius: 14px;
-  background: transparent;
-  color: var(--text);
-  font-family: var(--display);
-  font-size: 18px;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
-.secondary:active { background: var(--sunken); }
 
 .chart { position: relative; padding-top: 44px; }
 .chart svg { display: block; max-width: 100%; height: auto; touch-action: pan-y; outline-offset: 4px; }

@@ -1,9 +1,9 @@
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
-import { SUPABASE_URL, SUPABASE_ANON_KEY } from './config.js?v=12';
+import { SUPABASE_URL, SUPABASE_ANON_KEY } from './config.js?v=13';
 import {
   computeRatings, overallTable, weeklyTable, weekStart, addDays, today, compareGames, MIN_GAMES, MIN_OPPONENTS, TEAM_TIERS, TIER_BONUS, winChance,
-} from './rank.js?v=12';
-import { playerStats, headToHead, leagueStats, winPct, games as gameCount } from './stats.js?v=12';
+} from './rank.js?v=13';
+import { playerStats, headToHead, leagueStats, winPct, games as gameCount } from './stats.js?v=13';
 
 const TEAMS = [
   ['ANA', 'Anaheim Ducks'], ['BOS', 'Boston Bruins'], ['BUF', 'Buffalo Sabres'],
@@ -19,7 +19,7 @@ const TEAMS = [
   ['WSH', 'Washington Capitals'], ['WPG', 'Winnipeg Jets'],
 ];
 const MAX_SCORE = 30;
-const PENCIL = '<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16v4zM14 6l4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>';
+const STATS_ICON = '<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M5 20V11M12 20V4M19 20v-6" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>';
 const PAGE = 15;
 
 const $ = (id) => document.getElementById(id);
@@ -183,10 +183,10 @@ function resultHtml(g) {
   const d = state.calc.perGame.get(g.id);
   const change = d ? signed(aWon ? d.a : d.b) : '';
   const teams = g.team_a || g.team_b ? `${g.team_a || '—'} @ ${g.team_b || '—'}` : '';
-  // Tapping the card opens the matchup; the pencil edits the game.
+  // Tapping the card edits the game; the small stats button opens the matchup.
   return `
     <li class="result-card">
-      <button type="button" class="result" data-h2h="${g.player_a}|${g.player_b}" aria-label="${esc(playerName(g.player_a))} vs ${esc(playerName(g.player_b))} matchup">
+      <button type="button" class="result" data-edit="${g.id}" aria-label="Edit ${esc(playerName(g.player_a))} ${g.score_a}–${g.score_b} ${esc(playerName(g.player_b))}">
         <span class="score-line">
           <span class="p ${aWon ? 'win' : 'lose'}">${esc(playerName(g.player_a))}</span>
           <span class="score">${g.score_a}–${g.score_b}</span>
@@ -197,7 +197,7 @@ function resultHtml(g) {
           <span>${change}</span>
         </span>
       </button>
-      <button type="button" class="edit" data-edit="${g.id}" aria-label="Edit game">${PENCIL}</button>
+      <button type="button" class="matchup" data-h2h="${g.player_a}|${g.player_b}" aria-label="${esc(playerName(g.player_a))} vs ${esc(playerName(g.player_b))} matchup stats"><span>${STATS_ICON}</span></button>
     </li>`;
 }
 
@@ -230,8 +230,7 @@ function syncForm() {
   $('date').value = form.date;
 }
 
-// `prefill` starts a new game with players and teams already picked (used for rematches).
-function openSheet(game, prefill = null) {
+function openSheet(game) {
   form = game
     ? {
       id: game.id,
@@ -242,8 +241,8 @@ function openSheet(game, prefill = null) {
     }
     : {
       id: null,
-      a: { player: prefill?.a ?? '', team: prefill?.a ? lastTeam(prefill.a) : '', score: 0 },
-      b: { player: prefill?.b ?? '', team: prefill?.b ? lastTeam(prefill.b) : '', score: 0 },
+      a: { player: '', team: '', score: 0 },
+      b: { player: '', team: '', score: 0 },
       ot: false,
       date: today(),
     };
@@ -406,12 +405,6 @@ document.addEventListener('click', (e) => {
   const player = e.target.closest('[data-player]');
   if (player) {
     openPanel({ type: 'player', id: player.dataset.player });
-    return;
-  }
-  const rematch = e.target.closest('[data-rematch]');
-  if (rematch) {
-    const [a, b] = rematch.dataset.rematch.split('|');
-    openSheet(null, { a, b });
   }
 });
 $('leagueBtn').addEventListener('click', () => { if (state.loaded) openPanel({ type: 'league' }); });
@@ -579,7 +572,6 @@ function h2hHtml(x, y) {
     else if (s.ot) rec.otl++;
     else rec.l++;
   }
-  const last = h.meetings.at(-1);
   const streak = h.streak ? `${h.streak.won ? nx : ny} W${h.streak.n}` : '—';
   const swing = Math.round(h.eloX) === 0 ? 'Even'
     : `${h.eloX > 0 ? nx : ny} +${Math.round(Math.abs(h.eloX))}`;
@@ -609,7 +601,6 @@ function h2hHtml(x, y) {
   </div>
   <p class="hint">"If they played now" uses current ratings on neutral ice, with no team bonus.</p>`);
 
-  html += `<button type="button" class="secondary" data-rematch="${last.player_a}|${last.player_b}">Log a rematch</button>`;
   html += section('All games', resultsList([...h.meetings].reverse()));
   return html;
 }
