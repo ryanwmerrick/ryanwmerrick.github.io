@@ -325,6 +325,7 @@ h2 { font-size: 22px; font-weight: 700; text-transform: uppercase; letter-spacin
   font-size: 13px;
   color: var(--muted);
 }
+.meta .time { font-size: 11px; opacity: 0.8; }
 .more {
   width: 100%;
   min-height: 48px;

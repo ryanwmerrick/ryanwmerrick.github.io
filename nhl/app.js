@@ -1,9 +1,9 @@
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
-import { SUPABASE_URL, SUPABASE_ANON_KEY } from './config.js?v=13';
+import { SUPABASE_URL, SUPABASE_ANON_KEY } from './config.js?v=14';
 import {
   computeRatings, overallTable, weeklyTable, weekStart, addDays, today, compareGames, MIN_GAMES, MIN_OPPONENTS, TEAM_TIERS, TIER_BONUS, winChance,
-} from './rank.js?v=13';
-import { playerStats, headToHead, leagueStats, winPct, games as gameCount } from './stats.js?v=13';
+} from './rank.js?v=14';
+import { playerStats, headToHead, leagueStats, winPct, games as gameCount } from './stats.js?v=14';
 
 const TEAMS = [
   ['ANA', 'Anaheim Ducks'], ['BOS', 'Boston Bruins'], ['BUF', 'Buffalo Sabres'],
@@ -25,6 +25,9 @@ const PAGE = 15;
 const $ = (id) => document.getElementById(id);
 const esc = (s) => String(s).replace(/[&<>"']/g, (c) => (
   { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const fmtTime = (ts) => new Date(ts).toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' });
+// Newest-entered first. Ratings still replay in played-on order; lists show entry order.
+const byEntered = (gs) => [...gs].sort((x, y) => (x.created_at < y.created_at ? 1 : x.created_at > y.created_at ? -1 : 0));
 const fmtDay = (s) => new Date(s + 'T00:00:00Z')
   .toLocaleDateString(undefined, { month: 'short', day: 'numeric', timeZone: 'UTC' });
 const signed = (x) => {
@@ -167,7 +170,7 @@ function renderResults() {
     $('moreBtn').hidden = true;
     return;
   }
-  const games = [...state.games].sort(compareGames).reverse();
+  const games = byEntered(state.games);
   if (!games.length) {
     list.innerHTML = '<li class="empty">No games yet.</li>';
     $('moreBtn').hidden = true;
@@ -193,7 +196,7 @@ function resultHtml(g) {
           <span class="p ${aWon ? 'lose' : 'win'}">${esc(playerName(g.player_b))}</span>
         </span>
         <span class="meta">
-          <span>${fmtDay(g.played_on)}${teams ? ` · ${teams}` : ''}${g.ot ? ' · <span class="tag">OT</span>' : ''}</span>
+          <span>${fmtDay(g.played_on)} <span class="time">${fmtTime(g.created_at)}</span>${teams ? ` · ${teams}` : ''}${g.ot ? ' · <span class="tag">OT</span>' : ''}</span>
           <span>${change}</span>
         </span>
       </button>
@@ -547,7 +550,7 @@ function playerHtml(id) {
     </button></li>`).join('')}</ul>
     <p class="hint">Record and Elo won or lost against each opponent. Tap for the full matchup.</p>`);
 
-  html += section('Recent games', resultsList(ps.sides.slice(-10).reverse().map((s) => s.game)));
+  html += section('Recent games', resultsList(byEntered(ps.sides.map((s) => s.game)).slice(0, 10)));
   return html;
 }
 
@@ -601,7 +604,7 @@ function h2hHtml(x, y) {
   </div>
   <p class="hint">"If they played now" uses current ratings on neutral ice, with no team bonus.</p>`);
 
-  html += section('All games', resultsList([...h.meetings].reverse()));
+  html += section('All games', resultsList(byEntered(h.meetings)));
   return html;
 }
 
