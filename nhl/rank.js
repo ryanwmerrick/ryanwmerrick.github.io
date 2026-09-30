@@ -2,8 +2,6 @@
 
 export const START = 1000;
 export const K = 32;
-export const TEAM_K = 4;
-export const TEAM_CAP = 40;
 export const MIN_GAMES = 5;
 // Different opponents needed to be ranked, so nobody gets ranked by beating one friend.
 export const MIN_OPPONENTS = 3;
@@ -11,7 +9,19 @@ export const OT_WIN = 0.75;
 // Rating points added to the home player (player_b) when predicting the result.
 export const HOME_ADV = 25;
 
-const clamp = (x, lo, hi) => Math.min(hi, Math.max(lo, x));
+// Elo added to whoever uses a team in each tier, when predicting the result only.
+export const TIER_BONUS = { 1: 30, 2: 10, 3: -10, 4: -30 };
+
+// Team tiers (1 = best): ESPN's 2026-27 preseason power rankings (Sep 28, 2026),
+// then adjusted by the group. Teams not listed, or no team logged, count as +0.
+export const TEAM_TIERS = {
+  CAR: 1, COL: 1, DAL: 1, FLA: 1, VGK: 1, MIN: 1, MTL: 1, TBL: 1,
+  EDM: 2, BUF: 2, WSH: 2, NJD: 2, PHI: 2, TOR: 2, WPG: 2, LAK: 2,
+  BOS: 3, OTT: 3, PIT: 3, NYI: 3, CBJ: 3, UTA: 3, SJS: 3, ANA: 3,
+  NYR: 4, NSH: 4, DET: 4, CHI: 4, SEA: 4, CGY: 4, VAN: 4, STL: 4,
+};
+
+export const teamBonus = (abbr) => TIER_BONUS[TEAM_TIERS[abbr]] ?? 0;
 
 // Local calendar date as YYYY-MM-DD.
 export function today() {
@@ -42,7 +52,7 @@ export function compareGames(a, b) {
   return 0;
 }
 
-// winnerGap is the winner's rating minus the loser's (with team and home bonuses).
+// winnerGap is the winner's rating minus the loser's (with team tier and home bonuses).
 // The FiveThirtyEight-style factor shrinks the bonus when the favourite wins big and
 // grows it when the underdog does, so blowing out weaker players isn't a free farm.
 export function marginMultiplier(margin, ot, winnerGap = 0) {
@@ -52,12 +62,11 @@ export function marginMultiplier(margin, ot, winnerGap = 0) {
 }
 
 // Replays the full history in date order. player_a is away, player_b is home.
-// Returns per-player totals, hidden team strengths, and each game's rating change.
+// Returns per-player totals and each game's rating change.
 export function computeRatings(players, games) {
   const stats = new Map(players.map((p) => [p.id, {
     id: p.id, name: p.name, rating: START, games: 0, w: 0, l: 0, otl: 0, opponents: new Set(),
   }]));
-  const teams = new Map();
   const perGame = new Map();
 
   for (const g of [...games].sort(compareGames)) {
@@ -65,9 +74,7 @@ export function computeRatings(players, games) {
     const b = stats.get(g.player_b);
     if (!a || !b || g.score_a === g.score_b) continue;
 
-    const ta = g.team_a ? teams.get(g.team_a) ?? 0 : 0;
-    const tb = g.team_b ? teams.get(g.team_b) ?? 0 : 0;
-    const gapA = a.rating + ta - (b.rating + tb + HOME_ADV);
+    const gapA = a.rating + teamBonus(g.team_a) - (b.rating + teamBonus(g.team_b) + HOME_ADV);
     const expA = 1 / (1 + 10 ** (-gapA / 400));
 
     const aWon = g.score_a > g.score_b;
@@ -85,17 +92,10 @@ export function computeRatings(players, games) {
     winner.w++;
     if (g.ot) loser.otl++; else loser.l++;
 
-    // Mirror matches (same team on both sides) tell us nothing about the team.
-    if (g.team_a !== g.team_b) {
-      const surprise = sA - expA;
-      if (g.team_a) teams.set(g.team_a, clamp(ta + TEAM_K * surprise, -TEAM_CAP, TEAM_CAP));
-      if (g.team_b) teams.set(g.team_b, clamp(tb - TEAM_K * surprise, -TEAM_CAP, TEAM_CAP));
-    }
-
     perGame.set(g.id, { a: delta, b: -delta });
   }
 
-  return { stats, teams, perGame };
+  return { stats, perGame };
 }
 
 export function overallTable(calc) {

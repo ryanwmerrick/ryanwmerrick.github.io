@@ -11,8 +11,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
   <!-- Bump ?v= here and in app.js imports on every change, so phones never mix a new page with cached old files. -->
-  <link rel="stylesheet" href="style.css?v=10">
-  <script type="module" src="app.js?v=10"></script>
+  <link rel="stylesheet" href="style.css?v=11">
+  <script type="module" src="app.js?v=11"></script>
 </head>
 <body>
   <main class="wrap">
@@ -49,12 +49,14 @@
         <p><strong>Overall</strong> is an Elo rating. Everyone starts at 1000. Before each game, the two players' Elo ratings are compared to predict who should win. Beat the prediction and you gain Elo; fall short and you lose it. So beating someone rated higher earns more than beating someone rated lower.</p>
         <p><strong>Margin counts a little.</strong> A regulation win is worth more the bigger the margin (1&nbsp;+&nbsp;0.5&nbsp;×&nbsp;ln(margin), up to 2×). An OT or shootout win counts as 0.75 of a win with no margin bonus, so the loser still keeps a bit.</p>
         <p><strong>No farming weaker players.</strong> Good players usually beat weaker players by a lot, so the margin bonus is trimmed when the favourite wins big and boosted when the underdog does. Blow out someone 200 Elo below you and the bonus is about 8% smaller; do it to someone 200 Elo above you and it's about 10% bigger. That keeps the payoff for only playing weaker players small.</p>
-        <p><strong>Teams count a little too.</strong> Each NHL team has a hidden strength, measured in Elo, that starts at 0 and moves slowly with results (never more than +40 or −40 Elo). For the prediction only, it's added to the Elo of whoever uses that team. A 1000-rated player using a team at +20 is treated as 1020. Winning with a team that keeps winning earns slightly less; an upset with a weaker team earns slightly more.</p>
+        <p><strong>Teams count a little too.</strong> Every NHL team is in one of four tiers based on ESPN's 2026-27 preseason power rankings, adjusted by the group. For the prediction only, the tier's bonus is added to the Elo of whoever uses that team: Tier 1 +30, Tier 2 +10, Tier 3 −10, Tier 4 −30. A 1000-rated player using a Tier 1 team is treated as 1030. Winning with a stronger team earns slightly less; an upset with a weaker team earns slightly more. No team logged counts as +0.</p>
+        <div id="tiers" class="tiers"></div>
         <p><strong>Home ice counts a little.</strong> For the prediction only, the home player gets +25 added to their Elo. Two 1000-rated players become 1000 away vs 1025 home, which makes home about a 54% favourite instead of 50%. Winning at home earns slightly less and winning away earns slightly more.</p>
         <p>These team and home bonuses are never added to anyone's actual rating. They only shape the prediction.</p>
         <p><strong>Ranked after 5 games against at least 3 different opponents.</strong> Until then you're listed as not ranked yet, with your progress shown. Your rating still counts from your first game; this only decides who appears on the Overall leaderboard.</p>
         <p><strong>This week</strong> shows rating points gained Monday to Sunday, with that week's record (W-L-OTL).</p>
         <p>Everything is recalculated from the full game history in date order, so fixing or deleting a game corrects the ratings automatically.</p>
+        <p class="change"><strong>Rule change, Sep 29, 2026:</strong> team tiers replaced the old learned team strengths, which barely moved because everyone picks strong teams from their three rolls. All past games were recalculated with the tiers, so some ratings shifted by a few points.</p>
       </div>
     </details>
 

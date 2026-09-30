@@ -1,8 +1,8 @@
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
-import { SUPABASE_URL, SUPABASE_ANON_KEY } from './config.js?v=10';
+import { SUPABASE_URL, SUPABASE_ANON_KEY } from './config.js?v=11';
 import {
-  computeRatings, overallTable, weeklyTable, weekStart, addDays, today, compareGames, MIN_GAMES, MIN_OPPONENTS,
-} from './rank.js?v=10';
+  computeRatings, overallTable, weeklyTable, weekStart, addDays, today, compareGames, MIN_GAMES, MIN_OPPONENTS, TEAM_TIERS, TIER_BONUS,
+} from './rank.js?v=11';
 
 const TEAMS = [
   ['ANA', 'Anaheim Ducks'], ['BOS', 'Boston Bruins'], ['BUF', 'Buffalo Sabres'],
@@ -407,7 +407,18 @@ $('cancelNew').addEventListener('click', hideNewPlayer);
 $('saveBtn').addEventListener('click', save);
 $('deleteBtn').addEventListener('click', remove);
 
+function renderTiers() {
+  const html = [1, 2, 3, 4].map((t) => {
+    const names = TEAMS.filter(([abbr]) => TEAM_TIERS[abbr] === t).map(([, name]) => esc(name));
+    if (!names.length) return '';
+    const bonus = TIER_BONUS[t] > 0 ? `+${TIER_BONUS[t]}` : `\u2212${-TIER_BONUS[t]}`;
+    return `<p><strong>Tier ${t} (${bonus})</strong> ${names.join(', ')}</p>`;
+  }).join('');
+  $('tiers').innerHTML = html;
+}
+
 fillTeamOptions();
+renderTiers();
 render();
 
 if (db) {

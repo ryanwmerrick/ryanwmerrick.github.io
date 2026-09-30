@@ -311,6 +311,7 @@ h2 { font-size: 22px; font-weight: 700; text-transform: uppercase; letter-spacin
 .how-body { padding: 0 16px 8px; color: var(--muted); font-size: 15px; }
 .how-body strong { color: var(--text); }
 .how-body p { margin: 0 0 12px; }
+.how-body .change { padding-top: 12px; border-top: 1px solid var(--line); }
 
 
 /* Bottom sheet */
