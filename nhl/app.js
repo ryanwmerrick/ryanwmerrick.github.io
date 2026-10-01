@@ -1,9 +1,9 @@
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
-import { SUPABASE_URL, SUPABASE_ANON_KEY } from './config.js?v=16';
+import { SUPABASE_URL, SUPABASE_ANON_KEY } from './config.js?v=17';
 import {
   computeRatings, overallTable, weeklyTable, weekStart, addDays, today, compareGames, MIN_GAMES, MIN_OPPONENTS, TEAM_TIERS, TIER_BONUS, winChance,
-} from './rank.js?v=16';
-import { playerStats, headToHead, leagueStats, winPct, games as gameCount } from './stats.js?v=16';
+} from './rank.js?v=17';
+import { playerStats, headToHead, leagueStats, winPct, games as gameCount } from './stats.js?v=17';
 
 const TEAMS = [
   ['ANA', 'Anaheim Ducks'], ['BOS', 'Boston Bruins'], ['BUF', 'Buffalo Sabres'],
@@ -89,6 +89,7 @@ const playerName = (id) => state.calc?.stats.get(id)?.name ?? '?';
 function render() {
   renderBoard();
   renderResults();
+  renderHome();
 }
 
 function renderBoard() {
@@ -495,7 +496,7 @@ function renderPanel() {
 
 const pct = (x) => `${Math.round(x * 100)}%`;
 const perGame = (x, n) => (n ? (x / n).toFixed(1) : '0.0');
-const tile = (val, label) => `<div class="tile"><span class="tile-val">${val}</span><span class="tile-label">${label}</span></div>`;
+const tile = (val, label, note = '') => `<div class="tile"><span class="tile-val">${val}</span><span class="tile-label">${label}</span>${note ? `<span class="tile-note">${note}</span>` : ''}</div>`;
 const kv = (label, val) => `<div class="kv"><span>${label}</span><span>${val}</span></div>`;
 const section = (title, inner) => `<h3 class="panel-h">${title}</h3>${inner}`;
 const scoreVs = (s) => `${s.us}–${s.them} vs ${esc(playerName(s.opp))} · ${fmtDay(s.game.played_on)}`;
@@ -621,7 +622,7 @@ function leagueHtml() {
     ${tile(L.goals, 'Goals')}
     ${tile(perGame(L.goals, L.games), 'Goals / game')}
     ${tile(pct(L.ot / L.games), 'Went to OT')}
-    ${tile(pct(L.homeWins / L.games), 'Home wins')}
+    ${tile(pct(L.homeWins / L.games), 'Home wins', `Home bonus ${homeText()}`)}
   </div>`;
 
   const upset = L.upset && L.upset.chance < 0.5 ? L.upset : null;
@@ -729,6 +730,17 @@ function mountChart(el, id) {
     if (e.key === 'ArrowLeft') { show((cur ?? lastI) - 1); e.preventDefault(); }
     if (e.key === 'ArrowRight') { show((cur ?? lastI) + 1); e.preventDefault(); }
   });
+}
+
+const homeText = () => `+${Math.round(state.calc?.home ?? 25)}`;
+
+// Keeps the live home-ice numbers in "How rankings work" in sync with the ratings.
+function renderHome() {
+  if (!state.calc) return;
+  const h = state.calc.home;
+  $('homeNow').textContent = `+${Math.round(h)} Elo`;
+  $('homeBasis').textContent = ` (based on ${state.calc.counted} game${state.calc.counted === 1 ? '' : 's'})`;
+  $('homePct').textContent = pct(winChance(1000 + h, 1000));
 }
 
 function renderTiers() {
