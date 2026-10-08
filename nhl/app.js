@@ -1,11 +1,11 @@
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
-import { SUPABASE_URL, SUPABASE_ANON_KEY } from './config.js?v=19';
+import { SUPABASE_URL, SUPABASE_ANON_KEY } from './config.js?v=20';
 import {
   computeRatings, overallTable, weeklyTable, weekStart, addDays, today, compareGames, MIN_GAMES, MIN_OPPONENTS, TEAM_TIERS, TIER_BONUS, winChance, zaLevel,
-} from './rank.js?v=19';
+} from './rank.js?v=20';
 import {
   playerStats, headToHead, leagueStats, bigThree, winPct, games as gameCount,
-} from './stats.js?v=19';
+} from './stats.js?v=20';
 
 const TEAMS = [
   ['ANA', 'Anaheim Ducks'], ['BOS', 'Boston Bruins'], ['BUF', 'Buffalo Sabres'],
@@ -672,7 +672,7 @@ function leagueHtml() {
   }
 
   const Z = L.za;
-  html += section('Za ledger 🍕', `<div class="tiles">
+  html += section('Za count 🍕', `<div class="tiles">
     ${tile(Z.levels[1], 'Zas')}
     ${tile(Z.levels[2], 'Double zas')}
     ${tile(Z.levels[3], 'Triple zas')}

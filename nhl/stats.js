@@ -3,7 +3,7 @@
 
 import {
   compareGames, TEAM_TIERS, weekStart, today, zaLevel, START, MIN_GAMES, MIN_OPPONENTS,
-} from './rank.js?v=19';
+} from './rank.js?v=20';
 
 const emptyRec = () => ({ w: 0, l: 0, otl: 0 });
 
