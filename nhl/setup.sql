@@ -46,3 +46,34 @@ grant select, insert, update, delete on public.games to anon;
 
 -- Live updates.
 alter publication supabase_realtime add table public.players, public.games;
+
+-- A game's time is when it was logged, by the database clock (added 2026-10-08).
+-- From the page (the anon role): an insert gets created_at = now() and played_on = today
+-- in the league's time zone, whatever the phone sent; an update keeps both, and can't
+-- change who played (fix a wrong player by deleting the game and logging it again).
+-- The SQL editor runs as postgres, so a deliberate fix there is still possible.
+create or replace function public.games_stamp_time() returns trigger
+language plpgsql set search_path = '' as $$
+begin
+  if current_user not in ('anon', 'authenticated') then
+    return new;
+  end if;
+  if tg_op = 'INSERT' then
+    new.created_at := now();
+    new.played_on := (now() at time zone 'America/New_York')::date;
+  else
+    new.created_at := old.created_at;
+    new.played_on := old.played_on;
+    if new.player_a is distinct from old.player_a or new.player_b is distinct from old.player_b then
+      raise exception 'players_locked: delete this game and log it again to change who played'
+        using errcode = '42501';
+    end if;
+  end if;
+  return new;
+end;
+$$;
+
+drop trigger if exists games_stamp_time on public.games;
+create trigger games_stamp_time
+  before insert or update on public.games
+  for each row execute function public.games_stamp_time();

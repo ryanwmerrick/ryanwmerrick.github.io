@@ -1,9 +1,11 @@
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
-import { SUPABASE_URL, SUPABASE_ANON_KEY } from './config.js?v=17';
+import { SUPABASE_URL, SUPABASE_ANON_KEY } from './config.js?v=18';
 import {
-  computeRatings, overallTable, weeklyTable, weekStart, addDays, today, compareGames, MIN_GAMES, MIN_OPPONENTS, TEAM_TIERS, TIER_BONUS, winChance,
-} from './rank.js?v=17';
-import { playerStats, headToHead, leagueStats, winPct, games as gameCount } from './stats.js?v=17';
+  computeRatings, overallTable, weeklyTable, weekStart, addDays, today, compareGames, MIN_GAMES, MIN_OPPONENTS, TEAM_TIERS, TIER_BONUS, winChance, zaLevel,
+} from './rank.js?v=18';
+import {
+  playerStats, headToHead, leagueStats, bigThree, winPct, games as gameCount,
+} from './stats.js?v=18';
 
 const TEAMS = [
   ['ANA', 'Anaheim Ducks'], ['BOS', 'Boston Bruins'], ['BUF', 'Buffalo Sabres'],
@@ -19,6 +21,7 @@ const TEAMS = [
   ['WSH', 'Washington Capitals'], ['WPG', 'Winnipeg Jets'],
 ];
 const MAX_SCORE = 30;
+const ZA_NAMES = ['', 'Za', 'Double za', 'Triple za'];
 const STATS_ICON = '<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M5 20V11M12 20V4M19 20v-6" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>';
 const PAGE = 15;
 
@@ -69,6 +72,7 @@ async function load() {
     state.players = p.data;
     state.games = g.data;
     state.calc = computeRatings(p.data, g.data);
+    state.big3 = bigThree(state.calc, g.data);
   }
   state.loaded = true;
   render();
@@ -149,10 +153,18 @@ const progress = (r) => `${Math.min(r.games, MIN_GAMES)}/${MIN_GAMES} games · $
 function overallHtml() {
   const { ranked, unranked } = overallTable(state.calc);
   if (!ranked.length && !unranked.length) return '<p class="empty">No players yet. Log a game to get started.</p>';
+  // The top three ranked players are the Big 3: they get their own banner and section.
+  const formed = state.big3?.formedAt;
+  const band = `
+    <button type="button" class="big3-band" data-big3>
+      <span class="big3-title">The Big 3</span>
+      <span class="big3-sub">${formed ? `Together since ${fmtDay(dayOf(formed))}` : 'See the history'} ›</span>
+    </button>`;
+  const rows = (list, offset) => list.map((r, i) => rowHtml(i + 1 + offset, r, Math.round(r.rating))).join('');
   let html = ranked.length
-    ? headHtml('Rating') + `<ol class="board">${ranked
-      .map((r, i) => rowHtml(i + 1, r, Math.round(r.rating)))
-      .join('')}</ol>`
+    ? headHtml('Rating')
+      + `<div class="big3">${band}<ol class="board">${rows(ranked.slice(0, 3), 0)}</ol></div>`
+      + (ranked.length > 3 ? `<ol class="board rest">${rows(ranked.slice(3), 3)}</ol>` : '')
     : '<p class="empty">Nobody is ranked yet.</p>';
   if (unranked.length) {
     html += `<p class="sub">Not ranked yet</p><ul class="pending">${unranked
@@ -179,6 +191,8 @@ function renderResults() {
   }
   list.innerHTML = games.slice(0, state.shown).map(resultHtml).join('');
   $('moreBtn').hidden = games.length <= state.shown;
+  const pizzas = state.games.reduce((n, g) => n + zaLevel(g), 0);
+  $('zaCount').textContent = pizzas ? `🍕 ${pizzas} za${pizzas === 1 ? '' : 's'} served` : '';
 }
 
 function resultHtml(g) {
@@ -187,13 +201,14 @@ function resultHtml(g) {
   const d = state.calc.perGame.get(g.id);
   const change = d ? signed(aWon ? d.a : d.b) : '';
   const teams = g.team_a || g.team_b ? `${g.team_a || '—'} @ ${g.team_b || '—'}` : '';
+  const za = zaLevel(g);
   // Tapping the card edits the game; the small stats button opens the matchup.
   return `
     <li class="result-card">
       <button type="button" class="result" data-edit="${g.id}" aria-label="Edit ${esc(playerName(g.player_a))} ${g.score_a}–${g.score_b} ${esc(playerName(g.player_b))}">
-        <span class="score-line${g.ot ? ' has-ot' : ''}">
+        <span class="score-line${g.ot ? ' has-ot' : ''}${za ? ` has-za za-${za}` : ''}">
           <span class="p ${aWon ? 'win' : 'lose'}">${esc(playerName(g.player_a))}</span>
-          <span class="score">${g.score_a}–${g.score_b}${g.ot ? '<span class="tag">OT</span>' : ''}</span>
+          <span class="score">${za ? `<span class="za" title="${ZA_NAMES[za]}" aria-label="${ZA_NAMES[za]}">${'🍕'.repeat(za)}</span>` : ''}${g.score_a}–${g.score_b}${g.ot ? '<span class="tag">OT</span>' : ''}</span>
           <span class="p ${aWon ? 'lose' : 'win'}">${esc(playerName(g.player_b))}</span>
         </span>
         <span class="meta">
@@ -225,14 +240,17 @@ function fillPlayerOptions() {
 function syncForm() {
   for (const side of ['a', 'b']) {
     const f = form[side];
-    document.querySelector(`select.player[data-side="${side}"]`).value = f.player;
+    const pick = document.querySelector(`select.player[data-side="${side}"]`);
+    pick.value = f.player;
+    pick.disabled = Boolean(form.id);
     document.querySelector(`select.team[data-side="${side}"]`).value = f.team;
     $(`score-${side}`).textContent = f.score;
     document.querySelector(`[data-side="${side}"][data-step="-1"]`).disabled = f.score <= 0;
     document.querySelector(`[data-side="${side}"][data-step="1"]`).disabled = f.score >= MAX_SCORE;
   }
   $('ot').checked = form.ot;
-  $('date').value = form.date;
+  $('editHint').hidden = !form.id;
+  $('when').textContent = form.loggedAt ? `Logged ${fmtDay(form.playedOn)}, ${fmtTime(form.loggedAt)}` : 'Logged now';
 }
 
 function openSheet(game) {
@@ -242,14 +260,16 @@ function openSheet(game) {
       a: { player: game.player_a, team: game.team_a || '', score: game.score_a },
       b: { player: game.player_b, team: game.team_b || '', score: game.score_b },
       ot: game.ot,
-      date: game.played_on,
+      playedOn: game.played_on,
+      loggedAt: game.created_at,
     }
     : {
       id: null,
       a: { player: '', team: '', score: 0 },
       b: { player: '', team: '', score: 0 },
       ot: false,
-      date: today(),
+      playedOn: null,
+      loggedAt: null,
     };
   $('sheetTitle').textContent = game ? 'Edit game' : 'Log a game';
   $('saveBtn').textContent = game ? 'Save changes' : 'Save game';
@@ -334,7 +354,6 @@ function validate() {
   if (a.player === b.player) return 'Pick two different players.';
   if (a.score === b.score) return 'No ties. Someone has to win.';
   if (form.ot && Math.abs(a.score - b.score) !== 1) return 'OT and shootout games are decided by one goal.';
-  if (!form.date) return 'Pick a date.';
   return null;
 }
 
@@ -351,19 +370,23 @@ async function save() {
     team_a: form.a.team || null,
     team_b: form.b.team || null,
     ot: form.ot,
-    played_on: form.date,
   };
+  // A game's time is when it's logged. The database stamps it (and its date) and never
+  // lets an edit change it; played_on is only sent as a fallback for a database without
+  // that trigger, and the trigger overwrites it.
   const btn = $('saveBtn');
   btn.disabled = true;
+  // Players can't change on an edit (the database refuses it too): that turned one game into another.
+  const { player_a: _a, player_b: _b, ...editable } = row;
   const { error } = form.id
-    ? await db.from('games').update(row).eq('id', form.id)
-    : await db.from('games').insert(row);
+    ? await db.from('games').update(editable).eq('id', form.id)
+    : await db.from('games').insert({ ...row, played_on: today() });
   btn.disabled = false;
   if (error) {
     $('formError').textContent = error.message;
     return;
   }
-  state.week = weekStart(row.played_on);
+  state.week = weekStart(form.playedOn ?? today());
   closeSheet();
   await load();
 }
@@ -399,6 +422,10 @@ document.addEventListener('click', (e) => {
   if (edit) {
     const game = state.games.find((g) => g.id === edit.dataset.edit);
     if (game) openSheet(game);
+    return;
+  }
+  if (e.target.closest('[data-big3]')) {
+    openPanel({ type: 'big3' });
     return;
   }
   const h2h = e.target.closest('[data-h2h]');
@@ -451,7 +478,6 @@ document.querySelectorAll('[data-step]').forEach((b) => b.addEventListener('clic
   syncForm();
 }));
 $('ot').addEventListener('change', (e) => { form.ot = e.target.checked; });
-$('date').addEventListener('change', (e) => { form.date = e.target.value; });
 
 $('newPlayer').addEventListener('submit', (e) => { e.preventDefault(); addPlayer(); });
 $('cancelNew').addEventListener('click', hideNewPlayer);
@@ -488,6 +514,9 @@ function renderPanel() {
   } else if (view.type === 'league') {
     $('panelTitle').textContent = 'League stats';
     body.innerHTML = leagueHtml();
+  } else if (view.type === 'big3') {
+    $('panelTitle').textContent = 'The Big 3';
+    body.innerHTML = big3Html();
   } else {
     body.innerHTML = '<p class="empty">Nothing to show.</p>';
   }
@@ -510,8 +539,10 @@ function playerHtml(id) {
   const { ranked } = overallTable(state.calc);
   const rank = ranked.findIndex((r) => r.id === id);
   const standing = rank >= 0
-    ? `#${rank + 1} of ${ranked.length} ranked`
+    ? `${rank < 3 ? '<span class="big3-chip">Big 3</span>' : ''}#${rank + 1} of ${ranked.length} ranked`
     : `Not ranked yet<br>${progress(p)}`;
+  const b3 = state.big3?.board.find((x) => x.id === id);
+  const scalps = state.big3?.scalps.find((x) => x.id === id)?.n ?? 0;
 
   let html = `
     <div class="hero">
@@ -542,6 +573,9 @@ function playerHtml(id) {
     ${ps.favTeam && gameCount(ps.favTeam) > 1 ? kv('Most-used team', `${esc(teamName(ps.favTeam.abbr))} · ${record(ps.favTeam)}`) : ''}
     ${ps.biggestWin ? kv('Biggest win', scoreVs(ps.biggestWin)) : ''}
     ${ps.worstLoss ? kv('Worst loss', scoreVs(ps.worstLoss)) : ''}
+    ${ps.zasWon || ps.zasOwed ? kv('Zas 🍕', `${ps.zasWon} won · ${ps.zasOwed} owed`) : ''}
+    ${b3 ? kv('Time in the Big 3', `${duration(b3.ms)}${b3.active ? ' · in it now' : ''}`) : ''}
+    ${scalps ? kv('Wins over the Big 3', scalps) : ''}
   </div>`);
 
   html += section('Vs opponents', `<ul class="opps">${ps.opponents.map((o) => `
@@ -602,6 +636,7 @@ function h2hHtml(x, y) {
     ${gameCount(homeY) ? kv(`${ny} at home`, record(homeY)) : ''}
     ${h.bestX ? kv(`${nx}'s biggest win`, `${h.bestX.us}–${h.bestX.them} · ${fmtDay(h.bestX.game.played_on)}`) : ''}
     ${h.bestY ? kv(`${ny}'s biggest win`, `${h.bestY.them}–${h.bestY.us} · ${fmtDay(h.bestY.game.played_on)}`) : ''}
+    ${h.zasX || h.zasY ? kv('Zas 🍕', `${nx} ${h.zasX} · ${ny} ${h.zasY}`) : ''}
     ${kv('If they played now', `${nx} ${pct(chanceX)} · ${ny} ${pct(1 - chanceX)}`)}
   </div>
   <p class="hint">"If they played now" uses current ratings on neutral ice, with no team bonus.</p>`);
@@ -635,6 +670,26 @@ function leagueHtml() {
     ${upset ? kv('Biggest upset', link(upset.game, `${gameLine(upset.game)} · winner had a ${pct(upset.chance)} chance`)) : ''}
     ${L.rivalry ? kv('Busiest rivalry', `<button type="button" class="kv-link" data-h2h="${L.rivalry.ids[0]}|${L.rivalry.ids[1]}">${esc(playerName(L.rivalry.ids[0]))} vs ${esc(playerName(L.rivalry.ids[1]))} · ${L.rivalry.games} games</button>`) : ''}
   </div>`);
+
+  const b = state.big3;
+  if (b?.current.length) {
+    html += section('The Big 3', `<button type="button" class="big3-link" data-big3>
+      <span>${b.current.map((x) => esc(playerName(x.id))).join(' · ')}</span><span>›</span>
+    </button>`);
+  }
+
+  const Z = L.za;
+  html += section('Za ledger 🍕', `<div class="tiles">
+    ${tile(Z.levels[1], 'Zas')}
+    ${tile(Z.levels[2], 'Double zas')}
+    ${tile(Z.levels[3], 'Triple zas')}
+  </div>
+  <p class="hint">Lose by 7 or more and you owe the winner a pizza. 11+ is a double za (two pizzas), 14+ a triple. Zas don't change ratings.</p>
+  ${Z.biggest ? `<div class="kvs ledger-top">${kv('Biggest za', link(Z.biggest, gameLine(Z.biggest)))}</div>` : ''}
+  ${Z.ledger.length ? `<table class="stat-table">
+    <thead><tr><th>Player</th><th>Won</th><th>Owed</th><th>Net</th></tr></thead>
+    <tbody>${Z.ledger.map((x) => `<tr><td>${esc(playerName(x.id))}</td><td>${x.won}</td><td>${x.owed}</td><td>${signed(x.won - x.owed)}</td></tr>`).join('')}</tbody>
+  </table>` : '<p class="hint">No zas yet.</p>'}`);
 
   html += section('Team tiers', `<table class="stat-table">
     <thead><tr><th>Tier</th><th>Picks</th><th>Win %</th></tr></thead>
@@ -730,6 +785,66 @@ function mountChart(el, id) {
     if (e.key === 'ArrowLeft') { show((cur ?? lastI) - 1); e.preventDefault(); }
     if (e.key === 'ArrowRight') { show((cur ?? lastI) + 1); e.preventDefault(); }
   });
+}
+
+
+// Local calendar day (YYYY-MM-DD) of a timestamp, for fmtDay.
+const dayOf = (ms) => {
+  const d = new Date(ms);
+  const pad = (n) => String(n).padStart(2, '0');
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+};
+const duration = (ms) => {
+  const h = ms / 36e5;
+  if (h < 1) return 'under an hour';
+  if (h < 24) return `${Math.floor(h)} hour${Math.floor(h) === 1 ? '' : 's'}`;
+  const d = Math.floor(h / 24);
+  return `${d} day${d === 1 ? '' : 's'}`;
+};
+
+function big3Html() {
+  const b = state.big3;
+  if (!b || !b.current.length) return '<p class="empty">Nobody is ranked yet. The Big 3 forms once three players are ranked.</p>';
+  const now = Date.now();
+  // Podium order: 2nd, 1st, 3rd.
+  const spot = (i) => {
+    const m = b.current[i];
+    if (!m) return '<div class="podium-spot empty"></div>';
+    return `<button type="button" class="podium-spot p${i + 1}" data-player="${m.id}">
+      <span class="podium-name">${esc(playerName(m.id))}</span>
+      <span class="podium-rating">${Math.round(m.rating)}</span>
+      <span class="podium-block"><span class="podium-rank">${i + 1}</span></span>
+      <span class="podium-since">in for ${duration(now - m.since)}</span>
+    </button>`;
+  };
+  let html = `<div class="podium">${spot(1)}${spot(0)}${spot(2)}</div>
+    <p class="big3-tagline">${b.formedAt ? `This trio has held the Big 3 since ${fmtDay(dayOf(b.formedAt))}, ${fmtTime(b.formedAt)}.` : 'The top three ranked players.'}</p>`;
+
+  html += section('Time in the Big 3', `<table class="stat-table">
+    <thead><tr><th>Player</th><th>Total</th><th>Longest</th><th>Times in</th></tr></thead>
+    <tbody>${b.board.map((x) => `<tr><td>${esc(playerName(x.id))}${x.active ? ' <span class="big3-dot" aria-label="in the Big 3 now"></span>' : ''}</td><td>${duration(x.ms)}</td><td>${duration(x.longest)}</td><td>${x.entries}</td></tr>`).join('')}</tbody>
+  </table>`);
+
+  if (b.scalps.length) {
+    html += section('Big 3 slayers', `<table class="stat-table">
+      <thead><tr><th>Player</th><th>Wins over a Big 3 member</th></tr></thead>
+      <tbody>${b.scalps.slice(0, 6).map((x) => `<tr><td>${esc(playerName(x.id))}</td><td>${x.n}</td></tr>`).join('')}</tbody>
+    </table>
+    <p class="hint">Counts wins over anyone who was in the Big 3 at the time of the game.</p>`);
+  }
+
+  if (b.events.length) {
+    const line = (e) => e.type === 'in'
+      ? `<strong>${esc(playerName(e.id))}</strong> entered the Big 3${e.replaced ? `, knocking out ${esc(playerName(e.replaced))}` : ''}`
+      : `<strong>${esc(playerName(e.id))}</strong> dropped out`;
+    const shown = b.events.filter((e) => e.type === 'in' || !b.events.some((x) => x.type === 'in' && x.t === e.t && x.replaced === e.id));
+    html += section('Changes', `<ul class="b3-events">${shown.map((e) => `<li><span>${line(e)}</span><span class="when-ago">${fmtDay(dayOf(e.t))}</span></li>`).join('')}</ul>`);
+  }
+
+  if (b.first) {
+    html += section('The first Big 3', `<p class="b3-first">${b.first.ids.map((id) => esc(playerName(id))).join(' · ')}<br><span class="hint">Formed ${fmtDay(dayOf(b.first.t))}</span></p>`);
+  }
+  return html;
 }
 
 const homeText = () => `+${Math.round(state.calc?.home ?? 25)}`;

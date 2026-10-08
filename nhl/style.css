@@ -493,6 +493,7 @@ h2 { font-size: 22px; font-weight: 700; text-transform: uppercase; letter-spacin
   text-overflow: ellipsis;
 }
 .select .player { font-weight: 600; }
+.select select:disabled { opacity: 1; color: var(--text); background: var(--sunken); }
 
 .stepper {
   display: grid;
@@ -561,16 +562,7 @@ h2 { font-size: 22px; font-weight: 700; text-transform: uppercase; letter-spacin
   cursor: pointer;
 }
 .check input { width: 24px; height: 24px; margin: 0; accent-color: var(--accent); }
-.date { display: flex; align-items: center; gap: 8px; color: var(--muted); font-size: 14px; }
-.date input {
-  min-height: 48px;
-  padding: 0 10px;
-  border: 1px solid var(--line);
-  border-radius: 10px;
-  background: var(--surface);
-  color: var(--text);
-  font-size: 16px;
-}
+.when-logged { color: var(--muted); font-size: 14px; text-align: right; }
 
 .error { min-height: 22px; margin: 8px 0 4px; color: var(--accent); font-weight: 600; font-size: 15px; }
 
@@ -759,3 +751,119 @@ h2 { font-size: 22px; font-weight: 700; text-transform: uppercase; letter-spacin
   pointer-events: none;
 }
 .chart .tip strong { font-family: var(--display); font-size: 16px; }
+
+/* Za: pizzas hang off the left of the score, mirroring the OT tag, so the score stays centered. */
+.score .za { position: absolute; right: 100%; top: 50%; transform: translateY(-50%); margin-right: 4px; font-size: 15px; letter-spacing: -2px; white-space: nowrap; }
+.has-za.za-1 .p:first-child { padding-right: 24px; }
+.has-za.za-1 .p:last-child { padding-left: 24px; }
+.has-za.za-2 .p:first-child { padding-right: 40px; }
+.has-za.za-2 .p:last-child { padding-left: 40px; }
+.has-za.za-3 .p:first-child { padding-right: 56px; }
+.has-za.za-3 .p:last-child { padding-left: 56px; }
+
+.section-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+.za-count { font-size: 14px; font-weight: 600; color: var(--muted); white-space: nowrap; }
+.ledger-top { margin: 10px 0; }
+
+/* The Big 3: a banner over the top three rows of the overall standings. */
+.big3 {
+  margin: 4px 0 8px;
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--sunken);
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+.big3-band {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  min-height: 44px;
+  padding: 8px 12px;
+  border: 0;
+  background: var(--text);
+  color: var(--bg);
+  text-align: left;
+  box-shadow: inset 4px 0 0 var(--accent);
+}
+.big3-title {
+  font-family: var(--display);
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.big3-sub { font-size: 12px; font-weight: 600; opacity: 0.75; white-space: nowrap; }
+.big3 .row { border-top-color: var(--line); }
+.big3 .rank { color: var(--accent); }
+.big3 .val { font-size: 30px; }
+.board.rest li:first-child .row { border-top: 0; }
+.board.rest li:first-child .rank { color: var(--muted); }
+.big3-chip {
+  display: inline-block;
+  margin-right: 6px;
+  padding: 1px 6px;
+  border-radius: 6px;
+  background: var(--text);
+  color: var(--bg);
+  font-family: var(--display);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  vertical-align: 1px;
+}
+.big3-link {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  min-height: 48px;
+  padding: 0 14px;
+  align-items: center;
+  border: 0;
+  border-radius: 12px;
+  background: var(--text);
+  color: var(--bg);
+  font-weight: 600;
+  text-align: left;
+}
+
+/* Big 3 panel: a podium, 2nd · 1st · 3rd. */
+.podium { display: grid; grid-template-columns: repeat(3, 1fr); align-items: end; gap: 8px; margin-top: 12px; }
+.podium-spot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--text);
+}
+.podium-name { max-width: 100%; font-weight: 700; font-size: 16px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.podium-rating { font-family: var(--display); font-size: 22px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.podium-block {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  margin-top: 4px;
+  border-radius: 10px 10px 0 0;
+  background: var(--sunken);
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+.p1 .podium-block { height: 96px; background: var(--text); box-shadow: inset 0 4px 0 var(--accent); }
+.p2 .podium-block { height: 72px; }
+.p3 .podium-block { height: 56px; }
+.podium-rank { font-family: var(--display); font-size: 40px; font-weight: 700; line-height: 1; color: var(--muted); }
+.p1 .podium-rank { font-size: 52px; color: var(--bg); }
+.podium-since { margin-top: 6px; font-size: 12px; color: var(--muted); }
+.big3-tagline { margin: 14px 0 0; text-align: center; font-weight: 600; color: var(--accent); }
+.big3-dot { display: inline-block; width: 8px; height: 8px; margin-left: 4px; border-radius: 50%; background: var(--accent); vertical-align: 1px; }
+.b3-events { list-style: none; margin: 0; padding: 0 12px; border-radius: 12px; background: var(--sunken); }
+.b3-events li { display: flex; justify-content: space-between; gap: 12px; padding: 10px 0; border-top: 1px solid var(--line); font-size: 15px; }
+.b3-events li:first-child { border-top: 0; }
+.when-ago { flex: none; color: var(--muted); font-size: 13px; }
+.b3-first { margin: 0; font-weight: 700; font-size: 17px; }

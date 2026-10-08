@@ -23,8 +23,8 @@ export const TIER_BONUS = { 1: 30, 2: 10, 3: -10, 4: -30 };
 // Team tiers (1 = best): ESPN's 2026-27 preseason power rankings (Sep 28, 2026),
 // then adjusted by the group. Teams not listed, or no team logged, count as +0.
 export const TEAM_TIERS = {
-  CAR: 1, COL: 1, DAL: 1, FLA: 1, VGK: 1, MIN: 1, MTL: 1, TBL: 1,
-  EDM: 2, BUF: 2, WSH: 2, NJD: 2, PHI: 2, TOR: 2, WPG: 2, LAK: 2,
+  CAR: 1, COL: 1, DAL: 1, FLA: 1, VGK: 1, MIN: 1, TOR: 1, TBL: 1,
+  EDM: 2, BUF: 2, WSH: 2, NJD: 2, PHI: 2, MTL: 2, WPG: 2, LAK: 2,
   BOS: 3, OTT: 3, PIT: 3, NYI: 3, CBJ: 3, UTA: 3, SJS: 3, ANA: 3,
   NYR: 4, NSH: 4, DET: 4, CHI: 4, SEA: 4, CGY: 4, VAN: 4, STL: 4,
 };
@@ -54,11 +54,17 @@ export function weekStart(s) {
   return addDays(s, -((d.getUTCDay() + 6) % 7));
 }
 
+// Games happen in the order they were logged. created_at is stamped by the database clock
+// (a trigger in setup.sql sets it on insert and never lets it change), so no phone's clock
+// or date picker can move a game in the history.
 export function compareGames(a, b) {
-  if (a.played_on !== b.played_on) return a.played_on < b.played_on ? -1 : 1;
   if (a.created_at !== b.created_at) return a.created_at < b.created_at ? -1 : 1;
-  return 0;
+  return a.id < b.id ? -1 : a.id > b.id ? 1 : 0;
 }
+
+// Lose by 7+ and you owe the winner a pizza (a "za"). 11+ is a double za, 14+ a triple.
+export const ZA_STEPS = [7, 11, 14];
+export const zaLevel = (g) => ZA_STEPS.filter((m) => Math.abs(g.score_a - g.score_b) >= m).length;
 
 // winnerGap is the winner's rating minus the loser's (with team tier and home bonuses).
 // The bonus is 1 + 0.25·ln(margin), up to 1.5×. The FiveThirtyEight-style factor shrinks it

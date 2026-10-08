@@ -11,8 +11,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
   <!-- Bump ?v= here and in app.js imports on every change, so phones never mix a new page with cached old files. -->
-  <link rel="stylesheet" href="style.css?v=17">
-  <script type="module" src="app.js?v=17"></script>
+  <link rel="stylesheet" href="style.css?v=18">
+  <script type="module" src="app.js?v=18"></script>
 </head>
 <body>
   <main class="wrap">
@@ -43,7 +43,7 @@
     </section>
 
     <section aria-labelledby="recentTitle">
-      <h2 id="recentTitle">Recent results</h2>
+      <div class="section-head"><h2 id="recentTitle">Recent results</h2><span id="zaCount" class="za-count"></span></div>
       <ul id="results" class="results"></ul>
       <button type="button" id="moreBtn" class="more" hidden>Show more</button>
     </section>
@@ -61,7 +61,7 @@
         <p>These team and home bonuses are never added to anyone's actual rating. They only shape the prediction.</p>
         <p><strong>Ranked after 5 games against at least 3 different opponents.</strong> Until then you're listed as not ranked yet, with your progress shown. Your rating still counts from your first game; this only decides who appears on the Overall leaderboard.</p>
         <p><strong>This week</strong> shows rating points gained Monday to Sunday, with that week's record (W-L-OTL).</p>
-        <p>Everything is recalculated from the full game history in date order, so fixing or deleting a game corrects the ratings automatically.</p>
+        <p>Games count in the order they were logged, using the time the database records when you tap Save, so no phone's clock can put a game out of order. Everything is recalculated from the full game history in that order, so fixing a score or deleting a game corrects the ratings automatically.</p>
         <div class="change">
           <p><strong>Update, Oct 1, 2026.</strong> Three changes to make ratings calmer and fairer:</p>
           <p><strong>1. Big wins count for less.</strong> A 3–0 win used to count as about 1.5 wins. Now it's about 1.3, and no win counts as more than 1.5.</p>
@@ -121,6 +121,8 @@
         </fieldset>
       </div>
 
+      <p id="editHint" class="hint" hidden>Players can't be changed on a logged game. If the wrong people are on it, delete it and log the game again.</p>
+
       <form id="newPlayer" class="new-player" hidden>
         <label for="newName" id="newLabel">New player</label>
         <div class="new-row">
@@ -132,7 +134,7 @@
 
       <div class="opts">
         <label class="check"><input type="checkbox" id="ot"><span>OT / shootout</span></label>
-        <label class="date"><span>Date</span><input type="date" id="date"></label>
+        <span class="when-logged" id="when">Logged now</span>
       </div>
 
       <p id="formError" class="error" role="alert"></p>
