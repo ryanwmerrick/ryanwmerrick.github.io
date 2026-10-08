@@ -1,11 +1,11 @@
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
-import { SUPABASE_URL, SUPABASE_ANON_KEY } from './config.js?v=18';
+import { SUPABASE_URL, SUPABASE_ANON_KEY } from './config.js?v=19';
 import {
   computeRatings, overallTable, weeklyTable, weekStart, addDays, today, compareGames, MIN_GAMES, MIN_OPPONENTS, TEAM_TIERS, TIER_BONUS, winChance, zaLevel,
-} from './rank.js?v=18';
+} from './rank.js?v=19';
 import {
   playerStats, headToHead, leagueStats, bigThree, winPct, games as gameCount,
-} from './stats.js?v=18';
+} from './stats.js?v=19';
 
 const TEAMS = [
   ['ANA', 'Anaheim Ducks'], ['BOS', 'Boston Bruins'], ['BUF', 'Buffalo Sabres'],
@@ -153,18 +153,10 @@ const progress = (r) => `${Math.min(r.games, MIN_GAMES)}/${MIN_GAMES} games · $
 function overallHtml() {
   const { ranked, unranked } = overallTable(state.calc);
   if (!ranked.length && !unranked.length) return '<p class="empty">No players yet. Log a game to get started.</p>';
-  // The top three ranked players are the Big 3: they get their own banner and section.
-  const formed = state.big3?.formedAt;
-  const band = `
-    <button type="button" class="big3-band" data-big3>
-      <span class="big3-title">The Big 3</span>
-      <span class="big3-sub">${formed ? `Together since ${fmtDay(dayOf(formed))}` : 'See the history'} ›</span>
-    </button>`;
-  const rows = (list, offset) => list.map((r, i) => rowHtml(i + 1 + offset, r, Math.round(r.rating))).join('');
   let html = ranked.length
-    ? headHtml('Rating')
-      + `<div class="big3">${band}<ol class="board">${rows(ranked.slice(0, 3), 0)}</ol></div>`
-      + (ranked.length > 3 ? `<ol class="board rest">${rows(ranked.slice(3), 3)}</ol>` : '')
+    ? headHtml('Rating') + `<ol class="board">${ranked
+      .map((r, i) => rowHtml(i + 1, r, Math.round(r.rating)))
+      .join('')}</ol>`
     : '<p class="empty">Nobody is ranked yet.</p>';
   if (unranked.length) {
     html += `<p class="sub">Not ranked yet</p><ul class="pending">${unranked
@@ -191,8 +183,6 @@ function renderResults() {
   }
   list.innerHTML = games.slice(0, state.shown).map(resultHtml).join('');
   $('moreBtn').hidden = games.length <= state.shown;
-  const pizzas = state.games.reduce((n, g) => n + zaLevel(g), 0);
-  $('zaCount').textContent = pizzas ? `🍕 ${pizzas} za${pizzas === 1 ? '' : 's'} served` : '';
 }
 
 function resultHtml(g) {
@@ -240,17 +230,17 @@ function fillPlayerOptions() {
 function syncForm() {
   for (const side of ['a', 'b']) {
     const f = form[side];
-    const pick = document.querySelector(`select.player[data-side="${side}"]`);
-    pick.value = f.player;
-    pick.disabled = Boolean(form.id);
+    document.querySelector(`select.player[data-side="${side}"]`).value = f.player;
     document.querySelector(`select.team[data-side="${side}"]`).value = f.team;
     $(`score-${side}`).textContent = f.score;
     document.querySelector(`[data-side="${side}"][data-step="-1"]`).disabled = f.score <= 0;
     document.querySelector(`[data-side="${side}"][data-step="1"]`).disabled = f.score >= MAX_SCORE;
   }
   $('ot').checked = form.ot;
-  $('editHint').hidden = !form.id;
-  $('when').textContent = form.loggedAt ? `Logged ${fmtDay(form.playedOn)}, ${fmtTime(form.loggedAt)}` : 'Logged now';
+  // A new game is stamped when it's saved; an edit can correct the time.
+  $('whenNew').hidden = Boolean(form.id);
+  $('whenEdit').hidden = !form.id;
+  if (form.id) $('whenInput').value = toLocalInput(form.loggedAt);
 }
 
 function openSheet(game) {
@@ -354,6 +344,8 @@ function validate() {
   if (a.player === b.player) return 'Pick two different players.';
   if (a.score === b.score) return 'No ties. Someone has to win.';
   if (form.ot && Math.abs(a.score - b.score) !== 1) return 'OT and shootout games are decided by one goal.';
+  if (form.id && Number.isNaN(Date.parse(form.loggedAt))) return 'Pick when the game was played.';
+  if (form.id && Date.parse(form.loggedAt) > Date.now() + 60000) return "That time hasn't happened yet.";
   return null;
 }
 
@@ -371,22 +363,19 @@ async function save() {
     team_b: form.b.team || null,
     ot: form.ot,
   };
-  // A game's time is when it's logged. The database stamps it (and its date) and never
-  // lets an edit change it; played_on is only sent as a fallback for a database without
-  // that trigger, and the trigger overwrites it.
+  // A new game's time is when it's saved: the database fills in created_at itself. An edit
+  // sends the (possibly corrected) time, with the date that goes with it.
   const btn = $('saveBtn');
   btn.disabled = true;
-  // Players can't change on an edit (the database refuses it too): that turned one game into another.
-  const { player_a: _a, player_b: _b, ...editable } = row;
   const { error } = form.id
-    ? await db.from('games').update(editable).eq('id', form.id)
+    ? await db.from('games').update({ ...row, created_at: form.loggedAt, played_on: dayOf(Date.parse(form.loggedAt)) }).eq('id', form.id)
     : await db.from('games').insert({ ...row, played_on: today() });
   btn.disabled = false;
   if (error) {
     $('formError').textContent = error.message;
     return;
   }
-  state.week = weekStart(form.playedOn ?? today());
+  state.week = weekStart(form.id ? dayOf(Date.parse(form.loggedAt)) : today());
   closeSheet();
   await load();
 }
@@ -479,6 +468,10 @@ document.querySelectorAll('[data-step]').forEach((b) => b.addEventListener('clic
 }));
 $('ot').addEventListener('change', (e) => { form.ot = e.target.checked; });
 
+$('whenInput').addEventListener('change', (e) => {
+  const t = new Date(e.target.value);
+  form.loggedAt = Number.isNaN(t.getTime()) ? '' : t.toISOString();
+});
 $('newPlayer').addEventListener('submit', (e) => { e.preventDefault(); addPlayer(); });
 $('cancelNew').addEventListener('click', hideNewPlayer);
 $('saveBtn').addEventListener('click', save);
@@ -789,6 +782,12 @@ function mountChart(el, id) {
 
 
 // Local calendar day (YYYY-MM-DD) of a timestamp, for fmtDay.
+// Timestamp as the value a datetime-local input wants, in the phone's local time.
+const toLocalInput = (ts) => {
+  const d = new Date(ts);
+  const pad = (n) => String(n).padStart(2, '0');
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+};
 const dayOf = (ms) => {
   const d = new Date(ms);
   const pad = (n) => String(n).padStart(2, '0');
