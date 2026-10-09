@@ -253,6 +253,7 @@ h2 { font-size: 22px; font-weight: 700; text-transform: uppercase; letter-spacin
 .results { list-style: none; margin: 0; padding: 0; }
 .result-card {
   display: flex;
+  flex-wrap: wrap;
   margin-bottom: 8px;
   background: var(--surface);
   border-radius: 12px;
@@ -840,3 +841,25 @@ h2 { font-size: 22px; font-weight: 700; text-transform: uppercase; letter-spacin
 .b3-events li:first-child { border-top: 0; }
 .when-ago { flex: none; color: var(--muted); font-size: 13px; }
 .b3-first { margin: 0; font-weight: 700; font-size: 17px; }
+
+/* Points breakdown under a game in the matchup view. */
+.calc { flex-basis: 100%; border-top: 1px solid var(--line); }
+.calc summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 40px;
+  padding: 0 14px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+  cursor: pointer;
+  list-style: none;
+}
+.calc summary::-webkit-details-marker { display: none; }
+.calc summary::after { content: '+'; font-size: 18px; }
+.calc[open] summary::after { content: '\2212'; }
+.calc .kvs { margin: 0 10px; padding: 0 10px; background: var(--sunken); }
+.calc .kv { font-size: 13px; padding: 8px 0; }
+.calc .kv > span:first-child { flex: 0 1 auto; max-width: 45%; }
+.calc .hint { margin: 8px 14px 12px; font-size: 12px; }

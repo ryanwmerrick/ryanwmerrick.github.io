@@ -70,10 +70,17 @@ export const zaLevel = (g) => ZA_STEPS.filter((m) => Math.abs(g.score_a - g.scor
 // The bonus is 1 + 0.25·ln(margin), up to 1.5×. The FiveThirtyEight-style factor shrinks it
 // when the favourite wins big and grows it when the underdog does, so blowing out weaker
 // players isn't a free farm.
+export function marginParts(margin, ot, winnerGap = 0) {
+  if (ot) return { bonus: 1, adjust: 1 };
+  return {
+    bonus: Math.min(1.5, 1 + 0.25 * Math.log(margin)),
+    adjust: 2.2 / Math.max(1, winnerGap * 0.001 + 2.2),
+  };
+}
+
 export function marginMultiplier(margin, ot, winnerGap = 0) {
-  if (ot) return 1;
-  const bonus = Math.min(1.5, 1 + 0.25 * Math.log(margin));
-  return bonus * (2.2 / Math.max(1, winnerGap * 0.001 + 2.2));
+  const { bonus, adjust } = marginParts(margin, ot, winnerGap);
+  return bonus * adjust;
 }
 
 export const kFor = (gamesPlayed) => (gamesPlayed < K_STEP_GAMES ? K_NEW : K_SETTLED);
@@ -106,9 +113,17 @@ function replay(players, games, home) {
     counted++;
 
     // Each player moves by their own K, so a settled player and a new player can move different amounts.
-    const swing = marginMultiplier(Math.abs(g.score_a - g.score_b), g.ot, aWon ? gapA : -gapA) * (sA - expA);
-    const deltaA = kFor(a.games) * swing;
-    const deltaB = -kFor(b.games) * swing;
+    const margin = marginParts(Math.abs(g.score_a - g.score_b), g.ot, aWon ? gapA : -gapA);
+    const swing = margin.bonus * margin.adjust * (sA - expA);
+    const kA = kFor(a.games);
+    const kB = kFor(b.games);
+    const deltaA = kA * swing;
+    const deltaB = -kB * swing;
+    // Every input to the calculation, so the page can show how the points were worked out.
+    const breakdown = {
+      preA: a.rating, preB: b.rating, teamA: teamBonus(g.team_a), teamB: teamBonus(g.team_b), home,
+      sA, ...margin, kA, kB, gamesA: a.games + 1, gamesB: b.games + 1,
+    };
 
     a.rating += deltaA;
     b.rating += deltaB;
@@ -125,7 +140,7 @@ function replay(players, games, home) {
     a.peak = Math.max(a.peak, a.rating);
     b.peak = Math.max(b.peak, b.rating);
 
-    perGame.set(g.id, { a: deltaA, b: deltaB, expA, ratingA: a.rating, ratingB: b.rating });
+    perGame.set(g.id, { a: deltaA, b: deltaB, expA, ratingA: a.rating, ratingB: b.rating, breakdown });
   }
 
   return { stats, perGame, homeSurprise: counted ? homeSurprise / counted : 0, counted };

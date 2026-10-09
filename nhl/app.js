@@ -1,11 +1,11 @@
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
-import { SUPABASE_URL, SUPABASE_ANON_KEY } from './config.js?v=20';
+import { SUPABASE_URL, SUPABASE_ANON_KEY } from './config.js?v=21';
 import {
   computeRatings, overallTable, weeklyTable, weekStart, addDays, today, compareGames, MIN_GAMES, MIN_OPPONENTS, TEAM_TIERS, TIER_BONUS, winChance, zaLevel,
-} from './rank.js?v=20';
+} from './rank.js?v=21';
 import {
   playerStats, headToHead, leagueStats, bigThree, winPct, games as gameCount,
-} from './stats.js?v=20';
+} from './stats.js?v=21';
 
 const TEAMS = [
   ['ANA', 'Anaheim Ducks'], ['BOS', 'Boston Bruins'], ['BUF', 'Buffalo Sabres'],
@@ -185,7 +185,8 @@ function renderResults() {
   $('moreBtn').hidden = games.length <= state.shown;
 }
 
-function resultHtml(g) {
+// `extra` is shown under the card (the points breakdown in the matchup view).
+function resultHtml(g, extra = '') {
   // Scoreboard order: away on the left, home on the right, winner in bold.
   const aWon = g.score_a > g.score_b;
   const d = state.calc.perGame.get(g.id);
@@ -207,7 +208,7 @@ function resultHtml(g) {
           <span class="change">${change}</span>
         </span>
       </button>
-      <button type="button" class="matchup" data-h2h="${g.player_a}|${g.player_b}" aria-label="${esc(playerName(g.player_a))} vs ${esc(playerName(g.player_b))} matchup stats"><span>${STATS_ICON}</span></button>
+      <button type="button" class="matchup" data-h2h="${g.player_a}|${g.player_b}" aria-label="${esc(playerName(g.player_a))} vs ${esc(playerName(g.player_b))} matchup stats"><span>${STATS_ICON}</span></button>${extra}
     </li>`;
 }
 
@@ -524,7 +525,48 @@ const section = (title, inner) => `<h3 class="panel-h">${title}</h3>${inner}`;
 const scoreVs = (s) => `${s.us}–${s.them} vs ${esc(playerName(s.opp))} · ${fmtDay(s.game.played_on)}`;
 const teamName = (abbr) => TEAMS.find(([a]) => a === abbr)?.[1] ?? abbr;
 const streakText = (st) => (st ? `${st.won ? 'W' : 'L'}${st.n}` : '—');
-const resultsList = (gs) => `<ul class="results">${gs.map(resultHtml).join('')}</ul>`;
+const resultsList = (gs, extra = () => '') => `<ul class="results">${gs.map((g) => resultHtml(g, extra(g))).join('')}</ul>`;
+
+// Step-by-step points for one game, from the winner's side, with the same numbers the ratings used.
+function calcHtml(g) {
+  const d = state.calc.perGame.get(g.id);
+  if (!d?.breakdown) return '';
+  const b = d.breakdown;
+  const aWon = g.score_a > g.score_b;
+  const W = esc(playerName(aWon ? g.player_a : g.player_b));
+  const L = esc(playerName(aWon ? g.player_b : g.player_a));
+  const na = esc(playerName(g.player_a));
+  const nb = esc(playerName(g.player_b));
+  const chanceW = aWon ? d.expA : 1 - d.expA;
+  const resultW = aWon ? b.sA : 1 - b.sA;
+  const surprise = resultW - chanceW;
+  const [kW, kL] = aWon ? [b.kA, b.kB] : [b.kB, b.kA];
+  const [gW, gL] = aWon ? [b.gamesA, b.gamesB] : [b.gamesB, b.gamesA];
+  const mult = b.bonus * b.adjust;
+  const n2 = (x) => x.toFixed(2);
+  const pts = (x) => (x >= 0 ? `+${x.toFixed(1)}` : `\u2212${(-x).toFixed(1)}`);
+  const bonusTxt = (x) => (x > 0 ? `+${x}` : x < 0 ? `\u2212${-x}` : '+0');
+  const margin = Math.abs(g.score_a - g.score_b);
+  const line = (k, sign) => `${k} × ${n2(surprise)}${g.ot ? '' : ` × ${n2(b.bonus)} × ${n2(b.adjust)}`} = <strong>${pts(sign * k * mult * surprise)}</strong>`;
+
+  return `
+    <details class="calc">
+      <summary>How the points worked</summary>
+      <div class="kvs">
+        ${kv('Ratings before', `${na} ${Math.round(b.preA)} · ${nb} ${Math.round(b.preB)}`)}
+        ${kv('Prediction bonuses', `${na}: team ${bonusTxt(b.teamA)}<br>${nb}: team ${bonusTxt(b.teamB)}, home ${bonusTxt(Math.round(b.home))}`)}
+        ${kv('Win chance', `${W} ${pct(chanceW)} · ${L} ${pct(1 - chanceW)}`)}
+        ${kv('Result', g.ot ? `${W} won in OT, counts as 0.75` : `${W} won in regulation, counts as 1`)}
+        ${kv('Beat the prediction by', `${n2(resultW)} − ${n2(chanceW)} = ${n2(surprise)}`)}
+        ${kv('Base points (K × that)', `${W}: ${kW} × ${n2(surprise)} = ${(kW * surprise).toFixed(1)}${kL !== kW ? `<br>${L}: ${kL} × ${n2(surprise)} = ${(kL * surprise).toFixed(1)}` : ''}`)}
+        ${g.ot ? kv('Margin bonus', 'none for OT') : kv('Margin bonus', `${margin}-goal win × ${n2(b.bonus)}`)}
+        ${g.ot ? '' : kv('Favourite adjustment', `× ${n2(b.adjust)} (${b.adjust < 1 ? `${W} was the favourite` : b.adjust > 1 ? `${W} was the underdog` : 'even match'})`)}
+        ${kv(W, line(kW, 1))}
+        ${kv(L, line(kL, -1))}
+      </div>
+      <p class="hint">K is 32 for a player's first 20 games and 20 after. This was ${W}'s game ${gW} (K ${kW}) and ${L}'s game ${gL} (K ${kL}).</p>
+    </details>`;
+}
 
 function playerHtml(id) {
   const ps = playerStats(state.calc, state.games, id);
@@ -634,7 +676,7 @@ function h2hHtml(x, y) {
   </div>
   <p class="hint">"If they played now" uses current ratings on neutral ice, with no team bonus.</p>`);
 
-  html += section('All games', resultsList(byEntered(h.meetings)));
+  html += section('All games', resultsList(byEntered(h.meetings), calcHtml));
   return html;
 }
 
