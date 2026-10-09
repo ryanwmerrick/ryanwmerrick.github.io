@@ -1,11 +1,11 @@
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
-import { SUPABASE_URL, SUPABASE_ANON_KEY } from './config.js?v=21';
+import { SUPABASE_URL, SUPABASE_ANON_KEY } from './config.js?v=22';
 import {
   computeRatings, overallTable, weeklyTable, weekStart, addDays, today, compareGames, MIN_GAMES, MIN_OPPONENTS, TEAM_TIERS, TIER_BONUS, winChance, zaLevel,
-} from './rank.js?v=21';
+} from './rank.js?v=22';
 import {
   playerStats, headToHead, leagueStats, bigThree, winPct, games as gameCount,
-} from './stats.js?v=21';
+} from './stats.js?v=22';
 
 const TEAMS = [
   ['ANA', 'Anaheim Ducks'], ['BOS', 'Boston Bruins'], ['BUF', 'Buffalo Sabres'],
@@ -181,7 +181,7 @@ function renderResults() {
     $('moreBtn').hidden = true;
     return;
   }
-  list.innerHTML = games.slice(0, state.shown).map(resultHtml).join('');
+  list.innerHTML = games.slice(0, state.shown).map((g) => resultHtml(g)).join('');
   $('moreBtn').hidden = games.length <= state.shown;
 }
 
