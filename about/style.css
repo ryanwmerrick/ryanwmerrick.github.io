@@ -1,322 +1,164 @@
-*{
-    padding: 0;
-    margin: 0;
-
-    background-color: #212121;
-}
-
-/* Navigation Bar */
-.navigationBar{
-    height: 8.3vh;
-    display: flex;
-    justify-content: space-between;
-    padding: 0vh 10.1vh;
-
-    background-color: #1c1c1c;
-    border: 2px solid #171717;
-}
-.logo{
-    display: flex;
-    align-items: center;
-
-    color: #F6F6F6;
-    background-color: #1c1c1c;
-}
-.logo h1{
-    background-color: #1c1c1c;
-    font-size: 5vh;
-
-    
-}
-.tabs{
-    display:flex;
-    justify-content: space-evenly;
-    align-items: center;
-    gap: 5vh;
-
-    background-color: #1c1c1c;
-
-}
-.tabs a{
-    text-decoration: none;
-    background-color: #1c1c1c;
-    color: #F6F6F6;
-    font-size: 2.8vh;
-}
-.tabs a:hover{
-    color: #6D9886;
-}
-.contactMe{
-    width: 22vh;
-    height: 5vh;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 1.9vh;
-    margin-left: 0.88vh;
-
-    background-color: #6D9886;
-    color: #212121;
-    font-size: 2.5vh;
-    border: none;
-    
-}
-.contactMe:hover{
-    background-color: #8bad9f;
-}
-
-.hamburger{
-    display: none;
-    font-size: 4vh;
-    color: #F6F6F6;
-    cursor: pointer;
-    background-color: #1c1c1c;
-
-}
-
-#about{
-    color:#8bad9f;
-}
-/* NAVIGATION BAR END */
-
+/* ABOUT PAGE */
 
 .aboutPageContainer{
-    
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    
+    max-width: 900px;
+    padding-bottom: 4rem;
 }
+
+.aboutIntro{
+    display: flex;
+    align-items: center;
+    gap: 2.5rem;
+    padding: 3.5rem 0 3rem;
+}
+.aboutHeadshot{
+    flex-shrink: 0;
+    width: 180px;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 50%;
+    box-shadow:
+        0 0 0 5px var(--bg),
+        0 0 0 7px rgba(109, 152, 134, 0.6);
+}
+.aboutIntro h1{
+    font-size: clamp(2.2rem, 5vw, 3rem);
+    font-weight: 500;
+    line-height: 1.1;
+}
+.aboutBio{
+    max-width: 52ch;
+    margin-top: 0.75rem;
+    color: var(--muted);
+    font-size: 1.05rem;
+}
+
 .accounts{
-    height:30vh;
-    width: 100vh;
     display: flex;
-    gap: 20vh;
-    justify-content: center;
-    
-    
-    align-items: center;
-    
-    
-
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-top: 1.4rem;
 }
-
 .account-item{
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    justify-content: center;
-    
-    
-    font-family: 'Rubik';
-    font-size: 8vh;
-    text-align: center;
-    
+    gap: 0.5rem;
+    padding: 0.45rem 1rem;
+    border: 1px solid rgba(109, 152, 134, 0.45);
+    border-radius: 999px;
+
+    color: var(--accent-hover);
+    font-size: 0.95rem;
+    text-decoration: none;
+    transition: background-color 0.2s, border-color 0.2s, color 0.2s;
 }
-.account-item a{
-    color: #8bad9f;
+.account-item:hover{
+    background-color: rgba(109, 152, 134, 0.15);
+    border-color: var(--accent-hover);
+    color: var(--text);
 }
-.account-item a:hover{
-    color: #6D9886;
-}
-.accountLogo{
-    width: 7vh;
-    height: 7vh;
-    margin-right: 1vh;
-}
-.emailLogo{
-    width: 5vh;
-    height: 5vh;
+.account-item svg{
+    width: 16px;
+    height: 16px;
+    fill: currentColor;
 }
 
+
+/* TIMELINE */
+
+.sectionTitle{
+    margin-bottom: 1.75rem;
+    color: var(--accent-hover);
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+}
+.history{
+    padding-top: 2.5rem;
+    border-top: 1px solid var(--border);
+}
 .event{
-    width: 100vh;
-    height: 33vh;
-    border-left: 0.2vh solid #F6F6F6;
     position: relative;
+    margin-left: 12px;
+    padding: 0 0 2.5rem 2.25rem;
+    border-left: 2px solid rgba(246, 246, 246, 0.25);
+}
+.event:last-child{
+    padding-bottom: 0.5rem;
 }
 .circleBullett{
-    border: 0.4vh solid #F6F6F6;
-    width: 5vh;
-    height: 5vh;
-    border-radius: 50%;
-
     position: absolute;
-    top: 0;
-    left: -2.9vh;
-
-
+    top: 2px;
+    left: -12px;
+    width: 22px;
+    height: 22px;
+    border: 3px solid var(--accent);
+    border-radius: 50%;
+    background-color: var(--bg);
+}
+.eventHeader{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.4rem 0.9rem;
 }
 .eventLabel{
-    padding-top: 0vh;
-    padding-left: 6vh;
-    color: #F6F6F6;
-    font-family: 'Rubik';
-    font-size: 5vh;
-    text-decoration: underline;
+    color: var(--text);
+    font-size: 1.5rem;
+    font-weight: 500;
+    line-height: 1.2;
+}
+.eventDate{
+    padding: 0.15rem 0.65rem;
+    border-radius: 999px;
+    background-color: rgba(217, 202, 179, 0.12);
+    color: var(--muted);
+    font-size: 0.85rem;
 }
 .eventDescription{
-    padding-top: 2vh;
-    padding-left: 10vh;
-    color: #D9CAB3;
-    font-family: 'Rubik';
-    font-size: 2.5vh;
-    line-height: 4vh; 
-
+    margin-top: 0.75rem;
+    padding-left: 1.1rem;
+    color: var(--muted);
+    font-size: 1rem;
+    line-height: 1.7;
+}
+.eventDescription li + li{
+    margin-top: 0.35rem;
 }
 
-.square{
-    position: fixed;
-    top: 40%;
-    left: 15%;
-    width: 3vh;
-    height: 3vh;
-    background-color: #6D9886;
-    opacity: 50%;
-    
-}
-.circle{
-    position: fixed;
-    top: 80%;
-    left:10%;
-    border-radius: 50%;
-    width: 3vh;
-    height:3vh;
+.square{ top: 40%; left: 12%; }
+.circle{ top: 80%; left: 8%; }
+.triangle{ top: 88%; left: 82%; }
+.square2{ top: 70%; left: 95%; }
+.circle2{ top: 32%; left: 88%; }
 
-    background-color: #e4a691;
-    opacity: 50%;
-}
-
-.triangle{
-    position: fixed;
-    top: 90%;
-    left: 80%;
-    width: 0; /* Set width to 0 because the size is defined by borders */
-    height: 0; /* Set height to 0 */
-    border-left: 1.5vh solid transparent;
-    border-right: 1.5vh solid transparent;
-    border-bottom: 3vh solid #DCC17C;
-    opacity: 50%;
-}
-.square2{
-    position: fixed;
-    top: 70%;
-    left: 95%;
-    width: 3vh;
-    height: 3vh;
-    background-color: #2D97C9;
-    opacity: 50%;
-
-}
-.circle2{
-    position: fixed;
-    top: 35%;
-    left:85%;
-    border-radius: 50%;
-    width: 3vh;
-    height:3vh;
-
-    background-color: #dd1c1a;
-    opacity: 50%;
-
-}
 
 /* FOR MOBILE DEVICE */
 
 @media only screen and (max-width: 760px) {
-    html, body{
-        overflow-x: hidden;
-    }
-    .logo {
-        padding-left: 2vh;
-    }
-    .navigationBar {
-        width: 100%;
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        padding: 0;
-    }
-    .tabs {
-        display: none; /* Hidden by default */
-        position: absolute;
-        top: 8.8vh;
-        right: 0.4vh;
+    .aboutIntro{
         flex-direction: column;
-        gap: 2vh;
-        background-color: #1c1c1c;
-        border-top: 1px solid #171717;
-        padding: 1vh;
+        align-items: flex-start;
+        gap: 1.5rem;
+        padding: 2.5rem 0 2rem;
     }
-    .tabs a {
-        font-size: 2.5vh;
-        width: 100%;
-        display: flex;
-        justify-content: center;
+    .aboutHeadshot{
+        width: 120px;
+        height: 120px;
     }
-    .hamburger {
-        padding-right: 2vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+    .event{
+        padding-left: 1.6rem;
     }
-    .aboutPageContainer {
-        width: 95%; /* Adjust width slightly larger for small screens */
-        padding: 2vh; /* Adding padding to ensure content spacing */
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        margin: auto; /* Center the container */
-        overflow-x: hidden;
+    .eventLabel{
+        font-size: 1.25rem;
     }
-    .accounts {
-        width: 100%; /* Full width for row layout */
-        display: flex;
-        flex-direction: column; /* Column layout for small screens */
-        align-items: center;
-        gap: 2vh;
+    .eventDescription{
+        font-size: 0.95rem;
     }
-    .account-item {
-        font-size: 3vh; /* Reduced font size */
-        margin-bottom: 1vh; /* Adding space between items */
-    }
-    .accountLogo {
-        width: 5vh; /* Reduced logo size */
-        height: 5vh;
-    }
-    .event {
-        width: 100%;
-        height: auto;
-        border: none;
-    }
-    .circleBullett {
-        width: 4vh; /* Reduced bullet size */
-        height: 4vh;
-        left: 0vh; /* Adjusted left positioning */
-    }
-    .eventLabel {
-        font-size: 4vh; /* Reduced event label font size */
-    }
-    .eventDescription {
-        font-size: 2vh; /* Reduced description font size */
-    }
-    .square{
-        top: 60vh;
-        left: 5vh;
-    }
-    .circle{
-        top: 90vh;
-        left: 3vh;
-    }
-    .triangle{
-        left: 53vh;
-        z-index: auto;
-    }
-    .square2{
-        left: 54vh;
-    }
-    .circle2{
-        top: 20vh;
-        left:  45vh;
-    }
+    .square{ top: 44%; left: 90%; }
+    .circle{ top: 96%; left: 4%; }
+    .triangle{ top: 72%; left: 88%; }
+    .square2{ left: 90%; }
+    .circle2{ top: 16%; left: 85%; }
 }

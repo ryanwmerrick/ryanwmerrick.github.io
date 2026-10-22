@@ -3,76 +3,93 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="About Ryan Merrick — Computer Science student at Grove City College.">
+    <title>About · Ryan Merrick</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/site.css">
     <link rel="stylesheet" href="style.css">
-    <link href='https://fonts.googleapis.com/css?family=Rubik' rel='stylesheet'>
-    <script src="script.js"></script> <!-- Load script.js -->
-    <title>About</title>
-    
+    <script src="/site.js" defer></script>
 </head>
 <body>
-    <div class="navigationBar">
-        <div class="logo">
-            <h1>RM</h1>
-        </div>
-        <div class="hamburger" onclick="toggleDropdown()">☰</div>
-        <div class="tabs" id="tabsDropdown">
-            <a href="/" id="home">Home</a>
-            <a href="/Projects/" id="projects">Projects</a>
-            <a href="/about/" id="about">About</a>
-            <a href="mailto:ryan@merrick.live">
-                <button class="contactMe" href="mailto:ryan@merrick.live">Contact Me</button>
-            </a>
-        </div>
 
-    </div>
-    
-    <div class="aboutPageContainer">
-        <div class="accounts">
-            <div class="account-item">
-                <img class="accountLogo" src="LinkedInLogo.png" alt="LinkedInLogo">
-                <a href="https://www.linkedin.com/in/ryan-merrick-w/">LinkedIn</a>
-
-            </div>
-            
-            <div class="account-item">
-                <img class="accountLogo" src="GitHubLogo.png" alt="GitHubLogo">
-                <a href="https://github.com/ryanwmerrick/ryanwmerrick.github.io">GitHub</a>
-
-            </div>
-            <div class="account-item">
-                <img class="accountLogo" src="EmailLogo.png" alt="EmailLogo">
-                <a href="mailto:ryan@merrick.live"> Email</a>
-
+    <nav class="navigationBar">
+        <div class="container navInner">
+            <a class="logo" href="/">R<span>M</span></a>
+            <button class="hamburger" onclick="toggleDropdown()" aria-label="Menu" aria-expanded="false">☰</button>
+            <div class="tabs" id="tabsDropdown">
+                <a href="/">Home</a>
+                <a href="/Projects/">Projects</a>
+                <a href="/about/" aria-current="page">About</a>
+                <a class="btn btn-small" href="mailto:ryan@merrick.live">Contact Me</a>
             </div>
         </div>
-        <div class="history">
-            <div class="event">
-                <div class="circleBullett">
+    </nav>
 
+    <main class="container aboutPageContainer">
+        <header class="aboutIntro">
+            <img class="aboutHeadshot" src="/headshot-sm.jpg" alt="Ryan Merrick" width="720" height="720">
+            <div>
+                <p class="eyebrow">About me</p>
+                <h1>Ryan Merrick</h1>
+                <p class="aboutBio">Computer Science student at Grove City College, minoring in Cybersecurity and AI &amp; Machine Learning. I like building things — from AI sports picks to simulators and bots.</p>
+                <div class="accounts">
+                    <a class="account-item" href="https://www.linkedin.com/in/ryan-merrick-w/" target="_blank" rel="noopener">
+                        <svg viewBox="0 0 24 24"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45z"/></svg>
+                        LinkedIn
+                    </a>
+                    <a class="account-item" href="https://github.com/ryanwmerrick" target="_blank" rel="noopener">
+                        <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+                        GitHub
+                    </a>
+                    <a class="account-item" href="mailto:ryan@merrick.live">
+                        <svg viewBox="0 0 24 24"><path d="M3 5h18a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1zm1 2.2V17h16V7.2l-8 5.3-8-5.3zM5.4 7l6.6 4.4L18.6 7H5.4z"/></svg>
+                        Email
+                    </a>
                 </div>
-                <p class="eventLabel">Grove City College (2023-Present)</p> 
-                <ul class="eventDescription"> 
+            </div>
+        </header>
+
+        <section class="history">
+            <h2 class="sectionTitle">Education</h2>
+            <div class="event">
+                <div class="circleBullett"></div>
+                <div class="eventHeader">
+                    <h3 class="eventLabel">Grove City College</h3>
+                    <span class="eventDate">2023 – Present</span>
+                </div>
+                <ul class="eventDescription">
                     <li>Pursuing a B.S. in Computer Science with minors in Cybersecurity, AI and Machine Learning.</li>
                     <li>Actively engaged in personal and academic projects showcasing skills in Java, web development, and problem-solving.</li>
                 </ul>
-        
             </div>
             <div class="event">
-                <div class="circleBullett">
-
+                <div class="circleBullett"></div>
+                <div class="eventHeader">
+                    <h3 class="eventLabel">High School</h3>
+                    <span class="eventDate">2019 – 2023</span>
                 </div>
-                <p class="eventLabel">High School (2019-2023)</p> 
-                <ul class="eventDescription"> 
+                <ul class="eventDescription">
                     <li>Graduated with Highest Honors while growing a passion for computer science through personal projects and classes.</li>
                 </ul>
             </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container footerInner">
+            <p>© 2026 Ryan Merrick</p>
+            <a class="footerLink" href="mailto:ryan@merrick.live">ryan@merrick.live</a>
         </div>
-    </div>
-    <div class="square" ></div>
-    <div class="circle" ></div>
-    <div class="triangle"></div>
-    <div class="square2"></div>
-    <div class="circle2" id="circle"></div>
-    
+    </footer>
+
+    <div class="shape square"></div>
+    <div class="shape circle"></div>
+    <div class="shape triangle"></div>
+    <div class="shape square2"></div>
+    <div class="shape circle2"></div>
+
 </body>
 </html>

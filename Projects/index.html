@@ -3,85 +3,97 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Projects by Ryan Merrick — AI sports picks, bots, simulators, and small web apps.">
+    <title>Projects · Ryan Merrick</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/site.css">
     <link rel="stylesheet" href="style.css">
-    <link href='https://fonts.googleapis.com/css?family=Rubik' rel='stylesheet'>
-    <script src="script.js"></script>
-
-    <title>Projects</title>
-    
+    <script src="/site.js" defer></script>
 </head>
 <body>
 
-    <div class="navigationBar">
-        <div class="logo">
-            <h1>RM</h1>
+    <nav class="navigationBar">
+        <div class="container navInner">
+            <a class="logo" href="/">R<span>M</span></a>
+            <button class="hamburger" onclick="toggleDropdown()" aria-label="Menu" aria-expanded="false">☰</button>
+            <div class="tabs" id="tabsDropdown">
+                <a href="/">Home</a>
+                <a href="/Projects/" aria-current="page">Projects</a>
+                <a href="/about/">About</a>
+                <a class="btn btn-small" href="mailto:ryan@merrick.live">Contact Me</a>
+            </div>
         </div>
-        <div class="hamburger" onclick="toggleDropdown()">☰</div>
-        <div class="tabs" id="tabsDropdown">
-            <a href="/" id="home">Home</a>
-            <a href="/Projects/" id="projects">Projects</a>
-            <a href="/about/" id="about">About</a>
-            <a href="mailto:ryan@merrick.live">
-                <button class="contactMe" id="contactMeSmall" href="mailto:ryan@merrick.live">Contact Me</button>
+    </nav>
+
+    <main class="container">
+        <header class="pageHeader">
+            <p class="eyebrow">Things I've built</p>
+            <h1>Projects</h1>
+            <p class="pageSubtitle">A mix of AI experiments, bots, simulators, and small web apps.</p>
+        </header>
+
+        <div class="projectContainer">
+
+            <a class="project" href="https://sportpredictllm.onrender.com" target="_blank" rel="noopener">
+                <img class="projectLogo" src="logos/sportPredictLLM.png" alt="" loading="lazy">
+                <p class="projectLabel">AI Sports Bettor <span class="external" aria-label="opens in new tab">↗</span></p>
+                <p class="projectDescription">AI Sports Betting Picks</p>
             </a>
+
+            <a class="project" href="https://x.com/CopOrFlop__" target="_blank" rel="noopener">
+                <img class="projectLogo" src="logos/twitter.png" alt="" loading="lazy">
+                <p class="projectLabel">Cop or Flop Bot <span class="external" aria-label="opens in new tab">↗</span></p>
+                <p class="projectDescription">Automated Sneaker X (Twitter) Bot</p>
+            </a>
+
+            <a class="project" href="sigmierLeague/">
+                <img class="projectLogo" src="logos/sigmier.png" alt="" loading="lazy">
+                <p class="projectLabel">Sigmier League</p>
+                <p class="projectDescription">Custom Premier League Simulator</p>
+            </a>
+
+            <a class="project" href="sorting/">
+                <img class="projectLogo" src="logos/sorting.png" alt="" loading="lazy">
+                <p class="projectLabel">Sort Simulation</p>
+                <p class="projectDescription">Various Array Sorting Methods</p>
+            </a>
+
+            <a class="project" href="tictactoe/">
+                <img class="projectLogo" src="logos/tictactoe.png" alt="" loading="lazy">
+                <p class="projectLabel">Tic-Tac-Toe</p>
+                <p class="projectDescription">Classic TicTacToe</p>
+            </a>
+
+            <a class="project" href="memorization/">
+                <img class="projectLogo" src="logos/memory.png" alt="" loading="lazy">
+                <p class="projectLabel">Memorization</p>
+                <p class="projectDescription">Basic Text Memorization Practice</p>
+            </a>
+
+            <a class="project" href="birthdaycalc/">
+                <img class="projectLogo" src="logos/birthday.png" alt="" loading="lazy">
+                <p class="projectLabel">Birthday Paradox</p>
+                <p class="projectDescription">Simple Paradox Calculator</p>
+            </a>
+
         </div>
+    </main>
 
-    </div>
-    
+    <footer class="footer">
+        <div class="container footerInner">
+            <p>© 2026 Ryan Merrick</p>
+            <a class="footerLink" href="mailto:ryan@merrick.live">ryan@merrick.live</a>
+        </div>
+    </footer>
 
-    <div class="projectContainer">
-
-
-        <a class="project" href="https://sportpredictllm.onrender.com">
-            <img class="projectLogo" src="logos/sportPredictLLM.png" >
-            <p class="projectLabel">AI Sports Bettor</p>
-            <p class="projectDescription">AI Sports Betting Picks</p>
-        </a>
-
-        <a class="project" href="https://x.com/CopOrFlop__">
-            <img class="projectLogo" src="logos/twitter.png" >
-            <p class="projectLabel">Cop or Flop Bot</p>
-            <p class="projectDescription">Automated Sneaker X (Twitter) Bot</p>
-        </a>
-
-        <a class="project" href="sigmierLeague/">
-            <img class="projectLogo" src="logos/sigmier.png" >
-            <p class="projectLabel">Sigmier League</p>
-            <p class="projectDescription">Custom Premier League Simulator</p>
-        </a>
-
-        <a class="project" href="sorting/">
-            <img class="projectLogo" src="logos/sorting.png" >
-            <p class="projectLabel">Sort Simulation</p>
-            <p class="projectDescription">Various Array Sorting Methods</p>
-        </a>
-
-        <a class="project" href="tictactoe/">
-
-            <img class="projectLogo" src="logos/tictactoe.png" >
-            <p class="projectLabel"> Tic-Tac-Toe</p>
-            <p class="projectDescription">Classic TicTacToe</p>
-
-        </a>
-        <a class="project" href="memorization/">
-            <img class="projectLogo" src="logos/memory.png" >
-            <p class="projectLabel">Memorization</p>
-            <p class="projectDescription">Basic Text Memorization Practice</p>
-        </a>
-        <a class="project" href="birthdaycalc/">
-            <img class="projectLogo" src="logos/birthday.png" >
-            <p class="projectLabel">Birthday Paradox</p>
-            <p class="projectDescription">Simple Paradox Calculator</p>
-        </a>
-        
-        
-    </div>
-    <div class="square" id="square"></div>
-    <div class="circle"></div>
-    <div class="triangle"></div>
-    <div class="square2"></div>
-    <div class="circle2"></div>
-    
+    <div class="shape square"></div>
+    <div class="shape circle"></div>
+    <div class="shape triangle"></div>
+    <div class="shape square2"></div>
+    <div class="shape circle2"></div>
 
 </body>
 </html>
