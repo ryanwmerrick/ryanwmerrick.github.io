@@ -1,0 +1,14 @@
+{
+  // Cloudflare Worker behind ryan-merrick.com/nhl/. Deploy with: npx wrangler deploy
+  "name": "nhl-api",
+  "main": "src/index.js",
+  "compatibility_date": "2026-11-01",
+  "d1_databases": [
+    {
+      "binding": "nhl",
+      "database_name": "nhl",
+      "database_id": "1940c374-efed-4e54-af0c-736d320d0b6e"
+    }
+  ],
+  "observability": { "enabled": true }
+}

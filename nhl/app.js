@@ -1,11 +1,11 @@
-import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
-import { SUPABASE_URL, SUPABASE_ANON_KEY } from './config.js?v=22';
+import { API_URL } from './config.js?v=23';
+import { api } from './api.js?v=23';
 import {
   computeRatings, overallTable, weeklyTable, weekStart, addDays, today, compareGames, MIN_GAMES, MIN_OPPONENTS, TEAM_TIERS, TIER_BONUS, winChance, zaLevel,
-} from './rank.js?v=22';
+} from './rank.js?v=23';
 import {
   playerStats, headToHead, leagueStats, bigThree, winPct, games as gameCount,
-} from './stats.js?v=22';
+} from './stats.js?v=23';
 
 const TEAMS = [
   ['ANA', 'Anaheim Ducks'], ['BOS', 'Boston Bruins'], ['BUF', 'Buffalo Sabres'],
@@ -39,8 +39,9 @@ const signed = (x) => {
 };
 const record = (r) => `${r.w}-${r.l}-${r.otl}`;
 
-const configured = SUPABASE_URL.startsWith('https://') && !SUPABASE_ANON_KEY.startsWith('YOUR_');
-const db = configured ? createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
+const configured = API_URL.startsWith('https://');
+// How often an open page checks for games logged on other phones.
+const POLL_MS = 10_000;
 
 const state = {
   view: 'week',
@@ -60,19 +61,16 @@ let panel = [];
 // ---------- Data ----------
 
 async function load() {
-  const [p, g] = await Promise.all([
-    db.from('players').select('*').order('name'),
-    db.from('games').select('*'),
-  ]);
-  const err = p.error || g.error;
-  if (err) {
-    state.error = err.message;
+  const { data, error } = await api.data();
+  if (error) {
+    state.error = error.message;
   } else {
     state.error = null;
-    state.players = p.data;
-    state.games = g.data;
-    state.calc = computeRatings(p.data, g.data);
-    state.big3 = bigThree(state.calc, g.data);
+    state.version = data.version;
+    state.players = data.players;
+    state.games = data.games;
+    state.calc = computeRatings(data.players, data.games);
+    state.big3 = bigThree(state.calc, data.games);
   }
   state.loaded = true;
   render();
@@ -326,9 +324,9 @@ async function addPlayer() {
     $('formError').textContent = `${name} is already a player.`;
     return;
   }
-  const { data, error } = await db.from('players').insert({ name }).select().single();
+  const { data, error } = await api.addPlayer(name);
   if (error) {
-    $('formError').textContent = error.code === '23505' ? `${name} is already a player.` : error.message;
+    $('formError').textContent = error.message;
     return;
   }
   $('formError').textContent = '';
@@ -369,8 +367,8 @@ async function save() {
   const btn = $('saveBtn');
   btn.disabled = true;
   const { error } = form.id
-    ? await db.from('games').update({ ...row, created_at: form.loggedAt, played_on: dayOf(Date.parse(form.loggedAt)) }).eq('id', form.id)
-    : await db.from('games').insert({ ...row, played_on: today() });
+    ? await api.editGame(form.id, { ...row, created_at: form.loggedAt })
+    : await api.addGame(row);
   btn.disabled = false;
   if (error) {
     $('formError').textContent = error.message;
@@ -383,7 +381,7 @@ async function save() {
 
 async function remove() {
   if (!form?.id || !confirm('Delete this game?')) return;
-  const { error } = await db.from('games').delete().eq('id', form.id);
+  const { error } = await api.deleteGame(form.id);
   if (error) {
     $('formError').textContent = error.message;
     return;
@@ -403,7 +401,7 @@ $('nextWeek').addEventListener('click', () => { state.week = addDays(state.week,
 $('moreBtn').addEventListener('click', () => { state.shown += PAGE; renderResults(); });
 
 $('logBtn').addEventListener('click', () => {
-  if (!configured) return alert('Connect Supabase in config.js first.');
+  if (!configured) return alert('Set API_URL in config.js first.');
   openSheet(null);
 });
 // Players, matchups and edit buttons appear in the standings, results and stat panels.
@@ -913,11 +911,18 @@ fillTeamOptions();
 renderTiers();
 render();
 
-if (db) {
+// Live updates: while the page is open, ask the server every few seconds whether anything
+// changed (one tiny request) and reload only when it did. Coming back to the tab checks at once.
+async function checkForChanges() {
+  if (document.hidden || state.checking) return;
+  state.checking = true;
+  const { data } = await api.version();
+  state.checking = false;
+  if (data && data.version !== state.version) reload();
+}
+
+if (configured) {
   load();
-  db.channel('nhl')
-    .on('postgres_changes', { event: '*', schema: 'public', table: 'games' }, reload)
-    .on('postgres_changes', { event: '*', schema: 'public', table: 'players' }, reload)
-    .subscribe();
-  document.addEventListener('visibilitychange', () => { if (!document.hidden) reload(); });
+  setInterval(checkForChanges, POLL_MS);
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) checkForChanges(); });
 }

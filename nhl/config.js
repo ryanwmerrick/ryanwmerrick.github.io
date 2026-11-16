@@ -1,4 +1,3 @@
-// Supabase project settings. The anon/publishable key is meant to be public;
-// access is controlled by the RLS policies in setup.sql.
-export const SUPABASE_URL = 'https://dalpvetkqawlftpwxpkb.supabase.co';
-export const SUPABASE_ANON_KEY = 'sb_publishable_gbXpLiOaRRoFOMnDZeKqrg_pe_SY_uX';
+// Where the league's data lives: a Cloudflare Worker with a D1 database (source in /_nhl-api).
+// There's no secret here; the Worker decides what the page is allowed to do.
+export const API_URL = 'https://nhl-api.ryan-610.workers.dev';
